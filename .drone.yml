@@ -22,8 +22,8 @@ pipeline:
       - cd $DRONE_WORKSPACE
       - make
       - cd debian-bats/unstable
-      - docker build --build-arg X_DCKR_BASENAME=debian-bats -t debian-bats:unstable .
-      # FIXME: can't reproduce dev build setup in Drone DinD
+      # FIXME: newer dockers don't like build-args in FROM
+      #- docker build --build-arg X_DCKR_BASENAME=debian-bats -t debian-bats:unstable .
     when:
       branch: master
   alpine:
@@ -35,13 +35,13 @@ pipeline:
       - apk update && apk add make
       - cd $DRONE_WORKSPACE
       - make
+      # FIXME: can't reproduce dev build setup in Drone DinD
       #- make build:alpine-bats
         #- make build
         #- make test
         #- make test-official-bats || echo "Failure in official repo ($?)"
       #- cd alpine-bats/edge
       #- docker build --build-arg X_DCKR_BASENAME=alpine-bats -t alpine-bats:edge .
-      # FIXME: can't reproduce dev build setup in Drone DinD
     when:
       branch: master
   xenial-git-annex:

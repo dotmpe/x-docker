@@ -6,8 +6,9 @@ pipeline:
     commands:
       - apk update && apk add make
       - cd $DRONE_WORKSPACE
-      - make build
-      - make test
-      - make test-official-bats || echo "Failure in official repo ($?)"
+	    - make build:alpine-bats
+        #- make build
+        #- make test
+        #- make test-official-bats || echo "Failure in official repo ($?)"
     when:
       branch: master

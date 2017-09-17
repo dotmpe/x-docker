@@ -2,6 +2,7 @@ pipeline:
   shell:
     image: docker
     commands:
+     - apt-get install make
      - cd $DRONE_WORKSPACE
      - make build
      - make test

@@ -2,7 +2,7 @@
 
 ## Bats
 
-Usage:
+Flexible BATS shell test. Usage:
 
 ```
 docker run -v DIR:/project \
@@ -41,6 +41,6 @@ Build:
   make build:debian-bats TAG=stable
   make build:debian-bats TAG=unstable
 
-- There are [autobuilds at docker hub](https://hub.docker.com/r/bvberkum/alpine-bats/)
+- There are [autobuilds at docker hub](https://hub.docker.com/r/bvberkum/debian-bats/)
 - To trigger additional run-time `apt` package installs use `X_DCKR_APT`, e.g.
   ``X_DCKR_APT='git python elinks'``.

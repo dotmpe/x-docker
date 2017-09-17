@@ -1,3 +1,0 @@
-#!/bin/sh
-# This is for docker hub autobuild
-test -s Dockerfile || cp ../latest/Dockerfile ./

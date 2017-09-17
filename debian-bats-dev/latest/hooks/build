@@ -1,1 +1,9 @@
-../../../debian-bats/latest/hooks/build
+#!/bin/sh
+./hooks/pre_build
+docker build \
+		--build-arg X_DCKR_PREFIX=bvberkum \
+		--build-arg X_DCKR_BASENAME=debian-bats-dev \
+		--build-arg X_DCKR_NAME=bvberkum/debian-bats-dev \
+		--build-arg X_DCKR_TAG=$DOCKER_TAG \
+		-t $IMAGE_NAME .
+git clean -df .

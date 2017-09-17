@@ -15,6 +15,7 @@ BUILD_FLAGS ?=
 
 build: 
 	make build\:alpine-bats
+	make build\:alpine-bats-dev
 	make build\:debian-bats
 	make build\:debian-bats TAG=sid
 	make build\:debian-bats TAG=stable
@@ -30,6 +31,7 @@ test: test-bats
 test-bats: ARGS := test/*-spec.bats
 test-bats:
 	make run:alpine-bats ARGS=$(ARGS)
+	make run:alpine-bats-dev ARGS=$(ARGS)
 	make run:debian-bats ARGS=$(ARGS)
 	make run:debian-bats TAG=sid ARGS=$(ARGS)
 	make run:debian-bats TAG=stable ARGS=$(ARGS)
@@ -41,6 +43,7 @@ test-bats:
 
 test-other-bats:
 	make run:alpine-bats							FLAGS="-e X_DCKR_APK='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:alpine-bat-devs				  FLAGS="-e X_DCKR_APK='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 	make run:debian-bats							FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 	make run:debian-bats TAG=sid			FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 	make run:debian-bats TAG=stable		FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
@@ -71,6 +74,11 @@ build\:%:
 build\:alpine-bats: DEFAULT_TAG := edge
 build\:debian-bats: DEFAULT_TAG := latest
 
+build\:alpine-bats-dev: DEFAULT_TAG := edge
+build\:alpine-bats-dev: BUILD_FLAGS := \
+	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats.git \
+	--build-arg BATS_DEV_BRANCH=master
+
 build\:debian-bats-dev: DEFAULT_TAG := latest
 build\:debian-bats-dev: BUILD_FLAGS := \
 	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats.git \
@@ -92,6 +100,10 @@ run\:%:
 run\:alpine-bats: DEFAULT_TAG := edge
 run\:alpine-bats: ARGS := test
 run\:alpine-bats: FLAGS := -v $(shell pwd -P):/project 
+
+run\:alpine-bats-dev: DEFAULT_TAG := edge
+run\:alpine-bats-dev: ARGS := test
+run\:alpine-bats-dev: FLAGS := -v $(shell pwd -P):/project 
 
 run\:debian-bats: DEFAULT_TAG := latest
 run\:debian-bats: ARGS := test

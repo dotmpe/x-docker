@@ -2,7 +2,7 @@ pipeline:
   alpine:
     image: alpine:edge
     commands:
-     - apk update && apk add make
+     - apk update && apk add make docker
      - cd $DRONE_WORKSPACE
      - make build
      - make test
@@ -10,7 +10,7 @@ pipeline:
   debian:
     image: debian:latest
     commands:
-     - apt-get update &7 apt-get install -qqy make
+     - apt-get update && apt-get install -qqy make docker
      - cd $DRONE_WORKSPACE
      - make build
      - make test

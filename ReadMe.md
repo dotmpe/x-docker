@@ -6,14 +6,14 @@ Flexible BATS shell test. Usage:
 
 ```
 docker run -v DIR:/project \
-    bvberkum/BASE-bats [ARGV | -- CMD [ -- CMD ]*]
+		bvberkum/BASE-bats [ARGV | -- CMD [ -- CMD ]*]
 ```
 
 Test project, ie. bats itself:
 
 ```
 make run:BASE-bats \
-    FLAGS="-v $(cd /srv/project-local/bats && pwd -P):/project"
+		FLAGS="-v $(cd /srv/project-local/bats && pwd -P):/project"
 ```
 
 The main issue for flexible test nodes is getting specific dependencies, so the
@@ -23,24 +23,55 @@ script lines in sequence.
 Besides `bash` and `bats`, aditional tools installed into the base image are
 `jq`, `curl` and `ncurses` if needed for ``tput``.
 
+
 ### Bases
 
-### alpine-bats
+#### alpine-bats
 Build:
-
-  make build:alpine-bats TAG=edge
+```
+make build:alpine-bats TAG=edge
+```
 
 - There is [an autobuild at docker hub](https://hub.docker.com/r/bvberkum/alpine-bats/)
 - To trigger additional run-time `apk` package installs use `X_DCKR_APK`, e.g. ``X_DCKR_APK='git python elinks'``.
 
-### debian-bats
+#### debian-bats
 Build:
-
-  make build:debian-bats TAG=latest
-  make build:debian-bats TAG=sid
-  make build:debian-bats TAG=stable
-  make build:debian-bats TAG=unstable
+```
+make build:debian-bats TAG=latest
+make build:debian-bats TAG=sid
+make build:debian-bats TAG=stable
+make build:debian-bats TAG=unstable
+```
 
 - There are [autobuilds at docker hub](https://hub.docker.com/r/bvberkum/debian-bats/)
 - To trigger additional run-time `apt` package installs use `X_DCKR_APT`, e.g.
-  ``X_DCKR_APT='git python elinks'``.
+	``X_DCKR_APT='git python elinks'``.
+
+
+## Building
+``make build``, or see docker hub for autobuilds.
+
+
+## Testing
+Run local example test-cases with all builds, stop on first error:
+```
+make test-bats
+make test-bats ARGS=test/example-fail.bats
+```
+
+Or the same, but instead of local build use the autobuilds at ``bvberkum/BASE-bats``:
+```
+make test-bats LOCAL=false
+make test-bats LOCAL=false ARGS=test/example-fail.bats
+```
+
+Run official BATS tests, in all builds:
+```
+make test-official-bats
+```
+
+Run your project BATS tests, in all builds:
+```
+make test-other-bats GIT_URL=... GIT_BRANCH=...
+```

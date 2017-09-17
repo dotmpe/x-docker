@@ -29,14 +29,17 @@ test-bats:
 	make run:debian-bats TAG=stable ARGS=$(ARGS)
 	make run:debian-bats TAG=unstable ARGS=$(ARGS)
 
-# XXX: official bats tests seems to have a failure crept in
-test-official-bats:
-	make run:alpine-bats FLAGS="-e X_DCKR_APK='git' " ARGS="-- git clone https://github.com/sstephenson/bats.git -- cd bats -- bats test"
-	make run:debian-bats FLAGS="-e X_DCKR_APT='git' " ARGS="-- git clone https://github.com/sstephenson/bats.git -- cd bats -- bats test"
-	make run:debian-bats TAG=sid FLAGS="-e X_DCKR_APT='git' " ARGS="-- git clone https://github.com/sstephenson/bats.git -- cd bats -- bats test"
-	make run:debian-bats TAG=stable FLAGS="-e X_DCKR_APT='git' " ARGS="-- git clone https://github.com/sstephenson/bats.git -- cd bats -- bats test"
-	make run:debian-bats TAG=unstable FLAGS="-e X_DCKR_APT='git' " ARGS="-- git clone https://github.com/sstephenson/bats.git -- cd bats -- bats test"
+test-other-bats:
+	make run:alpine-bats							FLAGS="-e X_DCKR_APK='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats							FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats TAG=sid			FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats TAG=stable	 FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats TAG=unstable FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 
+# XXX: official bats tests seems to have a failure crept in
+test-official-bats: GIT_BRANCH ?= master
+test-official-bats:
+	make test-other-bats GIT_URL=https://github.com/sstephenson/bats.git GIT_BRANCH=$(GIT_BRANCH)
 
 #
 # Docker Build in <*>/<TAG> subdir
@@ -62,8 +65,12 @@ build\:debian-bats: DEFAULT_TAG := latest
 #
 RUN_FLAGS := -ti --rm
 run\:%: TAG ?= $(DEFAULT_TAG)
+run\:%: LOCAL ?= true
 run\:%:
+	test "$(LOCAL)" = false && \
+	docker run $(RUN_FLAGS) $(FLAGS) $(PREFIX)/$*:$(TAG) $(ARGS) || \
 	docker run $(RUN_FLAGS) $(FLAGS) $*:$(TAG) $(ARGS)
+
 
 run\:alpine-bats: DEFAULT_TAG := edge
 run\:alpine-bats: ARGS := test
@@ -72,4 +79,3 @@ run\:alpine-bats: FLAGS := -v $(shell pwd -P):/project
 run\:debian-bats: DEFAULT_TAG := latest
 run\:debian-bats: ARGS := test
 run\:debian-bats: FLAGS := -v $(shell pwd -P):/project 
-

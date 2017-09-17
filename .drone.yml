@@ -6,9 +6,13 @@ pipeline:
     commands:
       - apk update && apk add make
       - cd $DRONE_WORKSPACE
-      - make build:alpine-bats
+      #- make build:alpine-bats
         #- make build
         #- make test
         #- make test-official-bats || echo "Failure in official repo ($?)"
+      - cd alpine-bats/edge
+      - docker build \
+          --build-arg X_DCKR_BASENAME=alpine-bats \
+          -t alpine-bats:edge .
     when:
       branch: master

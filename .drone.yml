@@ -11,6 +11,7 @@ pipeline:
         #- make test
         #- make test-official-bats || echo "Failure in official repo ($?)"
       - cd alpine-bats/edge
+      - make
       - docker --version
       #- docker build --build-arg X_DCKR_BASENAME=alpine-bats -t alpine-bats:edge .
       # FIXME: can't reproduce dev build setup in Drone DinD

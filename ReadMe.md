@@ -24,6 +24,15 @@ Besides `bash` and `bats`, aditional tools installed into the base image are
 `jq`, `curl` and `ncurses` if needed for ``tput``.
 
 
+### Issues
+
+Test `39 testing IFS not modified by run` is failing for every container. This
+may be some curiosity in Docker.
+
+The [Travis build](https://travis-ci.org/bvberkum/bats) is not showing this
+issue.
+
+
 ### Bases
 
 #### alpine-bats

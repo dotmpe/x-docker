@@ -1,4 +1,5 @@
-ARG X_DCKR_TAG=edge
+ENV DOCKER_TAG=edge
+ARG X_DCKR_TAG=$DOCKER_TAG
 FROM alpine:$X_DCKR_TAG
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 

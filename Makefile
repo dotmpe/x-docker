@@ -7,6 +7,7 @@ check:
 
 
 PREFIX ?= bvberkum
+DEFAULT_TAG ?= $(DOCKER_TAG)
 DEFAULT_TAG ?= dev
 
 

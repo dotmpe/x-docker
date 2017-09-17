@@ -1,4 +1,5 @@
-ARG X_DCKR_TAG=latest
+ENV DOCKER_TAG=latest
+ARG X_DCKR_TAG=$DOCKER_TAG
 FROM debian:$X_DCKR_TAG
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 

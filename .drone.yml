@@ -4,14 +4,15 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
+      - docker --version
       - apt-get update && apt-get install make
       - cd $DRONE_WORKSPACE
+      - make
       #- make build:alpine-bats
         #- make build
         #- make test
         #- make test-official-bats || echo "Failure in official repo ($?)"
       - cd alpine-bats/edge
-      - make
       - docker --version
       #- docker build --build-arg X_DCKR_BASENAME=alpine-bats -t alpine-bats:edge .
       # FIXME: can't reproduce dev build setup in Drone DinD
@@ -25,11 +26,11 @@ pipeline:
       - docker --version
       - apk update && apk add make
       - cd $DRONE_WORKSPACE
+      - make
       #- make build:alpine-bats
         #- make build
         #- make test
         #- make test-official-bats || echo "Failure in official repo ($?)"
-      - make
       - cd alpine-bats/edge
       - docker build --build-arg X_DCKR_BASENAME=alpine-bats -t alpine-bats:edge .
       # FIXME: can't reproduce dev build setup in Drone DinD

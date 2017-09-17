@@ -1,4 +1,4 @@
-FROM ubuntu:stretch
+FROM ubuntu:xenial
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 RUN apt-get update && \

@@ -31,6 +31,9 @@ build:
 	make build\:alpine-docker TAG=latest
 	#make build\:debian-docker
 	make build\:ubuntu-docker
+	make build\:debian-docker TAG=sid
+	make build\:debian-docker TAG=unstable
+	make build\:ubuntu-docker
 
 test: test-bats test-docker
 
@@ -83,7 +86,7 @@ build\:alpine-bats: DEFAULT_TAG := edge
 build\:debian-bats: DEFAULT_TAG := latest
 build\:alpine-docker: DEFAULT_TAG := edge
 build\:debian-docker: DEFAULT_TAG := sid
-build\:ubuntu-docker: DEFAULT_TAG := stretch
+build\:ubuntu-docker: DEFAULT_TAG := xenial
 
 build\:alpine-bats-dev: DEFAULT_TAG := edge
 build\:alpine-bats-dev: BUILD_FLAGS := \

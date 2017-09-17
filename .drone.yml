@@ -8,8 +8,8 @@ pipeline:
       - apt-get update && apt-get install make
       - cd $DRONE_WORKSPACE
       - make
-      #- cd ubuntu-bats/edge
-      #- docker build --build-arg X_DCKR_BASENAME=ubuntu-bats -t ubuntu-bats:edge .
+      - cd ubuntu-bats/edge
+      - docker build --build-arg X_DCKR_BASENAME=ubuntu-bats -t ubuntu-bats:edge .
     when:
       branch: master
   debian:

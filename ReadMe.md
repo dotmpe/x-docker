@@ -12,7 +12,7 @@ docker run -v DIR:/project \
 ```
 
 There are builds based on alpine and debian distros for now, and also
-a second 
+a second series of dev images with BATS installed from source.
 
 Test project with files from `test` dir:
 ```

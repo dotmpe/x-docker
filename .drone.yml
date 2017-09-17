@@ -1,0 +1,8 @@
+pipeline:
+  shell:
+    image: docker
+    commands:
+     - cd $DRONE_WORKSPACE
+     - make build
+     - make test
+     - make test-official-bats || echo "Failure in official repo ($?)"

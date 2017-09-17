@@ -1,0 +1,7 @@
+#!/bin/sh
+docker build \
+		--build-arg X_DCKR_PREFIX=bvberkum \
+		--build-arg X_DCKR_BASENAME=alpine-docker \
+		--build-arg X_DCKR_NAME=bvberkum/alpine-docker \
+    --build-arg X_DCKR_TAG=$DOCKER_TAG \
+    -t $IMAGE_NAME .

@@ -16,6 +16,11 @@ BUILD_FLAGS ?=
 build: 
 	make build\:alpine-bats
 	make build\:alpine-bats-dev
+	make build\:alpine-bats-dev TAG=latest
+	make build\:alpine-bats-dev TAG=3.6
+	make build\:alpine-docker
+	make build\:alpine-docker TAG=3.6
+	make build\:alpine-docker TAG=latest
 	make build\:debian-bats
 	make build\:debian-bats TAG=sid
 	make build\:debian-bats TAG=stable
@@ -25,7 +30,7 @@ build:
 	make build\:debian-bats-dev TAG=stable
 	make build\:debian-bats-dev TAG=unstable
 
-test: test-bats
+test: test-bats test-docker
 
 # Run against local test dir
 test-bats: ARGS := test/*-spec.bats
@@ -73,6 +78,7 @@ build\:%:
 		-t $*:$(TAG) .
 
 build\:alpine-bats: DEFAULT_TAG := edge
+build\:alpine-docker: DEFAULT_TAG := edge
 build\:debian-bats: DEFAULT_TAG := latest
 
 build\:alpine-bats-dev: DEFAULT_TAG := edge
@@ -113,3 +119,11 @@ run\:debian-bats: FLAGS := -v $(shell pwd -P):/project
 run\:debian-bats-dev: DEFAULT_TAG := latest
 run\:debian-bats-dev: ARGS := test
 run\:debian-bats-dev: FLAGS := -v $(shell pwd -P):/project 
+
+
+
+test-docker:
+	docker run --rm -ti alpine-docker:edge
+	docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock \
+		alpine-docker:edge docker ps
+

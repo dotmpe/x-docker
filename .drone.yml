@@ -1,4 +1,22 @@
 pipeline:
+  ubuntu:
+    image: bvberkum/ubuntu-docker:xenial
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - apt-get update && apt-get install make
+      - cd $DRONE_WORKSPACE
+      #- make build:alpine-bats
+        #- make build
+        #- make test
+        #- make test-official-bats || echo "Failure in official repo ($?)"
+      - cd alpine-bats/edge
+      - make
+      - docker --version
+      #- docker build --build-arg X_DCKR_BASENAME=alpine-bats -t alpine-bats:edge .
+      # FIXME: can't reproduce dev build setup in Drone DinD
+    when:
+      branch: master
   alpine:
     image: bvberkum/alpine-docker:edge
     volumes:

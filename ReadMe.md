@@ -9,11 +9,9 @@ docker run -v DIR:/project \
 		bvberkum/BASE-bats [ARGV | -- CMD [ -- CMD ]*]
 ```
 
-Test project, ie. bats itself:
-
+Test project with files from `test` dir:
 ```
-make run:BASE-bats \
-		FLAGS="-v $(cd /srv/project-local/bats && pwd -P):/project"
+docker run -v $(pwd -P):/project bvberkum/BASE-bats ./test/
 ```
 
 The main issue for flexible test nodes is getting specific dependencies, so the

@@ -1,14 +1,14 @@
 pipeline:
-  alpine:
-    image: alpine:edge
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    commands:
-      - apk update && apk add make docker
-      - cd $DRONE_WORKSPACE
-      - make build
-      - make test
-      - make test-official-bats || echo "Failure in official repo ($?)"
+  #alpine:
+  #  image: bvberkum/alpine-docker:edge
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #  commands:
+  #    - apk update && apk add make
+  #    - cd $DRONE_WORKSPACE
+  #    - make build
+  #    - make test
+  #    - make test-official-bats || echo "Failure in official repo ($?)"
   debian:
     image: debian:latest
     commands:

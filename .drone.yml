@@ -1,8 +1,16 @@
 pipeline:
-  shell:
-    image: docker
+  alpine:
+    image: alpine:edge
     commands:
-     - apt-get install make
+     - apk update && apk add make
+     - cd $DRONE_WORKSPACE
+     - make build
+     - make test
+     - make test-official-bats || echo "Failure in official repo ($?)"
+  debian:
+    image: debian:latest
+    commands:
+     - apt-get update &7 apt-get install -qqy make
      - cd $DRONE_WORKSPACE
      - make build
      - make test

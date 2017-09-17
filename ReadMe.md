@@ -11,6 +11,9 @@ docker run -v DIR:/project \
 		bvberkum/BASE-bats [ARGV | -- CMD [ -- CMD ]*]
 ```
 
+There are builds based on alpine and debian distros for now, and also
+a second 
+
 Test project with files from `test` dir:
 ```
 docker run -v $(pwd -P):/project bvberkum/BASE-bats ./test/
@@ -56,6 +59,12 @@ make build:debian-bats TAG=unstable
 - There are [autobuilds at docker hub](https://hub.docker.com/r/bvberkum/debian-bats/)
 - To trigger additional run-time `apt` package installs use `X_DCKR_APT`, e.g.
 	``X_DCKR_APT='git python elinks'``.
+
+
+### alpine-bats-mpe
+
+### alpine-bats-mpe
+
 
 
 ## Building

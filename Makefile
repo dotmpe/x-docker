@@ -10,6 +10,8 @@ PREFIX ?= bvberkum
 DEFAULT_TAG ?= $(DOCKER_TAG)
 DEFAULT_TAG ?= dev
 
+BUILD_FLAGS ?=
+
 
 build: 
 	make build\:alpine-bats
@@ -17,6 +19,10 @@ build:
 	make build\:debian-bats TAG=sid
 	make build\:debian-bats TAG=stable
 	make build\:debian-bats TAG=unstable
+	make build\:debian-bats-dev
+	make build\:debian-bats-dev TAG=sid
+	make build\:debian-bats-dev TAG=stable
+	make build\:debian-bats-dev TAG=unstable
 
 test: test-bats
 
@@ -28,13 +34,21 @@ test-bats:
 	make run:debian-bats TAG=sid ARGS=$(ARGS)
 	make run:debian-bats TAG=stable ARGS=$(ARGS)
 	make run:debian-bats TAG=unstable ARGS=$(ARGS)
+	make run:debian-bats-dev ARGS=$(ARGS)
+	make run:debian-bats-dev TAG=sid ARGS=$(ARGS)
+	make run:debian-bats-dev TAG=stable ARGS=$(ARGS)
+	make run:debian-bats-dev TAG=unstable ARGS=$(ARGS)
 
 test-other-bats:
 	make run:alpine-bats							FLAGS="-e X_DCKR_APK='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 	make run:debian-bats							FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 	make run:debian-bats TAG=sid			FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
-	make run:debian-bats TAG=stable	 FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats TAG=stable		FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 	make run:debian-bats TAG=unstable FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats-dev							FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats-dev TAG=sid			FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats-dev TAG=stable	 FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats-dev TAG=unstable FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 
 # XXX: official bats tests seems to have a failure crept in
 test-official-bats: GIT_BRANCH ?= master
@@ -46,10 +60,8 @@ test-official-bats:
 #
 build\:%: TAG ?= $(DEFAULT_TAG)
 build\:%:
-	test -e "$*/$(TAG)/Dockerfile" || \
-		cp "$*/$(DEFAULT_TAG)/Dockerfile" "$*/$(TAG)/Dockerfile"
 	@# XXX: hooks/build...
-	cd $*/$(TAG) && docker build \
+	cd $*/$(TAG) && docker build $(BUILD_FLAGS )\
 		--build-arg X_DCKR_TAG=$(TAG) \
 		--build-arg X_DCKR_PREFIX=$(PREFIX) \
 		--build-arg X_DCKR_BASENAME=$* \
@@ -58,6 +70,11 @@ build\:%:
 
 build\:alpine-bats: DEFAULT_TAG := edge
 build\:debian-bats: DEFAULT_TAG := latest
+
+build\:debian-bats-dev: DEFAULT_TAG := latest
+build\:debian-bats-dev: BUILD_FLAGS := \
+	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats.git \
+	--build-arg BATS_DEV_BRANCH=master
 
 
 #
@@ -79,3 +96,7 @@ run\:alpine-bats: FLAGS := -v $(shell pwd -P):/project
 run\:debian-bats: DEFAULT_TAG := latest
 run\:debian-bats: ARGS := test
 run\:debian-bats: FLAGS := -v $(shell pwd -P):/project 
+
+run\:debian-bats-dev: DEFAULT_TAG := latest
+run\:debian-bats-dev: ARGS := test
+run\:debian-bats-dev: FLAGS := -v $(shell pwd -P):/project 

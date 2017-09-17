@@ -8,12 +8,22 @@ pipeline:
       - apt-get update && apt-get install make
       - cd $DRONE_WORKSPACE
       - make
-      #- make build:alpine-bats
-        #- make build
-        #- make test
-        #- make test-official-bats || echo "Failure in official repo ($?)"
       #- cd ubuntu-bats/edge
       #- docker build --build-arg X_DCKR_BASENAME=ubuntu-bats -t ubuntu-bats:edge .
+    when:
+      branch: master
+  debian:
+    image: bvberkum/debian-docker:unstable
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - docker --version
+      - apt-get update && apt-get install make
+      - cd $DRONE_WORKSPACE
+      - make
+      - cd debian-bats/unstable
+      - docker build --build-arg X_DCKR_BASENAME=debian-bats -t debian-bats:unstable .
+      # FIXME: can't reproduce dev build setup in Drone DinD
     when:
       branch: master
   alpine:
@@ -38,7 +48,7 @@ pipeline:
     image: ubuntu:xenial
     commands:
       - apt-get update
-      - apt-get install git-annex
+      - DEBIAN_FRONTEND=noninteractive apt-get -qyy install git-annex
       - mkdir /tmp/annex && cd /tmp/annex
       - git init
       - git annex init

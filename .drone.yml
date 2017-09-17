@@ -11,8 +11,6 @@ pipeline:
         #- make test
         #- make test-official-bats || echo "Failure in official repo ($?)"
       - cd alpine-bats/edge
-      - docker build \
-          --build-arg X_DCKR_BASENAME=alpine-bats \
-          -t alpine-bats:edge .
+      - docker build --build-arg X_DCKR_BASENAME=alpine-bats -t alpine-bats:edge .
     when:
       branch: master

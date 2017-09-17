@@ -45,6 +45,7 @@ build\:%: TAG ?= $(DEFAULT_TAG)
 build\:%:
 	test -e "$*/$(TAG)/Dockerfile" || \
 		cp "$*/$(DEFAULT_TAG)/Dockerfile" "$*/$(TAG)/Dockerfile"
+	@# XXX: hooks/build...
 	cd $*/$(TAG) && docker build \
 		--build-arg X_DCKR_TAG=$(TAG) \
 		--build-arg X_DCKR_PREFIX=$(PREFIX) \

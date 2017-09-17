@@ -1,5 +1,7 @@
 # Testbed dockerfile's
 
+Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.
+
 ## Bats
 
 Flexible BATS shell test. Usage:

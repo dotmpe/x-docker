@@ -62,8 +62,13 @@ make build:debian-bats TAG=unstable
 
 
 ### alpine-bats-mpe
+Exactly like alpine-bats, but with BATS installed into ``/usr/local``
+from GIT source.
 
-### alpine-bats-mpe
+
+### debian-bats-mpe
+Exactly like debian-bats, but with BATS installed into ``/usr/local``
+from GIT source.
 
 
 

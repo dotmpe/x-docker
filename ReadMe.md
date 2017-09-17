@@ -71,6 +71,11 @@ Exactly like debian-bats, but with BATS installed into ``/usr/local``
 from GIT source.
 
 
+### alpine-docker
+An Alpine base with only docker installed. Not sure if there is an official
+build somewhere at /r/docker, /r/alpine..
+
+
 
 ## Building
 ``make build``, or see docker hub for autobuilds.
@@ -98,6 +103,15 @@ Run your project BATS tests, in all builds:
 ```
 make test-other-bats GIT_URL=... GIT_BRANCH=...
 ```
+
+
+## Issues
+- All builds get rebuild on a push at master. This is tedious and wastefull,
+  and introduces a big lag.
+
+  Make a branch setup. Tags are not really needed for now.
+  Or maybe figure out a way to cancel builds, build only on changes to
+  Dockerfile.
 
 
 ---

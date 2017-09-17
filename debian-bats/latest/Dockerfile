@@ -1,27 +1,27 @@
-ARG X_DCKR_TAG=edge
-FROM alpine:$X_DCKR_TAG
+ARG X_DCKR_TAG=latest
+FROM debian:$X_DCKR_TAG
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
-RUN apk update && \
-    apk add --no-cache \
-      ncurses jq curl \
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive RUNLEVEL=1 apt-get install -qqy \
+      jq curl \
       bash bats && \
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apt/*
 
 ARG X_DCKR_PREFIX=x-docker
-ARG X_DCKR_BASENAME=alpine-bats
+ARG X_DCKR_BASENAME=debian-bats
 ARG X_DCKR_NAME=$X_DCKR_PREFIX/$X_DCKR_BASENAME
 
 ENV X_DCKR_CMD=/usr/bin/bats
-ENV X_DCKR_APK=""
+ENV X_DCKR_APT=""
 
 # Generate entry point script
 RUN printf "#!/bin/sh\n\
 set -e\n\
-test -z \"\$X_DCKR_APK\" || {\n\
-  echo \"$X_DCKR_NAME: Installing additional packages '\$X_DCKR_APK'\" >&2\n\
-  apk update \
- && apk add --no-cache \$X_DCKR_APK\n\
+test -z \"\$X_DCKR_APT\" || {\n\
+  echo \"$X_DCKR_NAME: Installing additional packages '\$X_DCKR_APT'\" >&2\n\
+  apt-get update \
+ && apt-get install -qyy \$X_DCKR_APT\n\
 }\n\
 test \"\$1\" = \"--\" && { shift\n\
   echo \"$X_DCKR_NAME: Running script, remaining argv: \$*\" >&2;\n\

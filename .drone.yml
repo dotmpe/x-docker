@@ -35,3 +35,15 @@ pipeline:
       # FIXME: can't reproduce dev build setup in Drone DinD
     when:
       branch: master
+  xenial-git-annex:
+    image: ubuntu:xenial
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - apt-get update
+      - apt-get install git-annex
+      - mkdir /tmp/annex && cd /tmp/annex
+      - git init
+      - git annex init
+    when:
+      branch: master

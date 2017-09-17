@@ -9,3 +9,5 @@ pipeline:
       - make build
       - make test
       - make test-official-bats || echo "Failure in official repo ($?)"
+    when:
+      branch: master

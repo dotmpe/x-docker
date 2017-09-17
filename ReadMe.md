@@ -75,3 +75,10 @@ Run your project BATS tests, in all builds:
 ```
 make test-other-bats GIT_URL=... GIT_BRANCH=...
 ```
+
+
+---
+
+hub.docker.com uses docker/highland_builder, a good start for (undocumented)
+features is
+<https://github.com/docker/hub-feedback/issues/508#issuecomment-240616319>

@@ -61,19 +61,19 @@ make build:debian-bats TAG=unstable
 	``X_DCKR_APT='git python elinks'``.
 
 
-### alpine-bats-mpe
+### alpine-bats-dev
 Exactly like alpine-bats, but with BATS installed into ``/usr/local``
 from GIT source.
 
 
-### debian-bats-mpe
+### debian-bats-dev
 Exactly like debian-bats, but with BATS installed into ``/usr/local``
 from GIT source.
 
 
 ### alpine-docker
-An Alpine base with only docker installed. Not sure if there is an official
-build somewhere at /r/docker, /r/alpine..
+An Alpine base with only docker installed. Not sure about if and where of an
+official build with docker client support at /r/docker, /r/alpine..
 
 
 

@@ -2,6 +2,19 @@
 
 Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.
 
+## Autobuilds
+
+No need to clone and rebuild, pull images here:
+
+- [alpine-bats](https://hub.docker.com/r/bvberkum/alpine-bats/)
+- [debian-bats](https://hub.docker.com/r/bvberkum/debian-bats/)
+- [ubuntu-bats](https://hub.docker.com/r/bvberkum/ubuntu-bats/)
+
+* [alpine-docker](https://hub.docker.com/r/bvberkum/alpine-docker/)
+* [debian-docker](https://hub.docker.com/r/bvberkum/debian-docker/)
+* [ubuntu-docker](https://hub.docker.com/r/bvberkum/ubuntu-docker/)
+
+
 ## Bats
 
 Flexible BATS shell test. Usage:
@@ -44,7 +57,6 @@ Build:
 make build:alpine-bats TAG=edge
 ```
 
-- There is [an autobuild at docker hub](https://hub.docker.com/r/bvberkum/alpine-bats/)
 - To trigger additional run-time `apk` package installs use `X_DCKR_APK`, e.g. ``X_DCKR_APK='git python elinks'``.
 
 #### debian-bats
@@ -56,7 +68,6 @@ make build:debian-bats TAG=stable
 make build:debian-bats TAG=unstable
 ```
 
-- There are [autobuilds at docker hub](https://hub.docker.com/r/bvberkum/debian-bats/)
 - To trigger additional run-time `apt` package installs use `X_DCKR_APT`, e.g.
 	``X_DCKR_APT='git python elinks'``.
 

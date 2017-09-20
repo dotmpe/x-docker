@@ -82,16 +82,6 @@ Exactly like debian-bats, but with BATS installed into ``/usr/local``
 from GIT source.
 
 
-### alpine-docker
-An Alpine base with only docker installed. Not sure about if and where of an
-official build with docker client support at /r/docker, /r/alpine..
-
-
-
-## Building
-``make build``, or see docker hub for autobuilds.
-
-
 ## Testing
 Run local example test-cases with all builds, stop on first error:
 ```
@@ -114,6 +104,21 @@ Run your project BATS tests, in all builds:
 ```
 make test-other-bats GIT_URL=... GIT_BRANCH=...
 ```
+
+
+## docker-in-docker (DinD)
+
+Only docker, for simple experimental purposes.
+
+TODO: Not sure about if and where of an official build with support at 
+/r/docker, /r/alpine..
+
+Bases: alpine, debian and ubuntu.
+
+
+
+## Building
+``make build``, or see docker hub for autobuilds.
 
 
 ## Issues

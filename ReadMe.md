@@ -129,6 +129,10 @@ Bases: alpine, debian and ubuntu.
   Or maybe figure out a way to cancel builds, build only on changes to
   Dockerfile.
 
+- Multiple autobuilds from one GIT repo works well, but the one issue is the
+  description that gets updated from the generic project ReadMe. This mentions
+  dev setup and other builds, which is confusing.
+
 
 ---
 

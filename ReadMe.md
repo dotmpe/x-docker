@@ -133,9 +133,16 @@ Bases: alpine, debian and ubuntu.
   description that gets updated from the generic project ReadMe. This mentions
   dev setup and other builds, which is confusing.
 
+  `highland builder`\ 's ``get_readme`` would allow for ``README.md`` to take
+  precedence over secondary matches (``[Rr][Ee][Aa][Dd][Mm][Ee]*``). [#]
+
 
 ---
 
 hub.docker.com uses docker/highland_builder, a good start for (undocumented)
 features is
 <https://github.com/docker/hub-feedback/issues/508#issuecomment-240616319>
+<https://hub.docker.com/r/docker/highland_builder/tags/>
+<https://github.com/andyneff/highland_builder>
+
+https://github.com/andyneff/highland_builder/blob/master/builder.py

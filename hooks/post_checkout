@@ -6,19 +6,19 @@ echo 'post_checkout debug end'
 case "$SOURCE_BRANCH" in
 
   *-treebox )
-      cp ../../ReadMe-treebox.md README.md
+      cp -v ../../ReadMe-treebox.md ../../README.md
     ;;
 
 #  *-bats-dev | *-bats )
-#      cp ReadMe-bats.md README.md
+#      cp -v ../../ReadMe-bats.md ../../README.md
 #    ;;
 
-#alpine-docker
-#debian-docker
-#ubuntu-docker
+#  *-docker )
+#      cp -v ../../ReadMe-docker.md ../../README.md
+#    ;;
 
   * )
-      echo "Warning: no ReadMe for '$SOURCE_BRANCH' ($DOCKER_TAG)"
+      echo "Warning: no ReadMe for '$SOURCE_BRANCH' ($DOCKER_TAG)" >&2
     ;;
 
 esac

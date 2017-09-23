@@ -58,7 +58,7 @@ RUN echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profil
 RUN chown -R $username:$username /home/$username/
 
 
+RUN echo "$treebox ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$treebox
+
 USER $username
-ENV HOME=/home/$username
-ENV USER=$username
 

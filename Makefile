@@ -15,17 +15,17 @@ BUILD_FLAGS ?=
 
 build: 
 	make build\:alpine-bats
-	make build\:alpine-bats-dev
-	make build\:alpine-bats-dev TAG=latest
-	make build\:alpine-bats-dev TAG=3.6
+	make build\:alpine-bats_dev
+	make build\:alpine-bats_dev TAG=latest
+	make build\:alpine-bats_dev TAG=3.6
 	make build\:debian-bats
 	make build\:debian-bats TAG=sid
 	make build\:debian-bats TAG=stable
 	make build\:debian-bats TAG=unstable
-	make build\:debian-bats-dev
-	make build\:debian-bats-dev TAG=sid
-	make build\:debian-bats-dev TAG=stable
-	make build\:debian-bats-dev TAG=unstable
+	make build\:debian-bats_dev
+	make build\:debian-bats_dev TAG=sid
+	make build\:debian-bats_dev TAG=stable
+	make build\:debian-bats_dev TAG=unstable
 	make build\:alpine-docker
 	make build\:alpine-docker TAG=3.6
 	make build\:alpine-docker TAG=latest
@@ -41,27 +41,27 @@ test: test-bats test-docker
 test-bats: ARGS := test/*-spec.bats
 test-bats:
 	make run:alpine-bats ARGS=$(ARGS)
-	make run:alpine-bats-dev ARGS=$(ARGS)
+	make run:alpine-bats_dev ARGS=$(ARGS)
 	make run:debian-bats ARGS=$(ARGS)
 	make run:debian-bats TAG=sid ARGS=$(ARGS)
 	make run:debian-bats TAG=stable ARGS=$(ARGS)
 	make run:debian-bats TAG=unstable ARGS=$(ARGS)
-	make run:debian-bats-dev ARGS=$(ARGS)
-	make run:debian-bats-dev TAG=sid ARGS=$(ARGS)
-	make run:debian-bats-dev TAG=stable ARGS=$(ARGS)
-	make run:debian-bats-dev TAG=unstable ARGS=$(ARGS)
+	make run:debian-bats_dev ARGS=$(ARGS)
+	make run:debian-bats_dev TAG=sid ARGS=$(ARGS)
+	make run:debian-bats_dev TAG=stable ARGS=$(ARGS)
+	make run:debian-bats_dev TAG=unstable ARGS=$(ARGS)
 
 test-other-bats:
 	#make run:alpine-bats							     FLAGS="-e X_DCKR_APK='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
-	make run:alpine-bats-dev	 			         FLAGS="-e X_DCKR_APK='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:alpine-bats_dev	 			         FLAGS="-e X_DCKR_APK='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 	#make run:debian-bats							     FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 	#make run:debian-bats TAG=sid			     FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 	#make run:debian-bats TAG=stable		   FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 	#make run:debian-bats TAG=unstable     FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
-	make run:debian-bats-dev							 FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
-	make run:debian-bats-dev TAG=sid			 FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
-	make run:debian-bats-dev TAG=stable	 FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
-	make run:debian-bats-dev TAG=unstable FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats_dev							 FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats_dev TAG=sid			 FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats_dev TAG=stable	 FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
+	make run:debian-bats_dev TAG=unstable FLAGS="-e X_DCKR_APT='git' "	ARGS="-- git clone $(GIT_URL) /tmp/project -- cd /tmp/project -- git checkout $(GIT_BRANCH) -- bats test"
 
 # XXX: official bats tests seems to have a failure crept in. Not showing in my
 # fork.
@@ -88,13 +88,13 @@ build\:alpine-docker: DEFAULT_TAG := edge
 build\:debian-docker: DEFAULT_TAG := sid
 build\:ubuntu-docker: DEFAULT_TAG := xenial
 
-build\:alpine-bats-dev: DEFAULT_TAG := edge
-build\:alpine-bats-dev: BUILD_FLAGS := \
+build\:alpine-bats_dev: DEFAULT_TAG := edge
+build\:alpine-bats_dev: BUILD_FLAGS := \
 	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats.git \
 	--build-arg BATS_DEV_BRANCH=master
 
-build\:debian-bats-dev: DEFAULT_TAG := latest
-build\:debian-bats-dev: BUILD_FLAGS := \
+build\:debian-bats_dev: DEFAULT_TAG := latest
+build\:debian-bats_dev: BUILD_FLAGS := \
 	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats.git \
 	--build-arg BATS_DEV_BRANCH=master
 
@@ -115,17 +115,17 @@ run\:alpine-bats: DEFAULT_TAG := edge
 run\:alpine-bats: ARGS := test
 run\:alpine-bats: FLAGS := -v $(shell pwd -P):/project 
 
-run\:alpine-bats-dev: DEFAULT_TAG := edge
-run\:alpine-bats-dev: ARGS := test
-run\:alpine-bats-dev: FLAGS := -v $(shell pwd -P):/project 
+run\:alpine-bats_dev: DEFAULT_TAG := edge
+run\:alpine-bats_dev: ARGS := test
+run\:alpine-bats_dev: FLAGS := -v $(shell pwd -P):/project 
 
 run\:debian-bats: DEFAULT_TAG := latest
 run\:debian-bats: ARGS := test
 run\:debian-bats: FLAGS := -v $(shell pwd -P):/project 
 
-run\:debian-bats-dev: DEFAULT_TAG := latest
-run\:debian-bats-dev: ARGS := test
-run\:debian-bats-dev: FLAGS := -v $(shell pwd -P):/project 
+run\:debian-bats_dev: DEFAULT_TAG := latest
+run\:debian-bats_dev: ARGS := test
+run\:debian-bats_dev: FLAGS := -v $(shell pwd -P):/project 
 
 
 

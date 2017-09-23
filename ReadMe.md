@@ -10,11 +10,15 @@ No need to clone and rebuild, pull images here:
 - [debian-bats](https://hub.docker.com/r/bvberkum/debian-bats/)
 - [ubuntu-bats](https://hub.docker.com/r/bvberkum/ubuntu-bats/)
 
-* [alpine-docker](https://hub.docker.com/r/bvberkum/alpine-docker/)
-* [debian-docker](https://hub.docker.com/r/bvberkum/debian-docker/)
-* [ubuntu-docker](https://hub.docker.com/r/bvberkum/ubuntu-docker/)
+* [alpine-bats_dev](https://hub.docker.com/r/bvberkum/alpine-bats_dev/)
+* [debian-bats_dev](https://hub.docker.com/r/bvberkum/debian-bats_dev/)
+* [ubuntu-bats_dev](https://hub.docker.com/r/bvberkum/ubuntu-bats_dev/)
 
-- [ubuntu-treebox](https://hub.docker.com/r/bvberkum/ubuntu-treebox/)
+- [alpine-docker](https://hub.docker.com/r/bvberkum/alpine-docker/)
+- [debian-docker](https://hub.docker.com/r/bvberkum/debian-docker/)
+- [ubuntu-docker](https://hub.docker.com/r/bvberkum/ubuntu-docker/)
+
+* [ubuntu-treebox](https://hub.docker.com/r/bvberkum/ubuntu-treebox/)
 
 
 ## Bats
@@ -57,13 +61,8 @@ make build:debian-bats TAG=unstable
 	``X_DCKR_APT='git python elinks'``.
 
 
-#### alpine-bats-dev
-Exactly like alpine-bats, but with BATS installed into ``/usr/local``
-from GIT source.
-
-
-#### debian-bats-dev
-Exactly like debian-bats, but with BATS installed into ``/usr/local``
+#### alpine-bats_dev, debian-bats_dev, ubuntu-bats_dev
+Exactly like BASE-bats, but with BATS installed into ``/usr/local``
 from GIT source.
 
 

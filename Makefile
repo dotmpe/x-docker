@@ -142,7 +142,7 @@ update:
 		name="$$(echo $$downstream | cut -f 2 -d '-')"; \
 		test -e ReadMe-$$name.md && { \
 			cp ReadMe-$$name.md README.md ; \
-			git add README.md && git ci -m "Updating $$downstream"; \
+			git add README.md && git ci -m "Updating $$downstream" || continue; \
 		}; \
 	done
 	git co master

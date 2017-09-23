@@ -145,3 +145,4 @@ update:
 			git add README.md && git ci -m "Updating $$downstream"; \
 		}; \
 	done
+	git co master

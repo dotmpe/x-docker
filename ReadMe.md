@@ -116,8 +116,11 @@ Bases: alpine, debian and ubuntu.
   Could go more fine-grained using tags.
 
   Does not look highland_builder does abort or skip builds. 
-  But try ``exit 1``. Check that Dockerfile or subdir for base actually has
-  changes or don't bother.
+  May try the 'ci skip'/'skip ci' that others like travis or drone support.
+  <http://readme.drone.io/usage/skipping-builds/>
+
+  But othterwise just ``exit 1``. Check that Dockerfile or subdir for base actually has
+  changes or don't bother and prevent rebuild/tag/push this way.
 
 - Multiple autobuilds from one GIT repo works well, but the one issue is the
   description that gets updated from the generic project ReadMe. Not good.

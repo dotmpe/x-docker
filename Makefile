@@ -136,7 +136,9 @@ test-docker:
 
 
 update:
-	git co ubuntu-treebox && git mg master
-	git co master
-	#cut -f 2 -d ' ' gitflow.tab | while read downstream; \
-	#do git co $$downstream && git merge master || git merge --abort; done
+	cut -f 2 -d ' ' gitflow.tab | while read downstream; \
+	do \
+		git co $$downstream && git merge master || git merge --abort ; \
+		test -e ReadMe-$$downstream.md && cp ReadMe-$$downstream.md README.md ; \
+		git add README.md && git ci -m "Updating $$downstream"; \
+	done

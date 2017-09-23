@@ -117,11 +117,18 @@ Bases: alpine, debian and ubuntu.
 
   Does not look highland_builder does abort or skip builds. 
   May try the 'ci skip'/'skip ci' that others like travis or drone support.
+  But then, also need to fixup the gitflow setup & deal with merge commits at branches.
   <http://readme.drone.io/usage/skipping-builds/>
 
-  But othterwise just ``exit 1``. Check that Dockerfile or subdir for base actually has
+  But othterwise just ``exit 1`` in a hook.
+  Check that Dockerfile or subdir for base actually has
   changes or don't bother and prevent rebuild/tag/push this way.
+ 
+  However, there is no easy way I can see to find the previous build ID. 
+  Short of spinning up the image for an older tag and checking for markers placed during the previous build.
+  Before that, going to play with commit in drone a bit more. Maybe could use the hooks at docker hub to build/tag and separate image.. its not very pretty, but could work.
 
+ 
 - Multiple autobuilds from one GIT repo works well, but the one issue is the
   description that gets updated from the generic project ReadMe. Not good.
 

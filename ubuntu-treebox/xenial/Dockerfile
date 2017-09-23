@@ -8,28 +8,26 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -qqy && \
   apt-get install -y --allow-downgrades \
+    bash posh dash \
     tree realpath uuid-runtime moreutils \
     sudo tree realpath \
-    vim git curl dropbear python \
+    vim git curl dropbear \
     build-essential uuid-runtime \
-    python-tox \
+    python python-tox \
     npm nodejs && \
-  rm -rf /var/cache/apt/*
-
-RUN npm install -g npm && \
-    npm cache clean -f && \
-    npm install -g n && \
-    n stable
-
-RUN \
-    version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
-    test -e /usr/bin/node || ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node
-
-
-RUN cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py
-
-RUN pip install \
-	    setuptools PyYAML zope.interface zope.component objectpath
+  rm -rf /var/cache/apt/* && \
+  \
+  npm install -g npm && \
+      npm cache clean -f && \
+      npm install -g n && \
+      n stable && \
+  \
+  version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
+  { test -e /usr/bin/node || ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; } \
+  \
+  cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && \
+  pip install \
+  	    setuptools PyYAML zope.interface zope.component objectpath
 
 RUN \
   echo 'export PATH=$PATH:/usr/local/bin' > /etc/profile.d/ssh-environment; \
@@ -40,25 +38,25 @@ RUN \
 
 
 # Setup passwordless sudo
-RUN addgroup supergroup
-RUN echo "%supergroup  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN \
+  addgroup supergroup && \
+  echo "%supergroup  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 
 # Setup user
 ARG username=treebox
-
-RUN adduser --system --home /home/$username --shell /bin/bash --group $username
-RUN echo "$username:$username" | chpasswd
-RUN usermod $username -a -G sudo
-RUN usermod $username -a -G staff
-RUN usermod $username -a -G supergroup
-
-RUN mkdir -vp /home/$username/project
-
-RUN git clone https://github.com/basherpm/basher.git /home/$username/.basher
-RUN echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profile
-
-RUN chown -R $username:$username /home/$username/
+RUN \
+  adduser --system --home /home/$username --shell /bin/bash --group $username && \
+  ( echo "$username:$username" | chpasswd ) && \
+  usermod $username -a -G sudo && \
+  usermod $username -a -G staff && \
+  usermod $username -a -G supergroup && \
+  \
+  mkdir -vp /home/$username/project && \
+  git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
+  ( echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profile ) && \
+  \
+  chown -R $username:$username /home/$username/
 
 
 USER $username

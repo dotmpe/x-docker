@@ -49,6 +49,7 @@ RUN adduser --system --home /home/$username --shell /bin/bash --group $username
 RUN echo "$username:$username" | chpasswd
 RUN usermod $username -a -G sudo
 RUN usermod $username -a -G staff
+RUN usermod $username -a -G supergroup
 
 RUN mkdir -vp /home/$username/project
 
@@ -58,7 +59,8 @@ RUN echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profil
 RUN chown -R $username:$username /home/$username/
 
 
-RUN echo "$treebox ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$treebox
+#RUN mkdir /etc/sudoers.d && echo "$treebox ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$treebox
+RUN echo "%supergroup  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER $username
 

@@ -59,8 +59,9 @@ RUN echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profil
 RUN chown -R $username:$username /home/$username/
 
 
+RUN addgroup supergroup
 #RUN mkdir /etc/sudoers.d && echo "$treebox ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$treebox
 RUN echo "%supergroup  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-USER $username
 
+USER $username

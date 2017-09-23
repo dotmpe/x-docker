@@ -136,7 +136,7 @@ test-docker:
 
 
 update:
-	cut -f 2 -d ' ' gitflow.tab | while read downstream; \
+	grep -v '^#' gitflow.tab | cut -f 2 -d ' ' | while read downstream; \
 	do \
 		git co $$downstream && git merge master || git merge --abort ; \
 		name="$$(echo $$downstream | cut -f 2 -d '-')"; \

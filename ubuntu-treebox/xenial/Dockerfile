@@ -39,16 +39,19 @@ RUN \
   } >/etc/profile
 
 
+# Setup passwordless sudo
+RUN addgroup supergroup
+RUN echo "%supergroup  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 
 # Setup user
 ARG username=treebox
 
-
 RUN adduser --system --home /home/$username --shell /bin/bash --group $username
 RUN echo "$username:$username" | chpasswd
 RUN usermod $username -a -G sudo
 RUN usermod $username -a -G staff
+RUN usermod $username -a -G supergroup
 
 RUN mkdir -vp /home/$username/project
 
@@ -59,6 +62,3 @@ RUN chown -R $username:$username /home/$username/
 
 
 USER $username
-ENV HOME=/home/$username
-ENV USER=$username
-

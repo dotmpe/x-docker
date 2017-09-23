@@ -2,10 +2,6 @@
 
 Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.
 
-## Autobuilds
-
-No need to clone and rebuild, pull images here:
-
 - [alpine-bats](https://hub.docker.com/r/bvberkum/alpine-bats/)
 - [debian-bats](https://hub.docker.com/r/bvberkum/debian-bats/)
 - [ubuntu-bats](https://hub.docker.com/r/bvberkum/ubuntu-bats/)
@@ -89,6 +85,12 @@ Run your project BATS tests, in all builds:
 make test-other-bats GIT_URL=... GIT_BRANCH=...
 ```
 
+## Treebox
+
+An image for development/testing with passwordless super user.
+
+- [ReadMe-treebox](ReadMe-treebox.md)
+
 
 ## Docker
 
@@ -100,17 +102,6 @@ TODO: Not sure about if and where of an official build with support at
 /r/docker, /r/alpine..
 
 Bases: alpine, debian and ubuntu.
-
-
-## Treebox
-
-An image with development tooling.
-
-- Python (PIP)
-- Node.JS (NPM, N)
-- [Basher](https://github.com/basherpm/basher)
-
-See [ReadMe-treebox](ReadMe-treebox.md) for usage.
 
 
 ## Building

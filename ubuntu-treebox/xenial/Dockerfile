@@ -59,4 +59,6 @@ RUN chown -R $username:$username /home/$username/
 
 
 USER $username
+ENV HOME=/home/$username
+ENV USER=$username
 

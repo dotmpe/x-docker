@@ -6,7 +6,7 @@ echo 'post_checkout debug end'
 case "$SOURCE_BRANCH" in
 
   *-treebox )
-      cp ReadMe-treebox.md README.md
+      cp ../../ReadMe-treebox.md README.md
     ;;
 
 #  *-bats-dev | *-bats )

@@ -1,8 +1,5 @@
 #!/bin/sh
 set -e
-echo 'post_checkout debug start'
-env
-echo 'post_checkout debug end'
 case "$SOURCE_BRANCH" in
 
   *-treebox )

@@ -1,5 +1,9 @@
 #!/bin/sh
-. ./../env.sh
+test -e ../env.sh && {
+  . ./../env.sh
+} || {
+  . ./../../build-env.sh
+}
 docker build \
 		--build-arg X_DCKR_PREFIX=$ONAME \
 		--build-arg X_DCKR_BASENAME=$LNAME \

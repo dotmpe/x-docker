@@ -39,16 +39,19 @@ RUN \
   } >/etc/profile
 
 
+# Setup passwordless sudo
+RUN addgroup supergroup
+RUN echo "%supergroup  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 
 # Setup user
 ARG username=treebox
 
-
 RUN adduser --system --home /home/$username --shell /bin/bash --group $username
 RUN echo "$username:$username" | chpasswd
 RUN usermod $username -a -G sudo
 RUN usermod $username -a -G staff
+RUN usermod $username -a -G supergroup
 
 RUN mkdir -vp /home/$username/project
 
@@ -56,12 +59,6 @@ RUN git clone https://github.com/basherpm/basher.git /home/$username/.basher
 RUN echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profile
 
 RUN chown -R $username:$username /home/$username/
-
-
-RUN addgroup supergroup
-RUN usermod $username -a -G supergroup
-#RUN mkdir /etc/sudoers.d && echo "$treebox ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$treebox
-RUN echo "%supergroup  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 
 USER $username

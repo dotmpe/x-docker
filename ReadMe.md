@@ -87,7 +87,7 @@ make test-other-bats GIT_URL=... GIT_BRANCH=...
 
 ## Treebox
 
-An image for development/testing with passwordless super user.
+An image for development/testing with passwordless sudo.
 
 - [ReadMe-treebox](ReadMe-treebox.md)
 

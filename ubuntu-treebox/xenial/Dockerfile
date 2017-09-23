@@ -8,7 +8,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -qqy && \
   apt-get install -y --allow-downgrades \
-    tree realpath uuid-runtime moreutils
+    tree realpath uuid-runtime moreutils \
     sudo tree realpath \
     vim git curl dropbear python \
     build-essential uuid-runtime \

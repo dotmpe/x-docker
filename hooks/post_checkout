@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e
+case "$SOURCE_BRANCH" in
+
+  *-treebox )
+      cp ReadMe-treebox.md README.md
+    ;;
+
+#  *-bats-dev | *-bats )
+#      cp ReadMe-bats.md README.md
+#    ;;
+
+#alpine-docker
+#debian-docker
+#ubuntu-docker
+
+  * )
+      echo "Warning: no ReadMe for '$SOURCE_BRANCH' ($DOCKER_TAG)"
+    ;;
+
+esac

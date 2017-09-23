@@ -14,30 +14,15 @@ No need to clone and rebuild, pull images here:
 * [debian-docker](https://hub.docker.com/r/bvberkum/debian-docker/)
 * [ubuntu-docker](https://hub.docker.com/r/bvberkum/ubuntu-docker/)
 
+- [ubuntu-treebox](https://hub.docker.com/r/bvberkum/ubuntu-treebox/)
+
 
 ## Bats
 
-Flexible BATS shell test. Usage:
-
-```
-docker run -v DIR:/project \
-		bvberkum/BASE-bats [ARGV | -- CMD [ -- CMD ]*]
-```
+Flexible BATS shell test, [usage](ReadMe-bats.md).
 
 There are builds based on alpine and debian distros for now, and also
 a second series of dev images with BATS installed from source.
-
-Test project with files from `test` dir:
-```
-docker run -v $(pwd -P):/project bvberkum/BASE-bats ./test/
-```
-
-The main issue for flexible test nodes is getting specific dependencies, so the
-entry-point allows both installing additiona packages, and/or executing several
-script lines in sequence.
-
-Besides `bash` and `bats`, aditional tools installed into the base image are
-`jq`, `curl` and `ncurses` if needed for ``tput``.
 
 
 ### Issues
@@ -72,17 +57,17 @@ make build:debian-bats TAG=unstable
 	``X_DCKR_APT='git python elinks'``.
 
 
-### alpine-bats-dev
+#### alpine-bats-dev
 Exactly like alpine-bats, but with BATS installed into ``/usr/local``
 from GIT source.
 
 
-### debian-bats-dev
+#### debian-bats-dev
 Exactly like debian-bats, but with BATS installed into ``/usr/local``
 from GIT source.
 
 
-## Testing
+### Testing
 Run local example test-cases with all builds, stop on first error:
 ```
 make test-bats
@@ -106,7 +91,9 @@ make test-other-bats GIT_URL=... GIT_BRANCH=...
 ```
 
 
-## docker-in-docker (DinD)
+## Docker
+
+### docker-in-docker (DinD)
 
 Only docker, for simple experimental purposes.
 
@@ -115,6 +102,16 @@ TODO: Not sure about if and where of an official build with support at
 
 Bases: alpine, debian and ubuntu.
 
+
+## Treebox
+
+An image with development tooling.
+
+- Python (PIP)
+- Node.JS (NPM, N)
+- [Basher](https://github.com/basherpm/basher)
+
+See [ReadMe-treebox](ReadMe-treebox.md) for usage.
 
 
 ## Building
@@ -145,4 +142,16 @@ features is
 <https://hub.docker.com/r/docker/highland_builder/tags/>
 <https://github.com/andyneff/highland_builder>
 
-https://github.com/andyneff/highland_builder/blob/master/builder.py
+<https://github.com/andyneff/highland_builder/blob/master/builder.py>
+
+Docker hub hooks are:
+
+- post_checkout
+- pre_build
+- build
+- post_build
+- pre_test
+- test
+- post_test
+- pre_push
+- push

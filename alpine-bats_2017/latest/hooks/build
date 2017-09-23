@@ -4,11 +4,7 @@ test -e ../env.sh && {
 } || {
   . ./../../build-env.sh
 }
-xtra=
-test ! -e ../build-args.sh || {
-  xtra="$(grep '=' ../build-args.sh | sed 's/.*/--build-arg & \\/')"
-}
-docker build $xtra \
+docker build \
 		--build-arg X_DCKR_PREFIX=$ONAME \
 		--build-arg X_DCKR_BASENAME=$LNAME \
 		--build-arg X_DCKR_NAME=$ONAME/$LNAME \

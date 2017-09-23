@@ -1,11 +1,11 @@
 # Upstream Downstream Is-Feature
-#  BASE-bats-dev
 master alpine-bats      false
 master debian-bats      false
 master ubuntu-bats      false
-master alpine-bats-dev  false
-master alpine-bats-dev  false
-master debian-bats-dev  false
+master alpine-bats_dev  false
+master debian-bats_dev  false
+master ubuntu-bats_dev  false
+master alpine-bats_2017 false
 master alpine-docker    false
 master debian-docker    false
 master ubuntu-docker    false

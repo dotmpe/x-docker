@@ -1,1 +1,1 @@
-TODO: build and test bats-core
+TODO: docker docs for hub.docker.com

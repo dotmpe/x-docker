@@ -136,5 +136,7 @@ test-docker:
 
 
 update:
-	cut -f 2 -d ' ' gitflow.tab | while read downstream; \
-	do git co $$downstream && git merge master || git merge --abort; done
+	git co ubuntu-treebox && git mg master
+	git co master
+	#cut -f 2 -d ' ' gitflow.tab | while read downstream; \
+	#do git co $$downstream && git merge master || git merge --abort; done

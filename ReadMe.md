@@ -112,16 +112,23 @@ Bases: alpine, debian and ubuntu.
 - All builds get rebuild on a push at master. This is tedious and wastefull,
   and introduces a big lag.
 
-  Make a branch setup. Tags are not really needed for now.
-  Or maybe figure out a way to cancel builds, build only on changes to
-  Dockerfile.
+  Solved by a per-branch autobuild setup, one for each specific build.
+  Could go more fine-grained using tags.
+
+  Does not look highland_builder does abort or skip builds. 
+  But try ``exit 1``. Check that Dockerfile or subdir for base actually has
+  changes or don't bother.
 
 - Multiple autobuilds from one GIT repo works well, but the one issue is the
-  description that gets updated from the generic project ReadMe. This mentions
-  dev setup and other builds, which is confusing.
+  description that gets updated from the generic project ReadMe. Not good.
 
   `highland builder`\ 's ``get_readme`` would allow for ``README.md`` to take
   precedence over secondary matches (``[Rr][Ee][Aa][Dd][Mm][Ee]*``). [#]
+
+  Using hooks is of no use, the ReadMe seems be set before. So instead,
+  each branch has its own ``README.md``.
+
+
 
 
 ---

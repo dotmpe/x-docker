@@ -134,3 +134,7 @@ test-docker:
 	docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock \
 		alpine-docker:edge docker ps
 
+
+update:
+	cut -f 2 -d ' ' gitflow.tab | while read downstream; \
+	do git co $$downstream && git merge master || git merge --abort; done

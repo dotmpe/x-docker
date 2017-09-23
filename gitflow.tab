@@ -9,3 +9,4 @@ master debian-bats-dev  false
 master alpine-docker    false
 master debian-docker    false
 master ubuntu-docker    false
+master ubuntu-treebox   false

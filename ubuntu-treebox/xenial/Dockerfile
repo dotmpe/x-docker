@@ -13,7 +13,8 @@ RUN \
     vim git curl dropbear \
     build-essential uuid-runtime \
     python python-tox \
-    npm nodejs && \
+    npm nodejs \
+    rubygems && \
   rm -rf /var/cache/apt/* && \
   \
   npm install --quiet -g npm && \

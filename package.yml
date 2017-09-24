@@ -1,0 +1,18 @@
+
+- type: application/vnd.dotmpe.project
+  id: bvberkum/x-docker
+  scripts:
+
+    build-treebox:
+      - cd ubuntu-treebox/xenial;
+        docker build \
+        	--build-arg X_DCKR_PREFIX=bvberkum \
+        	--build-arg X_DCKR_BASENAME=ubuntu-treebox \
+        	--build-arg X_DCKR_NAME=bvberkum/ubuntu-treebox \
+          --build-arg X_DCKR_TAG=xenial \
+          -t ubuntu-treebox:xenial .
+
+- type: application/vnd.dotmpe.environment
+  id: bvberkum/x-docker-main
+  main: bvberkum/x-docker
+

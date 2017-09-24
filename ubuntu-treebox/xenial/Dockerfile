@@ -3,8 +3,8 @@ FROM ubuntu:$X_DCKR_TAG
 
 # Setup package manager
 #ADD ./sources.list /etc/apt/sources.list
+ARG DEBIAN_FRONTEND=noninteractive
 RUN \
-  DEBIAN_FRONTEND=noninteractive; \
   apt-get update -qqy && \
   apt-get install -y --allow-downgrades \
     bash posh dash \

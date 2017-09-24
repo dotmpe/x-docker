@@ -28,7 +28,12 @@ RUN \
   \
   cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && \
   pip install --quiet \
-  	    setuptools PyYAML zope.interface zope.component objectpath
+  	    setuptools PyYAML zope.interface zope.component objectpath && \
+  \
+  npm install --quiet -g coffee-script pm2 grunt grunt-cli webpack && \
+  sudo gem install --quiet sass
+
+# TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
 
 RUN \
   echo 'export PATH=$PATH:/usr/local/bin' > /etc/profile.d/ssh-environment; \

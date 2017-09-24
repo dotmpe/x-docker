@@ -31,11 +31,14 @@ RUN \
   \
   cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && \
   pip install --quiet \
-  	    setuptools PyYAML zope.interface zope.component objectpath && \
+  	    setuptools PyYAML zope.interface zope.component objectpath docutils && \
+  for b in rst2html rst2xml rst2pxml; do \
+    ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done; \
   \
   npm install --quiet -g coffee-script pm2 grunt grunt-cli webpack && \
   gem install --quiet sass
 
+# TODO: fix pm2 fsevents
 # TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
 
 RUN \

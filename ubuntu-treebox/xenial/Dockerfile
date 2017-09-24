@@ -23,6 +23,9 @@ RUN \
       npm install --quiet -g n && \
       n stable && \
   \
+  chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
+  chgrp staff /usr/local/* /usr/local/lib/node_modules && \
+  \
   version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
   { test -e /usr/bin/node || ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }; \
   \
@@ -31,7 +34,7 @@ RUN \
   	    setuptools PyYAML zope.interface zope.component objectpath && \
   \
   npm install --quiet -g coffee-script pm2 grunt grunt-cli webpack && \
-  sudo gem install --quiet sass
+  gem install --quiet sass
 
 # TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
 

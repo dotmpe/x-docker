@@ -6,9 +6,9 @@
     build-treebox:
       - cd ubuntu-treebox/xenial;
         docker build \
-        	--build-arg X_DCKR_PREFIX=bvberkum \
-        	--build-arg X_DCKR_BASENAME=ubuntu-treebox \
-        	--build-arg X_DCKR_NAME=bvberkum/ubuntu-treebox \
+          --build-arg X_DCKR_PREFIX=bvberkum \
+          --build-arg X_DCKR_BASENAME=ubuntu-treebox \
+          --build-arg X_DCKR_NAME=bvberkum/ubuntu-treebox \
           --build-arg X_DCKR_TAG=xenial \
           -t ubuntu-treebox:xenial .
 

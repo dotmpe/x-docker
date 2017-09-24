@@ -14,7 +14,8 @@ RUN \
     build-essential uuid-runtime \
     python python-tox \
     npm nodejs \
-    rubygems && \
+    ruby-full \
+    php && \
   rm -rf /var/cache/apt/* && \
   \
   npm install --quiet -g npm && \

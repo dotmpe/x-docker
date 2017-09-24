@@ -3,18 +3,31 @@
 Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.
 
 - [alpine-bats](https://hub.docker.com/r/bvberkum/alpine-bats/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats.svg)](https://microbadger.com/images/bvberkum/alpine-bats "microbadger.com")
 - [debian-bats](https://hub.docker.com/r/bvberkum/debian-bats/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/debian-bats.svg)](https://microbadger.com/images/bvberkum/debian-bats "microbadger.com")
 - [ubuntu-bats](https://hub.docker.com/r/bvberkum/ubuntu-bats/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/ubuntu-bats.svg)](https://microbadger.com/images/bvberkum/ubuntu-bats "microbadger.com")
 
 * [alpine-bats_dev](https://hub.docker.com/r/bvberkum/alpine-bats_dev/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats-dev.svg)](https://microbadger.com/images/bvberkum/alpine-bats-dev "microbadger.com")
+* [alpine-bats_2017](https://hub.docker.com/r/bvberkum/alpine-bats_dev/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats-2017.svg)](https://microbadger.com/images/bvberkum/alpine-bats-2017 "microbadger.com")
+
 * [debian-bats_dev](https://hub.docker.com/r/bvberkum/debian-bats_dev/)
 * [ubuntu-bats_dev](https://hub.docker.com/r/bvberkum/ubuntu-bats_dev/)
 
 - [alpine-docker](https://hub.docker.com/r/bvberkum/alpine-docker/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-docker.svg)](https://microbadger.com/images/bvberkum/alpine-docker "microbadger.com")
 - [debian-docker](https://hub.docker.com/r/bvberkum/debian-docker/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/debian-docker.svg)](https://microbadger.com/images/bvberkum/debian-docker "microbadger.com")
 - [ubuntu-docker](https://hub.docker.com/r/bvberkum/ubuntu-docker/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/ubuntu-docker.svg)](https://microbadger.com/images/bvberkum/ubuntu-docker "microbadger.com")
 
 * [ubuntu-treebox](https://hub.docker.com/r/bvberkum/ubuntu-treebox/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/ubuntu-treebox.svg)](https://microbadger.com/images/bvberkum/ubuntu-treebox "microbadger.com image metadata")
+  [![](https://images.microbadger.com/badges/version/bvberkum/ubuntu-treebox.svg)](https://microbadger.com/images/bvberkum/ubuntu-treebox "microbadger.com version metadata")
+
 
 
 ## Bats

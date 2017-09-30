@@ -8,4 +8,4 @@ RUN apk update && \
     rm -rf /var/cache/apk/*
 
 CMD ["docker","-h"]
-# Id: x-docker/0.0.1 ./alpine-docker/latest/Dockerfile
+# Id: x-docker/0.0.2-dev ./alpine-docker/latest/Dockerfile

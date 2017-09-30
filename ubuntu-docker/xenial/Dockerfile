@@ -7,4 +7,4 @@ RUN apt-get update && \
     rm -rf /var/cache/apt/*
 
 CMD ["docker","-h"]
-# Id: x-docker/0.0.1 ./ubuntu-docker/xenial/Dockerfile
+# Id: x-docker/0.0.2-dev ./ubuntu-docker/xenial/Dockerfile

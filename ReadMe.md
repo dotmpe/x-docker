@@ -1,6 +1,6 @@
 # Testbed dockerfile's
 
-Version: 0.0.1
+Version: 0.0.2-dev
 
 
 Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.

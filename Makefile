@@ -146,3 +146,6 @@ update:
 		}; \
 	done
 	git co master
+
+.versioned-files.list: Makefile ReadMe.md
+	{ echo ReadMe.md; grep -sRIil '^#\ ID:\ ' . | while read p; do test -f "$$p" && echo $$p; done; } >$@

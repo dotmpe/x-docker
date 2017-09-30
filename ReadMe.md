@@ -1,20 +1,36 @@
 # Testbed dockerfile's
 
+Version: 0.0.2-dev
+
+
 Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.
 
 - [alpine-bats](https://hub.docker.com/r/bvberkum/alpine-bats/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats.svg)](https://microbadger.com/images/bvberkum/alpine-bats "microbadger.com")
 - [debian-bats](https://hub.docker.com/r/bvberkum/debian-bats/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/debian-bats.svg)](https://microbadger.com/images/bvberkum/debian-bats "microbadger.com")
 - [ubuntu-bats](https://hub.docker.com/r/bvberkum/ubuntu-bats/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/ubuntu-bats.svg)](https://microbadger.com/images/bvberkum/ubuntu-bats "microbadger.com")
 
 * [alpine-bats_dev](https://hub.docker.com/r/bvberkum/alpine-bats_dev/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats-dev.svg)](https://microbadger.com/images/bvberkum/alpine-bats-dev "microbadger.com")
+* [alpine-bats_2017](https://hub.docker.com/r/bvberkum/alpine-bats_dev/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats-2017.svg)](https://microbadger.com/images/bvberkum/alpine-bats-2017 "microbadger.com")
+
 * [debian-bats_dev](https://hub.docker.com/r/bvberkum/debian-bats_dev/)
 * [ubuntu-bats_dev](https://hub.docker.com/r/bvberkum/ubuntu-bats_dev/)
 
 - [alpine-docker](https://hub.docker.com/r/bvberkum/alpine-docker/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-docker.svg)](https://microbadger.com/images/bvberkum/alpine-docker "microbadger.com")
 - [debian-docker](https://hub.docker.com/r/bvberkum/debian-docker/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/debian-docker.svg)](https://microbadger.com/images/bvberkum/debian-docker "microbadger.com")
 - [ubuntu-docker](https://hub.docker.com/r/bvberkum/ubuntu-docker/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/ubuntu-docker.svg)](https://microbadger.com/images/bvberkum/ubuntu-docker "microbadger.com")
 
 * [ubuntu-treebox](https://hub.docker.com/r/bvberkum/ubuntu-treebox/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/ubuntu-treebox.svg)](https://microbadger.com/images/bvberkum/ubuntu-treebox "microbadger.com image metadata")
+  [![](https://images.microbadger.com/badges/version/bvberkum/ubuntu-treebox.svg)](https://microbadger.com/images/bvberkum/ubuntu-treebox "microbadger.com version metadata")
+
 
 
 ## Bats
@@ -112,16 +128,33 @@ Bases: alpine, debian and ubuntu.
 - All builds get rebuild on a push at master. This is tedious and wastefull,
   and introduces a big lag.
 
-  Make a branch setup. Tags are not really needed for now.
-  Or maybe figure out a way to cancel builds, build only on changes to
-  Dockerfile.
+  Solved by a per-branch autobuild setup, one for each specific build.
+  Could go more fine-grained using tags.
 
+  Does not look highland_builder does abort or skip builds. 
+  May try the 'ci skip'/'skip ci' that others like travis or drone support.
+  But then, also need to fixup the gitflow setup & deal with merge commits at branches.
+  <http://readme.drone.io/usage/skipping-builds/>
+
+  But othterwise just ``exit 1`` in a hook.
+  Check that Dockerfile or subdir for base actually has
+  changes or don't bother and prevent rebuild/tag/push this way.
+ 
+  However, there is no easy way I can see to find the previous build ID. 
+  Short of spinning up the image for an older tag and checking for markers placed during the previous build.
+  Before that, going to play with commit in drone a bit more. Maybe could use the hooks at docker hub to build/tag and separate image.. its not very pretty, but could work.
+
+ 
 - Multiple autobuilds from one GIT repo works well, but the one issue is the
-  description that gets updated from the generic project ReadMe. This mentions
-  dev setup and other builds, which is confusing.
+  description that gets updated from the generic project ReadMe. Not good.
 
   `highland builder`\ 's ``get_readme`` would allow for ``README.md`` to take
   precedence over secondary matches (``[Rr][Ee][Aa][Dd][Mm][Ee]*``). [#]
+
+  Using hooks is of no use, the ReadMe seems be set before. So instead,
+  each branch has its own ``README.md``.
+
+
 
 
 ---

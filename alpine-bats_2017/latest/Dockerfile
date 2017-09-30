@@ -54,3 +54,4 @@ CMD ["-v"]
 
 VOLUME ["/project"]
 WORKDIR /project
+# Id: x-docker/0.0.2-dev ./alpine-bats_2017/latest/Dockerfile

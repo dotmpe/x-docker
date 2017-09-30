@@ -1,5 +1,8 @@
 # Testbed dockerfile's
 
+Version: 0.0.1
+
+
 Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.
 
 - [alpine-bats](https://hub.docker.com/r/bvberkum/alpine-bats/)

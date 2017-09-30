@@ -148,4 +148,4 @@ update:
 	git co master
 
 .versioned-files.list: Makefile ReadMe.md
-	grep -sRIil '^#\ ID:\ ' . | while read p; do test -f "$$p" && echo $$p; done >$@
+	{ echo ReadMe.md; grep -sRIil '^#\ ID:\ ' . | while read p; do test -f "$$p" && echo $$p; done; } >$@

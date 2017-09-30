@@ -1,4 +1,10 @@
 ReadMe.md
+./alpine-bats/3.6/Dockerfile
+./alpine-bats/edge/Dockerfile
+./alpine-bats/latest/Dockerfile
+./alpine-bats_2017/3.6/Dockerfile
+./alpine-bats_2017/edge/Dockerfile
+./alpine-bats_2017/latest/Dockerfile
 ./alpine-bats_dev/3.6/Dockerfile
 ./alpine-bats_dev/edge/Dockerfile
 ./alpine-bats_dev/latest/Dockerfile

@@ -1,10 +1,30 @@
 #!/bin/sh
-workspace=$(cd $(printf -- "$BUILD_PATH" | tr -C './' '.' ) && pwd -P)
+
+echo PWD: $PWD
+echo PWD: $(pwd)
+echo PWD: $(pwd -P)
+
+#test -n "$WORKSPACE" || {
+#  test -n "$BUILD_CODE" && {
+#    export WORKSPACE=/src/$BUILD_CODE
+#  }
+#}
+
+test -n "$WORKSPACE" || {
+  test -n "$BUILD_PATH" && {
+    to_workspace=./$(printf -- "$BUILD_PATH" | cut -c2- | sed 's/[^/]*/../g')
+    export WORKSPACE=$(cd $to_workspace && pwd)
+  }
+}
+
+echo WORKSPACE: $WORKSPACE
+
+echo '---------------'
 
 test -e ../env.sh && {
   . ./../env.sh
 } || {
-  . $workspace/tools/build-env.sh
+  . $WORKSPACE/tools/build-env.sh
 }
 xtra=
 test ! -e ../build-args.sh || {

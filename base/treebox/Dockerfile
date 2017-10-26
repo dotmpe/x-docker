@@ -13,8 +13,8 @@ RUN \
   apt-get update -qqy && \
   apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
-    bash build-essential curl dash dropbear elinks git graphviz imagemagick \
-    make man moreutils netcat nodejs npm pandoc php posh \
+    bash build-essential curl dash elinks git graphviz imagemagick \
+    make man moreutils netcat nodejs npm pandoc php-cli posh \
     python python-dev python-tox python-yaml \
     realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
     vim && \
@@ -61,15 +61,6 @@ RUN { \
     } >> /etc/bash.bashrc
 
 
-# Setup passwordless sudo
-RUN \
-  addgroup supergroup && \
-  touch /etc/sudoers.d/sandbox && { \
-    echo "$BOX_USER    ALL=NOPASSWD:/usr/sbin/service *"; \
-    echo "$BOX_USER    ALL=(www-data) NOPASSWD:ALL"; \
-  } > /etc/sudoers.d/treebox
-
-
 # Setup user
 ARG username=treebox
 RUN \
@@ -84,6 +75,15 @@ RUN \
   ( echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profile ) && \
   \
   chown -R $username:$username /home/$username/
+
+# Setup passwordless sudo
+RUN \
+  addgroup supergroup && \
+  touch /etc/sudoers.d/sandbox && { \
+    echo "$username    ALL=NOPASSWD:/usr/sbin/service *"; \
+    echo "$username    ALL=(www-data) NOPASSWD:ALL"; \
+  } > /etc/sudoers.d/treebox
+
 
 
 USER $username

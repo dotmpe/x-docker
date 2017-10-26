@@ -134,18 +134,6 @@ test-docker:
 	docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock \
 		alpine-docker:edge docker ps
 
-
 update:
-	grep -v '^#' gitflow.tab | cut -f 2 -d ' ' | while read downstream; \
-	do \
-		git co $$downstream && git merge master || git merge --abort ; \
-		name="$$(echo $$downstream | cut -f 2 -d '-')"; \
-		test -e ReadMe-$$name.md && { \
-			cp ReadMe-$$name.md README.md ; \
-			git add README.md && git ci -m "Updating $$downstream" || continue; \
-		}; \
-	done
-	git co master
+	./tools/x-docker.sh git-update-downstream
 
-.versioned-files.list: Makefile ReadMe.md
-	{ echo ReadMe.md; grep -sRIil '^#\ ID:\ ' . | while read p; do test -f "$$p" && echo $$p; done; } >$@

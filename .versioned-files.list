@@ -1,4 +1,10 @@
 ReadMe.md
+tools/x-docker.sh
+lib/sh/sys.lib.sh
+lib/sh/str.lib.sh
+lib/sh/os.lib.sh
+lib/sh/std.lib.sh
+lib/sh/load.lib.sh
 ./alpine-bats/3.6/Dockerfile
 ./alpine-bats/edge/Dockerfile
 ./alpine-bats/latest/Dockerfile

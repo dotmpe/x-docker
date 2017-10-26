@@ -1,9 +1,13 @@
 
-ARG X_DCKR_TAG=xenial
-FROM ubuntu:$X_DCKR_TAG
+# latest [2017-10-26] 
+FROM phusion/baseimage:0.9.22
+
+MAINTAINER B. van Berkum <dev@dotmpe.com>
+
+LABEL dc.description="Lots of dev tooling and a user setup"
+
 
 # Setup package manager
-#ADD ./sources.list /etc/apt/sources.list
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
@@ -24,7 +28,8 @@ RUN \
   chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
   chgrp staff /usr/local/* /usr/local/lib/node_modules && \
   version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
-  { test -e /usr/bin/node || ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }
+  { test -e /usr/bin/node || \
+    ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }
 
 RUN \
   cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && \
@@ -37,16 +42,21 @@ RUN \
   npm install --quiet -g coffee-script pm2 grunt grunt-cli webpack && \
   gem install --quiet sass
 
-# TODO: fix pm2 fsevents
-# TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
 
 
+# Replace /etc/profile with local on PATH, because profile.d/ssh-env does not
+# seem to do it.
 RUN \
   echo 'export PATH=$PATH:/usr/local/bin' > /etc/profile.d/ssh-environment; \
   mv /etc/profile /tmp/profile; \
   { echo 'export PATH=$PATH:/usr/local/bin'; \
     cat /tmp/profile; \
   } >/etc/profile
+
+RUN { \
+      echo ; \
+      echo "if test -e ~/.bashrc ; then source ~/.bashrc ; fi "; \
+    } >> /etc/bash.bashrc
 
 
 # Setup passwordless sudo
@@ -75,4 +85,4 @@ RUN \
 
 
 USER $username
-# Id: x-docker/0.0.2-dev ./ubuntu-treebox/zesty/Dockerfile
+# Id: x-docker/0.0.2-dev

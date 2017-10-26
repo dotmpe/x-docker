@@ -1,0 +1,12 @@
+
+FROM treebox:build
+
+
+USER root
+
+RUN apt-get update -qqy && \
+  apt-get install -qqy \
+      dnsutils nmap minicom iftop
+
+USER $username
+

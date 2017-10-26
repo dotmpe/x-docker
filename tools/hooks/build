@@ -1,4 +1,7 @@
 #!/bin/sh
+
+env
+
 test -e ../env.sh && {
   . ./../env.sh
 } || {

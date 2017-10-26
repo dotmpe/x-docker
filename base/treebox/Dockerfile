@@ -42,6 +42,8 @@ RUN \
   npm install --quiet -g coffee-script pm2 grunt grunt-cli webpack && \
   gem install --quiet sass
 
+# TODO: fix pm2 fsevents
+# TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
 
 
 # Replace /etc/profile with local on PATH, because profile.d/ssh-env does not

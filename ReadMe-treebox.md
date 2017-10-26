@@ -18,7 +18,7 @@ An image for development/testing with passwordless sudo.
 ![repo license](https://img.shields.io/github/license/bvberkum/x-docker.svg)
 ![issues](https://img.shields.io/github/issues/bvberkum/x-docker.svg)
 ![commits per year](https://img.shields.io/github/commit-activity/y/bvberkum/x-docker.svg)
-![](https://img.shields.io/github/size/bvberkum/x-docker/treebox/base/treebox/Dockerfile.svg)
+![](https://img.shields.io/github/size/bvberkum/x-docker/base/treebox/Dockerfile.svg)
 ![](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg)
 ![](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg)
 ![](https://img.shields.io/maintenance/yes/2017.svg)

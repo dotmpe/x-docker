@@ -1,0 +1,13 @@
+
+FROM treebox:build
+
+
+USER root
+
+RUN apt-get update -qqy && \
+  apt-get install -y --allow-downgrades \
+    tree wget jq dropbear \
+    build-essential python uuid-runtime make \
+    \
+    python-tox \
+    npm nodejs

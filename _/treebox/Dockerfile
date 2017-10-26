@@ -61,8 +61,16 @@ RUN { \
     } >> /etc/bash.bashrc
 
 
-# Setup user
+# Setup user and passwordless sudo
 ARG username=treebox
+
+RUN \
+  addgroup supergroup && \
+  touch /etc/sudoers.d/sandbox && { \
+    echo "$username    ALL=NOPASSWD:/usr/sbin/service *"; \
+    echo "$username    ALL=(www-data) NOPASSWD:ALL"; \
+  } > /etc/sudoers.d/treebox
+
 RUN \
   adduser --system --home /home/$username --shell /bin/bash --group $username && \
   ( echo "$username:$username" | chpasswd ) && \
@@ -76,15 +84,8 @@ RUN \
   \
   chown -R $username:$username /home/$username/
 
-# Setup passwordless sudo
-RUN \
-  addgroup supergroup && \
-  touch /etc/sudoers.d/sandbox && { \
-    echo "$username    ALL=NOPASSWD:/usr/sbin/service *"; \
-    echo "$username    ALL=(www-data) NOPASSWD:ALL"; \
-  } > /etc/sudoers.d/treebox
-
 
 
 USER $username
+
 # Id: x-docker/0.0.2-dev

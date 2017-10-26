@@ -4,11 +4,11 @@ echo PWD: $PWD
 echo PWD: $(pwd)
 echo PWD: $(pwd -P)
 
-#test -n "$WORKSPACE" || {
-#  test -n "$BUILD_CODE" && {
-#    export WORKSPACE=/src/$BUILD_CODE
-#  }
-#}
+test -n "$WORKSPACE" || {
+  test -n "$BUILD_CODE" && {
+    export WORKSPACE=/src/$BUILD_CODE
+  }
+}
 
 test -n "$WORKSPACE" || {
   test -n "$BUILD_PATH" && {
@@ -26,14 +26,17 @@ test -e ../env.sh && {
 } || {
   . $WORKSPACE/tools/build-env.sh
 }
+
 xtra=
 test ! -e ../build-args.sh || {
   xtra="$(grep '=' ../build-args.sh | sed 's/.*/--build-arg & \\/')"
 }
+
 docker build $xtra \
 		--build-arg X_DCKR_PREFIX=$ONAME \
 		--build-arg X_DCKR_BASENAME=$LNAME \
 		--build-arg X_DCKR_NAME=$ONAME/$LNAME \
     --build-arg X_DCKR_TAG=$DOCKER_TAG \
     -t $IMAGE_NAME .
-# Id:
+
+# Id: x-docker/

@@ -1,3 +1,4 @@
+
 ARG X_DCKR_TAG=xenial
 FROM ubuntu:$X_DCKR_TAG
 
@@ -6,40 +7,39 @@ FROM ubuntu:$X_DCKR_TAG
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
+  apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
-    bash posh dash \
-    tree realpath uuid-runtime moreutils \
-    sudo tree realpath \
-    vim git curl dropbear \
-    build-essential uuid-runtime \
-    python python-tox \
-    npm nodejs \
-    ruby-full \
-    php && \
-  rm -rf /var/cache/apt/* && \
-  \
+    bash build-essential curl dash dropbear elinks git graphviz imagemagick \
+    make man moreutils netcat nodejs npm pandoc php posh \
+    python python-dev python-tox python-yaml \
+    realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
+    vim && \
+  rm -rf /var/cache/apt/*
+
+RUN \
   npm install --quiet -g npm && \
       npm cache clean -f && \
       npm install --quiet -g n && \
       n stable && \
-  \
   chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
   chgrp staff /usr/local/* /usr/local/lib/node_modules && \
-  \
   version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
-  { test -e /usr/bin/node || ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }; \
-  \
+  { test -e /usr/bin/node || ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }
+
+RUN \
   cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && \
   pip install --quiet \
   	    setuptools PyYAML zope.interface zope.component objectpath docutils && \
   for b in rst2html rst2xml rst2pxml; do \
-    ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done; \
-  \
+    ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
+
+RUN \
   npm install --quiet -g coffee-script pm2 grunt grunt-cli webpack && \
   gem install --quiet sass
 
 # TODO: fix pm2 fsevents
 # TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
+
 
 RUN \
   echo 'export PATH=$PATH:/usr/local/bin' > /etc/profile.d/ssh-environment; \
@@ -52,7 +52,10 @@ RUN \
 # Setup passwordless sudo
 RUN \
   addgroup supergroup && \
-  echo "%supergroup  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+  touch /etc/sudoers.d/sandbox && { \
+    echo "$BOX_USER    ALL=NOPASSWD:/usr/sbin/service *"; \
+    echo "$BOX_USER    ALL=(www-data) NOPASSWD:ALL"; \
+  } > /etc/sudoers.d/treebox
 
 
 # Setup user

@@ -3,8 +3,7 @@ An image for development/testing with passwordless sudo.
 - Python (PIP)
 - Node.JS (NPM, N)
 - PHP
-- Ruby
-
+- Ruby (gem)
 - [Basher](https://github.com/basherpm/basher)
 
 ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg)

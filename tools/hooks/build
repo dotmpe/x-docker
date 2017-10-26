@@ -1,11 +1,10 @@
 #!/bin/sh
-
-env
+workspace=$(cd $(printf -- "$BUILD_PATH" | tr -C './' '.' ) && pwd -P)
 
 test -e ../env.sh && {
   . ./../env.sh
 } || {
-  . ./../../build-env.sh
+  . $workspace/tools/build-env.sh
 }
 xtra=
 test ! -e ../build-args.sh || {

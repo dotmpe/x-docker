@@ -148,8 +148,6 @@ Bases: alpine.
   each branch has its own ``README.md``.
 
 
-
-
 ---
 
 hub.docker.com uses docker/highland_builder, a good start for (undocumented)
@@ -171,3 +169,35 @@ Docker hub hooks are:
 - post_test
 - pre_push
 - push
+
+
+---
+
+# Build env
+
+```
+Executing build hook...
+PUSH=true
+HOSTNAME=............
+SHLVL=0
+HOME=/root
+SIGNED_URLS={"post": {"debug": {"url": "https://docker- .......
+PYTHONUNBUFFERED=1
+BUILD_CODE= .......................
+MAX_LOG_SIZE=67108864
+DOCKER_TAG=dev
+CACHE_TAG=
+GIT_SHA1=0ce8aba530481bde90ded7b59cc7783ccb81c121
+GIT_MSG= ......................................
+SOURCE_BRANCH= ...........
+DOCKERCFG={"https://index.docker.io/v1/": {"email": "highland@docker.com", "auth": "............................................................"}}
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+DOCKER_REPO=index.docker.io/bvberkum/treebox
+COMMIT_MSG=......................................
+BUILD_PATH=/_/treebox
+SOURCE_TYPE=git
+DOCKERFILE_PATH=
+DOCKER_HOST=unix:///var/run/docker.sock
+PWD=/src/......................./_/treebox
+IMAGE_NAME=index.docker.io/bvberkum/treebox:dev
+```

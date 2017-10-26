@@ -1,0 +1,88 @@
+
+# latest [2017-10-26] 
+FROM phusion/baseimage:0.9.22
+
+MAINTAINER B. van Berkum <dev@dotmpe.com>
+
+LABEL dc.description="Lots of dev tooling and a user setup"
+
+
+# Setup package manager
+RUN \
+  DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
+  apt-get update -qqy && \
+  apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
+  apt-get install -qqy --allow-downgrades \
+    bash build-essential curl dash dropbear elinks git graphviz imagemagick \
+    make man moreutils netcat nodejs npm pandoc php posh \
+    python python-dev python-tox python-yaml \
+    realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
+    vim && \
+  rm -rf /var/cache/apt/*
+
+RUN \
+  npm install --quiet -g npm && \
+      npm cache clean -f && \
+      npm install --quiet -g n && \
+      n stable && \
+  chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
+  chgrp staff /usr/local/* /usr/local/lib/node_modules && \
+  version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
+  { test -e /usr/bin/node || \
+    ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }
+
+RUN \
+  cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && \
+  pip install --quiet \
+  	    setuptools PyYAML zope.interface zope.component objectpath docutils && \
+  for b in rst2html rst2xml rst2pxml; do \
+    ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
+
+RUN \
+  npm install --quiet -g coffee-script pm2 grunt grunt-cli webpack && \
+  gem install --quiet sass
+
+
+
+# Replace /etc/profile with local on PATH, because profile.d/ssh-env does not
+# seem to do it.
+RUN \
+  echo 'export PATH=$PATH:/usr/local/bin' > /etc/profile.d/ssh-environment; \
+  mv /etc/profile /tmp/profile; \
+  { echo 'export PATH=$PATH:/usr/local/bin'; \
+    cat /tmp/profile; \
+  } >/etc/profile
+
+RUN { \
+      echo ; \
+      echo "if test -e ~/.bashrc ; then source ~/.bashrc ; fi "; \
+    } >> /etc/bash.bashrc
+
+
+# Setup passwordless sudo
+RUN \
+  addgroup supergroup && \
+  touch /etc/sudoers.d/sandbox && { \
+    echo "$BOX_USER    ALL=NOPASSWD:/usr/sbin/service *"; \
+    echo "$BOX_USER    ALL=(www-data) NOPASSWD:ALL"; \
+  } > /etc/sudoers.d/treebox
+
+
+# Setup user
+ARG username=treebox
+RUN \
+  adduser --system --home /home/$username --shell /bin/bash --group $username && \
+  ( echo "$username:$username" | chpasswd ) && \
+  usermod $username -a -G sudo && \
+  usermod $username -a -G staff && \
+  usermod $username -a -G supergroup && \
+  \
+  mkdir -vp /home/$username/project && \
+  git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
+  ( echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profile ) && \
+  \
+  chown -R $username:$username /home/$username/
+
+
+USER $username
+# Id: x-docker/0.0.2-dev

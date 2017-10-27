@@ -1,5 +1,7 @@
 #!/bin/sh
 
+pip install couchapp
+
 test -n "$WORKSPACE" || {
   test -n "$BUILD_CODE" && {
     export WORKSPACE=/src/$BUILD_CODE

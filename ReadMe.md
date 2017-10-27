@@ -1,10 +1,28 @@
-# Testbed dockerfile's
+# Testbed for dockerfile's
 
 Version: 0.0.2-dev
 
-
 Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.
 
+
+## Autobuilds
+
+### bvberkum/treebox
+
+Branch           | Dockerfile                   | Tag
+---------------- | -----------------------------| ----------------------------
+treebox-dev      | ``/_/treebox``               | dev
+treebox          | ``/_/treebox``               | latest
+
+Tag              | Dockerfile                   | Tag
+---------------- | -----------------------------| ----------------------------
+/^[0-9.]+$/      | ``/_/treebox``               | {sourceref}
+
+* [treebox](https://hub.docker.com/r/bvberkum/treebox/)
+  [![](https://images.microbadger.com/badges/image/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com image metadata")
+  [![](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata")
+
+### bvberkum/alpine-bats
 - [alpine-bats](https://hub.docker.com/r/bvberkum/alpine-bats/)
   [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats.svg)](https://microbadger.com/images/bvberkum/alpine-bats "microbadger.com")
 - [debian-bats](https://hub.docker.com/r/bvberkum/debian-bats/)
@@ -17,100 +35,9 @@ Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.
 
 * [debian-bats_dev](https://hub.docker.com/r/bvberkum/debian-bats_dev/)
 
+### bvberkum/alpine-docker
 - [alpine-docker](https://hub.docker.com/r/bvberkum/alpine-docker/)
   [![](https://images.microbadger.com/badges/image/bvberkum/alpine-docker.svg)](https://microbadger.com/images/bvberkum/alpine-docker "microbadger.com")
-
-* [treebox](https://hub.docker.com/r/bvberkum/treebox/)
-  [![](https://images.microbadger.com/badges/image/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com image metadata")
-  [![](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata")
-
-
-
-## Bats
-
-Flexible BATS shell test, [usage](ReadMe-bats.md).
-
-There are builds based on alpine and debian distros for now, and also
-a second series of dev images with BATS installed from source.
-
-
-### Issues
-
-Test `39 testing IFS not modified by run` is failing for every container. This
-may be some curiosity in Docker.
-
-The [Travis build](https://travis-ci.org/bvberkum/bats) is not showing this
-issue.
-
-
-### Bases
-
-#### alpine-bats
-Build:
-```
-make build:alpine-bats TAG=edge
-```
-
-- To trigger additional run-time `apk` package installs use `X_DCKR_APK`, e.g. ``X_DCKR_APK='git python elinks'``.
-
-#### debian-bats
-Build:
-```
-make build:debian-bats TAG=latest
-make build:debian-bats TAG=sid
-make build:debian-bats TAG=stable
-make build:debian-bats TAG=unstable
-```
-
-- To trigger additional run-time `apt` package installs use `X_DCKR_APT`, e.g.
-	``X_DCKR_APT='git python elinks'``.
-
-
-#### alpine-bats_dev, debian-bats_dev
-Exactly like BASE-bats, but with BATS installed into ``/usr/local``
-from GIT source.
-
-
-### Testing
-Run local example test-cases with all builds, stop on first error:
-```
-make test-bats
-make test-bats ARGS=test/example-fail.bats
-```
-
-Or the same, but instead of local build use the autobuilds at ``bvberkum/BASE-bats``:
-```
-make test-bats LOCAL=false
-make test-bats LOCAL=false ARGS=test/example-fail.bats
-```
-
-Run official BATS tests, in all builds:
-```
-make test-official-bats
-```
-
-Run your project BATS tests, in all builds:
-```
-make test-other-bats GIT_URL=... GIT_BRANCH=...
-```
-
-## Treebox
-
-An image for development/testing with passwordless sudo.
-
-- [ReadMe-treebox](ReadMe-treebox.md)
-
-
-## Docker
-
-### docker-in-docker (DinD)
-
-Only docker, for simple experimental purposes.
-
-TODO: Not sure about if and where of an official build with support at 
-/r/docker, /r/alpine..
-
-Bases: alpine.
 
 
 ## Building
@@ -118,15 +45,11 @@ Bases: alpine.
 
 
 ## Issues
-- All builds get rebuild on a push at master. This is tedious and wastefull,
-  and introduces a big lag.
+- Does not look highland_builder does abort or skip builds. 
 
-  Solved by a per-branch autobuild setup, one for each specific build.
-  Could go more fine-grained using tags.
-
-  Does not look highland_builder does abort or skip builds. 
   May try the 'ci skip'/'skip ci' that others like travis or drone support.
-  But then, also need to fixup the gitflow setup & deal with merge commits at branches.
+
+  also need to fixup the gitflow setup & deal with merge commits at branches.
   <http://readme.drone.io/usage/skipping-builds/>
 
   But othterwise just ``exit 1`` in a hook.
@@ -173,7 +96,7 @@ Docker hub hooks are:
 
 ---
 
-# Build env
+# Auto-build env
 
 ```
 Executing build hook...

@@ -118,57 +118,107 @@ Curious about the groups and file ownership, I ran the following script in
 
 	cat /etc/group | cut -d ':' -f 1 | while read gn; do echo $gn $( find / -group $gn 2>/dev/null | wc -l ) ; done
 
+It goes over every group on the system, and counts the files whose group belongs
+to that group. The result is that most groups are unused. We have about 30k
+files in our ubuntu 16.04 system, all belong to root.
 
-root 29251
-daemon 0
-bin 0
-sys 0
-adm 8
-tty 1
-disk 0
-lp 0
-mail 1
-news 0
-uucp 0
-man 0
-proxy 0
-kmem 0
-dialout 0
-fax 0
-voice 0
-cdrom 0
-floppy 0
-tape 0
-sudo 0
-audio 0
-dip 0
-www-data 0
-backup 0
-operator 0
-list 0
-irc 0
-src 0
-gnats 0
-shadow 6
-utmp 4
-video 0
-sasl 0
-plugdev 0
-staff 3
-games 0
-users 0
-nogroup 0
-systemd-journal 0
-systemd-timesync 0
-systemd-network 0
-systemd-resolve 0
-systemd-bus-proxy 0
-docker_env 2
-crontab 2
-ssh 1
-treebox 0
+	root 29251
+	daemon 0
+	bin 0
+	sys 0
+	adm 8
+	tty 1
+	disk 0
+	lp 0
+	mail 1
+	news 0
+	uucp 0
+	man 0
+	proxy 0
+	kmem 0
+	dialout 0
+	fax 0
+	voice 0
+	cdrom 0
+	floppy 0
+	tape 0
+	sudo 0
+	audio 0
+	dip 0
+	www-data 0
+	backup 0
+	operator 0
+	list 0
+	irc 0
+	src 0
+	gnats 0
+	shadow 6
+	utmp 4
+	video 0
+	sasl 0
+	plugdev 0
+	staff 3
+	games 0
+	users 0
+	nogroup 0
+	systemd-journal 0
+	systemd-timesync 0
+	systemd-network 0
+	systemd-resolve 0
+	systemd-bus-proxy 0
+	docker_env 2
+	crontab 2
+	ssh 1
+	treebox 0
 
+Adjusting the script to list filenames for all groups, except those for root::
 
+	grep -v root /etc/group | cut -d ':' -f 1 | while read gn; do num=$( find / -group $gn 2>/dev/null | wc -l ) ; test $num -gt 0 || continue ; echo $gn: ; find / -group $gn 2>/dev/null ; done
+
+We begin to see the beginnings of some role-based access control in place::
+
+	adm:
+	/var/log/fsck/checkfs
+	/var/log/fsck/checkroot
+	/var/log/apt/term.log
+	/var/log/dmesg
+	/var/log/syslog
+	/var/log/auth.log
+	/var/log/messages
+	/dev/xconsole
+	tty:
+	/usr/bin/wall
+	mail:
+	/var/mail
+	shadow:
+	/usr/bin/expiry
+	/usr/bin/chage
+	/etc/gshadow
+	/etc/shadow
+	/sbin/unix_chkpwd
+	/sbin/pam_extrausers_chkpwd
+	utmp:
+	/var/log/btmp
+	/var/log/wtmp
+	/var/log/lastlog
+	/run/utmp
+	staff:
+	/var/local
+	/usr/local/lib/python3.5
+	/usr/local/lib/python3.5/dist-packages
+	docker_env:
+	/etc/container_environment.json
+	/etc/container_environment.sh
+	crontab:
+	/var/spool/cron/crontabs
+	/usr/bin/crontab
+	ssh:
+	/usr/bin/ssh-agent
+
+For example, ``/var/log/fsck/checkfs`` is readable only by owner and group.
+Some other paths are executables, with the sticky-bit set. Meaning processes
+they start inherit the uid/gid of the executable path, instead of the user as
+would be the normal way of things.
 
 
 .. [#] https://www.twistlock.com/2017/06/15/docker-secure-wrong-question-ask/

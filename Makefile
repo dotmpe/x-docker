@@ -135,5 +135,5 @@ test-docker:
 		alpine-docker:edge docker ps
 
 update:
-	./tools/x-docker.sh git-update-downstream
+	./bin/x-docker.sh git-update-downstream
 

@@ -1,12 +1,10 @@
 # Upstream Downstream Is-Feature
 master alpine-bats      false
 master debian-bats      false
-master ubuntu-bats      false
 master alpine-bats_dev  false
 master debian-bats_dev  false
-master ubuntu-bats_dev  false
 master alpine-bats_2017 false
 master alpine-docker    false
 master debian-docker    false
-master ubuntu-docker    false
-master ubuntu-treebox   false
+master treebox-dev      false
+treebox-dev treebox false

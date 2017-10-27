@@ -25,22 +25,61 @@ xdckr__usage()
 }
 
 
+xdckr__git_update_all()
+{
+  test -n "$1" || stderr "branch expected" 1
+  git checkout master &&
+    git pull &&
+		xdckr__git_update $1
+}
+
+xdckr__git_update()
+{
+  git checkout $1 &&
+  git pull &&
+  git merge master || {
+      git merge --abort
+      return 1
+    }
+	xdckr__link_custom_readme $1 && {
+    git add README.md &&
+      git commit -m "Updating $1 for README"
+  } || {
+    test ! -e README.md || {
+      git rm README.md &&
+      git commit -m "Updating for README"
+    }
+  }
+  git push
+}
+
 xdckr__git_update_downstream()
 {
+	local current_branch="$(git rev-parse --abbrev-ref HEAD)"
+
 	grep -v '^#' gitflow.tab | cut -f 2 -d ' ' | while read downstream
 	do
-		git checkout $downstream && git merge master || git merge --abort
-		name="$(echo $downstream | cut -f 2 -d '-')"
-
-		# Set custom README for branch
-		test -e ReadMe-$name.md && {
-			ln -s ReadMe-$name.md README.md
-			git add README.md &&
-				git ci -m "Updating $downstream" || continue
-		}
+		xdckr__git_update $downstream
 	done
 
-	git checkout master
+  git status --porcelain | grep -q '\(U.\)\|\(.U\)' && {
+    stderr "GIT checkout left in unresolved state, cannot return to $current_branch"
+    return 1
+  } || {
+    git checkout $current_branch
+  }
+}
+
+xdckr_man_1__link_custom_readme='
+With the autobuilder, README.md overrules all other matches
+'
+xdckr__link_custom_readme()
+{
+  test -n "$1" || stderr "branch name expected" 1
+	# Set custom README for branch
+	test -e ReadMe-$1.md && {
+		ln -s ReadMe-$1.md README.md
+	} || return 1
 }
 
 

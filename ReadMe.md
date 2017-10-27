@@ -32,14 +32,15 @@ TODO: cleanup
 ## Issues
 - Does not look highland_builder does abort or skip builds. 
   May try the 'ci skip'/'skip ci' that others like travis or drone support.
-  But exit 1 in a hook would suffice too. Can even scan the commit message if
+  But exit 1 in a hook would suffice too. Could scan the commit message if
   the above does not work.
 
   For example, could check that Dockerfile, or subdir for base actually has
   changes and don't bother with an entire rebuild/tag/push without reason.
  
   However, there is no easy way I can see to find the previous build ID. 
-  Short of spinning up the image for an older tag and checking for markers placed during the previous build.
+  Short of spinning up the image for an older tag and checking for markers
+  placed during the previous build, or asking a public service.
 
 - Multiple autobuilds from one GIT repo works well, but it has issues.
   One issue is the description that gets updated from the generic project ReadMe.
@@ -60,18 +61,18 @@ TODO: cleanup
   creating unique containers for what is a single source version.
  
   Only solution is to use one SCM triggered autobuild, or select which to run
-  based using a hook and cancel all but one. Everything using data available
-  from the checkout.
+  using a hook and then cancel all but one. Everything using only data available
+  from the checkout, or public services.
 
 - The main issue I see with docker hub autobuilds is the lack of secrets.
-  Its fine for public content, but alos only public services.
+  Its fine for public content, but also only public services.
   Ie. no pushing to GIT, no remote DB or REST access and such.
 
   Because of this, even with an autobuild, much is done manually. Only this
   time through GIT or mercurial. Branching and tagging now corresponding to
   docker image tags as well.
 
-  Docker builds on Travis are also possible.
+  Note that docker builds on Travis are also possibility.
 
 
 ---

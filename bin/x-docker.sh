@@ -52,6 +52,7 @@ xdckr_git_update()
       git commit -m "Updating for README"
     }
   }
+  git push
 }
 
 

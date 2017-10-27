@@ -11,17 +11,11 @@ Trying to:
 - keep older versions by tagging them
 - autobuilding latest commits to `dev` tag
 
-### bvberkum/treebox
-[![Treebox ReadMe](https://img.shields.io/badge/ReadMe-Treebox_docker-blue.svg)](ReadMe-treebox.md)
-[![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg)](https://hub.docker.com/r/bvberkum/treebox/)
+### bvberkum/treebox [![Treebox ReadMe](https://img.shields.io/badge/ReadMe-Treebox_docker-blue.svg)](ReadMe-treebox.md) [![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg)](https://hub.docker.com/r/bvberkum/treebox/)
 
-### bvberkum/alpine-bats
-[![Bats ReadMe](https://img.shields.io/badge/ReadMe-Bats_docker-blue.svg)](ReadMe-bats.md)
-[![docker autobuild status](https://img.shields.io/docker/build/bvberkum/alpine-bats.svg)](https://hub.docker.com/r/bvberkum/alpine-bats/)
+### bvberkum/alpine-bats [![Bats ReadMe](https://img.shields.io/badge/ReadMe-Bats_docker-blue.svg)](ReadMe-bats.md) [![docker autobuild status](https://img.shields.io/docker/build/bvberkum/alpine-bats.svg)](https://hub.docker.com/r/bvberkum/alpine-bats/)
 
-### bvberkum/alpine-docker
-[![Docker ReadMe](https://img.shields.io/badge/ReadMe-docker-blue.svg)](ReadMe-docker.md)
-[![docker autobuild status](https://img.shields.io/docker/build/bvberkum/alpine-bats.svg)](https://hub.docker.com/r/bvberkum/alpine-bats/)
+### bvberkum/alpine-docker [![Docker ReadMe](https://img.shields.io/badge/ReadMe-docker-blue.svg)](ReadMe-docker.md) [![docker autobuild status](https://img.shields.io/docker/build/bvberkum/alpine-bats.svg)](https://hub.docker.com/r/bvberkum/alpine-bats/)
 
 
 ## Building

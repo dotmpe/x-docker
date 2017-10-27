@@ -1,3 +1,5 @@
+Version: 0.0.1-dev
+
 Usage:
 ```
 docker run -v DIR:/project \

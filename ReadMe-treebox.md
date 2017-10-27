@@ -1,3 +1,5 @@
+Version: 0.0.2-dev
+
 An image for development/testing with `treebox` user (ssh, sudo, staff and supergroup) and installations for:
 
 - Python (PIP)

@@ -95,6 +95,7 @@ xdckr__link_custom_readme()
 	# Set custom README for branch
 	local name=$( echo "$1" | cut -d '-' -f 1 )
 	echo ReadMe-$name.md
+	ls -la ReadMe-$name.md
 	test -e ReadMe-$name.md && {
     test "$(readlink README.md)" = "ReadMe-$name.md" && {
       return

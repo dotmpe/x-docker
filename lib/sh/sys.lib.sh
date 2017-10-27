@@ -43,4 +43,22 @@ not_falseish()
   falseish "$1" && return 1 || return 0
 }
 
+# sys-prompt PROMPT [VAR=choice_confirm]
+sys_prompt()
+{
+  test -n "$1" || error "sys-prompt: arg expected" 1
+  test -n "$2" || set -- "$1" choice_confirm
+  test -z "$3" || error "surplus-args '$3'" 1
+  echo $1
+  read $2
+}
+
+# sys-confirm PROMPT
+sys_confirm()
+{
+  local choice_confirm=
+  sys_prompt "$1" choice_confirm
+  trueish "$choice_confirm"
+}
+
 # Id: x-docker/

@@ -107,7 +107,7 @@ With the autobuilder, README.md overrules all other matches
 '
 xdckr__link_custom_readme()
 {
-  test -n "$1" || stderr "branch name expected" 1
+  test -n "$1" || stderr "branch/readme name expected" 1
 	# Set custom README for branch
 	local name=$( echo "$1" | cut -d '-' -f 1 )
 	test -e ReadMe-$name.md && {
@@ -118,6 +118,25 @@ xdckr__link_custom_readme()
     }
     ln -s ReadMe-$name.md README.md
 	} || return 1
+}
+
+
+xdckr__release() # [ Version-Tag ]
+{
+  test -n "$1" || stderr "release tag expected" 1
+  local current_branch="$(git rev-parse --abbrev-ref HEAD)" version="$1"
+
+  local tag="$current_branch-$version"
+  git show-ref --verify -q "refs/tags/$tag" &&
+    stderr "Release exists: $tag" 1
+
+  sys_confirm "Retag $current_branch and create $tag?" && {
+    git tag -d $current_branch && git tag $current_branch
+    title="$(str_title "$current_branch")"
+    git tag -a -m "$title $version" $tag
+    # Start building the tag
+    git push origin $tag
+  }
 }
 
 

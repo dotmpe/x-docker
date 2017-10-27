@@ -4,7 +4,6 @@ Version: 0.0.2-dev
 
 Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.
 
-
 ## Autobuilds
 Trying to:
 
@@ -13,6 +12,9 @@ Trying to:
 - autobuilding latest commits to `dev` tag
 
 ### bvberkum/treebox
+[treebox](https://hub.docker.com/r/bvberkum/treebox/) [ReadMe](ReadMe-treebox.md)
+[![](https://images.microbadger.com/badges/image/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com image metadata")
+[![](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata")
 
 Branch           | Dockerfile                   | Tag
 ---------------- | -----------------------------| ----------------------------
@@ -22,11 +24,6 @@ Tag                                             | Dockerfile       | Tag
 ----------------------------------------------- | -----------------| ---------
 treebox                                         | ``/_/treebox``   | latest
 ``/^treebox-([0-9.]+[-a-z0-9+_-]*)/``           | ``/_/treebox``   | {\1}  
-
-
-* [treebox](https://hub.docker.com/r/bvberkum/treebox/)
-  [![](https://images.microbadger.com/badges/image/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com image metadata")
-  [![](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata")
 
 ### bvberkum/alpine-bats
 - [alpine-bats](https://hub.docker.com/r/bvberkum/alpine-bats/)

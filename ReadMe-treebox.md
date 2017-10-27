@@ -28,3 +28,17 @@ echo "%supergroup  ALL=NOPASSWD:ALL" >>/etc/sudoers.d/treebox
 ![](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg)
 ![](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg)
 ![](https://img.shields.io/maintenance/yes/2017.svg)
+
+The is the ReadMe-treebox file. See repository ReadMe in x-docker for more on 
+autobuild.
+
+## Testing
+No automated testing, but here is a checklist per tag.
+
+(0.0.1)
+  - is SSH accessible after mounting startup script and user authorized_keys.
+  - has user in supergroup, adding NOPASSWD sudoers line works as expected
+  - has a customized SSH "Treebox" banner
+
+(0.0.2)
+  - responds to files in update-motd.d by updating the login message

@@ -50,7 +50,7 @@ xdckr__git_update()
       git commit -m "Updating for README"
     }
   }
-  git push
+  echo git push
 }
 
 xdckr__git_update_downstream()

@@ -25,9 +25,7 @@ treebox-dev      | ``/_/treebox``               | dev
 Tag                                             | Dockerfile       | Tag     
 ----------------------------------------------- | -----------------| ---------
 treebox                                         | ``/_/treebox``   | latest
-``/^treebox-([0-9.]+[-a-z0-9+_-]*)/``           | ``/_/treebox``   | {\1}  
-
-TODO: \.
+``/^treebox-([0-9\.]+[-a-z0-9+_-]*)/``          | ``/_/treebox``   | {\1}  
 
 ### bvberkum/alpine-bats
 - [alpine-bats](https://hub.docker.com/r/bvberkum/alpine-bats/)

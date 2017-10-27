@@ -44,6 +44,7 @@ xdckr__git_update_all()
 
 xdckr_git_update()
 {
+  test -n "$1" || stderr "branch name expected" 1
   git checkout $1 &&
   git pull origin $1 &&
   git merge master || {
@@ -63,10 +64,11 @@ xdckr_git_update()
 
 xdckr__git_update()
 {
+  test -n "$1" || stderr "branch name expected" 1
   test -n "$current_branch" ||
     local current_branch="$(git rev-parse --abbrev-ref HEAD)"
-  xdckr_git_update || return $?
-  xdckr_return_to_branch
+  xdckr_git_update "$@" || return $?
+  xdckr_return_to_branch "$@"
 }
 
 

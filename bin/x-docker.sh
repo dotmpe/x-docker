@@ -44,8 +44,10 @@ xdckr_git_update()
       return 1
     }
 	xdckr__link_custom_readme $1 && {
-    git add README.md &&
-      git commit -m "Updating $1 for README"
+    {
+      git add README.md &&
+        git commit -m "Updating $1 for README"
+    }|| return $?
   } || {
     test ! -e README.md || {
       git rm README.md &&
@@ -93,10 +95,9 @@ xdckr__link_custom_readme()
 {
   test -n "$1" || stderr "branch name expected" 1
 	# Set custom README for branch
-  name=$(echo "$1" | cut -d '-' -f 1)
+	local name=$( echo "$1" | cut -d '-' -f 1 )
 	test -e ReadMe-$name.md && {
-
-    test "$(readlink README.md)" = "ReadMe-$name.md" && {
+    test -e "README.md" -a "$(readlink README.md)" = "ReadMe-$name.md" && {
       return
     } || {
       rm README.md

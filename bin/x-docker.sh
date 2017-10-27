@@ -133,10 +133,12 @@ xdckr__release() # [ Version-Tag ]
   sys_confirm "Retag $current_branch and create $tag?" && {
     git tag -d $current_branch || true
     git tag $current_branch
+    git push origin :$current_branch
     title="$(str_title "$current_branch")"
     git tag -a -m "$title $version" $tag
     # Start building the tag
     git push origin $tag
+    # NOTE: not pushed current_branch tag get, latest build only triggers then
   }
 }
 

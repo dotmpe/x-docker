@@ -92,6 +92,9 @@ RUN \
   \
   chown -R $username:$username /home/$username/
 
+RUN \
+  chgrp supergroup /etc/container_environment && \
+  chmod g+rx /etc/container_environment
 
 
 USER $username

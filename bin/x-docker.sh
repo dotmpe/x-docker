@@ -38,17 +38,25 @@ xdckr_git_update()
 {
   test -n "$1" || stderr "branch name expected" 1
   git checkout $1 &&
-  git pull origin $1 &&
-  git merge $2 || {
-      git merge --abort
-      return 1
+  git pull origin $1 && {
+
+    git merge $2 || {
+      { test -e README.md && git checkout README.md; } ||
+        stderr "Unexpected merge conflict" 1
     }
+  } || {
+
+    git merge --abort
+    return 1
+  }
+
 	xdckr__link_custom_readme $1 && {
     {
       git add -f README.md &&
         git commit -m "Updating $1 for README"
     }|| return $?
   } || {
+
     test ! -e README.md || {
       git rm -f README.md &&
       git commit -m "Updating for README"

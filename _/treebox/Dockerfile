@@ -13,7 +13,8 @@ RUN \
   apt-get update -qqy && \
   apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
-    bash build-essential curl dash elinks git graphviz imagemagick figlet \
+    bash build-essential curl dash elinks git graphviz imagemagick \
+    figlet update-motd \
     make man moreutils netcat nodejs npm pandoc php-cli posh \
     python python-dev python-tox python-yaml \
     realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
@@ -81,10 +82,7 @@ RUN \
 # usermod does not find the added user otherwise.
 RUN \
   adduser --system --home /home/$username --shell /bin/bash --group $username && \
-  usermod $username -a -G sudo && \
-  usermod $username -a -G staff && \
-  usermod $username -a -G supergroup && \
-  usermod $username -a -G ssh && \
+  usermod $username -a -G sudo,staff,supergroup,ssh && \
   \
   mkdir -vp /home/$username/project && \
   git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
@@ -94,7 +92,7 @@ RUN \
 
 RUN \
   chgrp supergroup /etc/container_environment && \
-  chmod g+rx /etc/container_environment
+  chmod -R g+rx /etc/container_environment
 
 
 USER $username

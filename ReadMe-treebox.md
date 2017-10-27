@@ -34,8 +34,15 @@ Latest
 ![image size](https://img.shields.io/imagelayers/image-size/bvberkum/treebox/latest.svg)
 ![image layers](https://img.shields.io/imagelayers/layers/bvberkum/treebox/latest.svg)
 
-The is the ReadMe-treebox file. See repository ReadMe in x-docker for more on 
-autobuild.
+## Autobuilds
+Branch           | Dockerfile                   | Tag
+---------------- | -----------------------------| ----------------------------
+treebox-dev      | ``/_/treebox``               | dev
+
+Tag                                             | Dockerfile       | Tag     
+----------------------------------------------- | -----------------| ---------
+treebox                                         | ``/_/treebox``   | latest
+``/^treebox-([0-9\.]+[-a-z0-9+_-]*)/``          | ``/_/treebox``   | {\1}  
 
 ## Testing
 No automated testing, but here is a checklist per tag.

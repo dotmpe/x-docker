@@ -13,41 +13,18 @@ Trying to:
 
 ### bvberkum/treebox
 [autobuild](https://hub.docker.com/r/bvberkum/treebox/) [ReadMe](ReadMe-treebox.md)
-![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg)
-
-[![](https://images.microbadger.com/badges/image/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com image metadata")
-[![](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata")
-
-Branch           | Dockerfile                   | Tag
----------------- | -----------------------------| ----------------------------
-treebox-dev      | ``/_/treebox``               | dev
-
-Tag                                             | Dockerfile       | Tag     
------------------------------------------------ | -----------------| ---------
-treebox                                         | ``/_/treebox``   | latest
-``/^treebox-([0-9\.]+[-a-z0-9+_-]*)/``          | ``/_/treebox``   | {\1}  
 
 ### bvberkum/alpine-bats
-- [alpine-bats](https://hub.docker.com/r/bvberkum/alpine-bats/)
-  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats.svg)](https://microbadger.com/images/bvberkum/alpine-bats "microbadger.com")
-- [debian-bats](https://hub.docker.com/r/bvberkum/debian-bats/)
-  [![](https://images.microbadger.com/badges/image/bvberkum/debian-bats.svg)](https://microbadger.com/images/bvberkum/debian-bats "microbadger.com")
-
-* [alpine-bats_dev](https://hub.docker.com/r/bvberkum/alpine-bats_dev/)
-  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats-dev.svg)](https://microbadger.com/images/bvberkum/alpine-bats-dev "microbadger.com")
-* [alpine-bats_2017](https://hub.docker.com/r/bvberkum/alpine-bats_dev/)
-  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats-2017.svg)](https://microbadger.com/images/bvberkum/alpine-bats-2017 "microbadger.com")
-
-* [debian-bats_dev](https://hub.docker.com/r/bvberkum/debian-bats_dev/)
+[autobuild](https://hub.docker.com/r/bvberkum/alpine-bats/) [ReadMe](ReadMe-bats.md)
 
 ### bvberkum/alpine-docker
-- [alpine-docker](https://hub.docker.com/r/bvberkum/alpine-docker/)
-  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-docker.svg)](https://microbadger.com/images/bvberkum/alpine-docker "microbadger.com")
+[autobuild](https://hub.docker.com/r/bvberkum/alpine-docker/) [ReadMe](ReadMe-docker.md)
 
 
 ## Building
-``make build``, or see docker hub for autobuilds.
+TODO: cleanup
 
+``make build``, or see docker hub for autobuilds.
 
 ## Issues
 - Does not look highland_builder does abort or skip builds. 

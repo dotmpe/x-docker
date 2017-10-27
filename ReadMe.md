@@ -6,17 +6,22 @@ Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.
 
 
 ## Autobuilds
+Trying to:
+
+- keep default tag `latest` a stable version
+- keep older versions by tagging them
+- autobuilding latest commits to `dev` tag
 
 ### bvberkum/treebox
 
 Branch           | Dockerfile                   | Tag
 ---------------- | -----------------------------| ----------------------------
 treebox-dev      | ``/_/treebox``               | dev
-treebox          | ``/_/treebox``               | latest
 
-Tag                          | Dockerfile       | Tag
----------------------------- | -----------------| ----------------------------
-/^treebox-([0-9.]+)/         | ``/_/treebox``   | {\1}
+Tag                                             | Dockerfile       | Tag     
+----------------------------------------------- | -----------------| ---------
+treebox                                         | ``/_/treebox``   | latest
+``/^treebox-([0-9.]+[-a-z0-9+_-]*)/``           | ``/_/treebox``   | {\1}  
 
 
 * [treebox](https://hub.docker.com/r/bvberkum/treebox/)
@@ -71,6 +76,13 @@ Tag                          | Dockerfile       | Tag
 
 - Also, when using version tags these like the branches need a pre- or -suffix
   to distinguish them from versions for the other builds.
+
+  The other slight issue is docker hub builds each commitish separately,
+  creating unique containers for what is a single source version.
+ 
+  Only solution is to use one SCM triggered autobuild, or select which to run
+  based using a hook and cancel all but one. Everything using data available
+  from the checkout.
 
 - The main issue I see with docker hub autobuilds is the lack of secrets.
   Its fine for public content, but alos only public services.

@@ -24,6 +24,15 @@ xdckr__usage()
 	echo TODO
 }
 
+xdckr_return_to_branch()
+{
+  git status --porcelain | grep -q '\(U.\)\|\(.U\)' && {
+    stderr "GIT checkout left in unresolved state, cannot return to $current_branch"
+    return 1
+  } || {
+    git checkout $current_branch
+  }
+}
 
 xdckr__git_update_all()
 {
@@ -33,7 +42,7 @@ xdckr__git_update_all()
 		xdckr__git_update $1
 }
 
-xdckr__git_update()
+xdckr_git_update()
 {
   git checkout $1 &&
   git pull origin $1 &&
@@ -50,24 +59,25 @@ xdckr__git_update()
       git commit -m "Updating for README"
     }
   }
-  echo git push
 }
+
+xdckr__git_update()
+{
+  test -n "$current_branch" ||
+    local current_branch="$(git rev-parse --abbrev-ref HEAD)"
+  xdckr_git_update || return $?
+  xdckr_return_to_branch
+}
+
 
 xdckr__git_update_downstream()
 {
 	local current_branch="$(git rev-parse --abbrev-ref HEAD)"
-
 	grep -v '^#' gitflow.tab | cut -f 2 -d ' ' | while read downstream
 	do
-		xdckr__git_update $downstream
+		xdckr__git_update $downstream || return $?
 	done
-
-  git status --porcelain | grep -q '\(U.\)\|\(.U\)' && {
-    stderr "GIT checkout left in unresolved state, cannot return to $current_branch"
-    return 1
-  } || {
-    git checkout $current_branch
-  }
+  xdckr_return_to_branch
 }
 
 xdckr_man_1__link_custom_readme='
@@ -77,6 +87,8 @@ xdckr__link_custom_readme()
 {
   test -n "$1" || stderr "branch name expected" 1
 	# Set custom README for branch
+	echo ReadMe-$1.md
+
 	test -e ReadMe-$1.md && {
 
     test "$(readlink README.md)" = "ReadMe-$1.md" && {

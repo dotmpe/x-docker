@@ -12,13 +12,16 @@ Trying to:
 - autobuilding latest commits to `dev` tag
 
 ### bvberkum/treebox
-[autobuild](https://hub.docker.com/r/bvberkum/treebox/) [ReadMe](ReadMe-treebox.md)
+[![Treebox ReadMe](https://img.shields.io/badge/ReadMe-Treebox_docker-blue.svg)](ReadMe-treebox.md)
+[![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg)](https://hub.docker.com/r/bvberkum/treebox/)
 
 ### bvberkum/alpine-bats
-[autobuild](https://hub.docker.com/r/bvberkum/alpine-bats/) [ReadMe](ReadMe-bats.md)
+[![Bats ReadMe](https://img.shields.io/badge/ReadMe-Bats_docker-blue.svg)](ReadMe-bats.md)
+[![docker autobuild status](https://img.shields.io/docker/build/bvberkum/alpine-bats.svg)](https://hub.docker.com/r/bvberkum/alpine-bats/)
 
 ### bvberkum/alpine-docker
-[autobuild](https://hub.docker.com/r/bvberkum/alpine-docker/) [ReadMe](ReadMe-docker.md)
+[![Docker ReadMe](https://img.shields.io/badge/ReadMe-docker-blue.svg)](ReadMe-docker.md)
+[![docker autobuild status](https://img.shields.io/docker/build/bvberkum/alpine-bats.svg)](https://hub.docker.com/r/bvberkum/alpine-bats/)
 
 
 ## Building

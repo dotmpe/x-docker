@@ -92,16 +92,15 @@ xdckr__link_custom_readme()
 {
   test -n "$1" || stderr "branch name expected" 1
 	# Set custom README for branch
-	echo ReadMe-$1.md
+  name=$(echo "$1" | cut -d '-' -f 1)
+	test -e ReadMe-$name.md && {
 
-	test -e ReadMe-$1.md && {
-
-    test "$(readlink README.md)" = "ReadMe-$1.md" && {
+    test "$(readlink README.md)" = "ReadMe-$name.md" && {
       return
     } || {
       rm README.md
     }
-    ln -s ReadMe-$1.md README.md
+    ln -s ReadMe-$name.md README.md
 	} || return 1
 }
 

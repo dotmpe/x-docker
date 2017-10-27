@@ -13,12 +13,11 @@ echo treebox:password | chpasswd
 echo "%supergroup  ALL=NOPASSWD:ALL" >>/etc/sudoers.d/treebox
 ```
 
+Dev
 ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg)
 ![last commit on treebox](https://img.shields.io/github/last-commit/bvberkum/x-docker/treebox.svg)
-[![](https://images.microbadger.com/badges/image/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com image metadata")
-[![](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata")
-![image size](https://img.shields.io/imagelayers/image-size/bvberkum/treebox/latest.svg)
-![image layers](https://img.shields.io/imagelayers/layers/bvberkum/treebox/latest.svg)
+![image size](https://img.shields.io/imagelayers/image-size/bvberkum/treebox/dev.svg)
+![image layers](https://img.shields.io/imagelayers/layers/bvberkum/treebox/dev.svg)
 ![docker hub pulls](https://img.shields.io/docker/pulls/bvberkum/treebox.svg)
 ![docker hub stars](https://img.shields.io/docker/stars/bvberkum/treebox.svg)
 ![repo license](https://img.shields.io/github/license/bvberkum/x-docker.svg)
@@ -28,6 +27,12 @@ echo "%supergroup  ALL=NOPASSWD:ALL" >>/etc/sudoers.d/treebox
 ![](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg)
 ![](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg)
 ![](https://img.shields.io/maintenance/yes/2017.svg)
+
+Latest
+[![](https://images.microbadger.com/badges/image/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com image metadata")
+[![](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata")
+![image size](https://img.shields.io/imagelayers/image-size/bvberkum/treebox/latest.svg)
+![image layers](https://img.shields.io/imagelayers/layers/bvberkum/treebox/latest.svg)
 
 The is the ReadMe-treebox file. See repository ReadMe in x-docker for more on 
 autobuild.

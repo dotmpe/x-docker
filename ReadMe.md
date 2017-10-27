@@ -12,7 +12,9 @@ Trying to:
 - autobuilding latest commits to `dev` tag
 
 ### bvberkum/treebox
-[treebox](https://hub.docker.com/r/bvberkum/treebox/) [ReadMe](ReadMe-treebox.md)
+[autobuild](https://hub.docker.com/r/bvberkum/treebox/) [ReadMe](ReadMe-treebox.md)
+![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg)
+
 [![](https://images.microbadger.com/badges/image/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com image metadata")
 [![](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata")
 

@@ -97,7 +97,7 @@ xdckr__link_custom_readme()
 	echo ReadMe-$name.md
 	ls -la ReadMe-$name.md
 	test -e ReadMe-$name.md && {
-    test "$(readlink README.md)" = "ReadMe-$name.md" && {
+    test -e "README.md" -a "$(readlink README.md)" = "ReadMe-$name.md" && {
       return
     } || {
       rm README.md

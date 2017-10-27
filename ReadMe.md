@@ -46,21 +46,16 @@ Tag              | Dockerfile                   | Tag
 
 ## Issues
 - Does not look highland_builder does abort or skip builds. 
-
   May try the 'ci skip'/'skip ci' that others like travis or drone support.
+  But exit 1 in a hook would suffice too. Can even scan the commit message if
+  the above does not work.
 
-  also need to fixup the gitflow setup & deal with merge commits at branches.
-  <http://readme.drone.io/usage/skipping-builds/>
-
-  But othterwise just ``exit 1`` in a hook.
-  Check that Dockerfile or subdir for base actually has
-  changes or don't bother and prevent rebuild/tag/push this way.
+  For example, could check that Dockerfile, or subdir for base actually has
+  changes and don't bother with an entire rebuild/tag/push without reason.
  
   However, there is no easy way I can see to find the previous build ID. 
   Short of spinning up the image for an older tag and checking for markers placed during the previous build.
-  Before that, going to play with commit in drone a bit more. Maybe could use the hooks at docker hub to build/tag and separate image.. its not very pretty, but could work.
 
- 
 - Multiple autobuilds from one GIT repo works well, but the one issue is the
   description that gets updated from the generic project ReadMe. Not good.
 
@@ -69,6 +64,13 @@ Tag              | Dockerfile                   | Tag
 
   Using hooks is of no use, the ReadMe seems be set before. So instead,
   each branch has its own ``README.md``.
+
+- Merging and keeping a custom README.md per branch is a bit of a pain.
+  Tried to setup some help in bin/x-docker.sh
+
+- The main issue I see with docker hub autobuilds is the lack of secrets.
+  Its fine for public content, but alos only public services.
+  Ie. no pushing to GIT, no remote DB or REST access and such.
 
 
 ---

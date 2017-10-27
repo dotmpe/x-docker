@@ -13,15 +13,9 @@ phusion/baseimage
       - Docker installed
 
     node-sitefile:dev
-      ..
 
 
-
-There is no password for the user. To let the treebox user excercise its sudoers
-rights either allow for no-password use, or set a password. One of these lines::
-
-	echo "%supergroup  ALL=NOPASSWD:ALL" >>/etc/sudoers.d/treebox
-	echo treebox:password | chpasswd
+The treebox build comes with a treebox user. baseimage doesn't.
 
 The ReadMe says to enable SSH, to add this script into /etc/my_init.d/::
 
@@ -39,18 +33,17 @@ example this seems to start SSH::
     /sbin/my_init -- sh -c 'rm /etc/service/sshd/down && \
       ssh-keygen -P "" -t dsa -f /etc/ssh/ssh_host_dsa_key && bash'
 
-Starting like this leaves the terminal attached to a root login bash process
-that keeps the container running. The service SSH will have been started, with
- a key so it could accept connections using DSA. For other types, other keys
-will need to be generated as well.
+The service SSH will have been started, with a key so it could accept
+connections using DSA. For other types, other keys will need to be generated
+as well.
 
-So to use it and see if all is as expected, we should try to login. Except for
+To use it and see if all is as expected, we should try to login. Except for
 some things are missing still.
 
 - baseimage does not expose 22, so the ``-P`` does not do anything
 - we need an authorized_keys file with our public key added into the container
 
-And then, there is no user in baseimage. We can login as root as a matter of
+Then, there is no user in baseimage. We can login as root as a matter of
 testing the container SSH service. But instead lets pick the customized treebox
 variant, which has a ``treebox`` user with ssh and sudoers privileges built-in.
 
@@ -67,7 +60,21 @@ Users
   does not stop anything happening from inside the container would an external
   agent get in somehow.
 
-So lets start treebox, with SSH enabled. But login using a key as treebox user.
+There is no password set, so no login yet. But root can now become a
+regular user::
+
+  sudo -iHu treebox bash
+
+And if we get SSH running the user should be able to login using a key.
+
+To let the treebox user excercise its sudoers rights, either allow for
+no-password use, or set a password. One of these lines::
+
+	echo "%supergroup  ALL=NOPASSWD:ALL" >>/etc/sudoers.d/treebox
+	echo treebox:password | chpasswd
+
+So lets start treebox now, with SSH enabled.
+
 The treebox build leaves the container state, so that it runs as the created
 user. But that means if we were to run like that, we cannot acess most of the
 system since it all belongs to root. We either need to mount at least the

@@ -33,11 +33,13 @@ docker build $xtra \
 		--build-arg X_DCKR_BASENAME=$LNAME \
 		--build-arg X_DCKR_NAME=$ONAME/$LNAME \
     --build-arg X_DCKR_TAG=$DOCKER_TAG \
-    --env DOCKER_HUB_BUILDCODE=$BUILD_CODE \
-    --env IMAGE_NAME=$IMAGE_NAME \
-    --env DOCKER_TAG=$DOCKER_TAG \
-    --env GIT_BRANCH=$SOURCE_BRANCH \
-    --env GIT_COMMIT=$GIT_SHA1 \
     -t $IMAGE_NAME .
+
+# XXX: cant just add env to docker build, need to prep Dockerfile for that
+#    --env DOCKER_HUB_BUILDCODE=$BUILD_CODE \
+#    --env IMAGE_NAME=$IMAGE_NAME \
+#    --env DOCKER_TAG=$DOCKER_TAG \
+#    --env GIT_BRANCH=$SOURCE_BRANCH \
+#    --env GIT_COMMIT=$GIT_SHA1 \
 
 # Id: x-docker/

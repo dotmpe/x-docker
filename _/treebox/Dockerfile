@@ -67,6 +67,10 @@ RUN \
   figlet Treebox > /etc/ssh/banner && \
   echo "Banner /etc/ssh/banner" >> /etc/ssh/sshd_config
 
+# TODO: And login (update-motd)
+#RUN \
+#  echo "" >> /etc/my_init.d
+
 
 # Setup user and prepare for ssh, sudo
 ARG username=treebox

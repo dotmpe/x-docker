@@ -27,10 +27,10 @@ xdckr__usage()
 xdckr_return_to_branch()
 {
   git status --porcelain | grep -q '\(U.\)\|\(.U\)' && {
-    stderr "GIT checkout left in unresolved state, cannot return to $current_branch"
+    stderr "GIT checkout left in unresolved state, cannot return to $1"
     return 1
   } || {
-    git checkout $current_branch
+    git checkout $1
   }
 }
 
@@ -39,7 +39,7 @@ xdckr_git_update()
   test -n "$1" || stderr "branch name expected" 1
   git checkout $1 &&
   git pull origin $1 &&
-  git merge master || {
+  git merge $2 || {
       git merge --abort
       return 1
     }
@@ -59,7 +59,7 @@ xdckr__git_update_all()
 {
   test -n "$1" || stderr "branch expected" 1
   git checkout master &&
-    git pull &&
+    git pull origin master &&
 		xdckr__git_update $1
 }
 
@@ -69,8 +69,8 @@ xdckr__git_update()
   test -n "$1" || stderr "branch name expected" 1
   test -n "$current_branch" ||
     local current_branch="$(git rev-parse --abbrev-ref HEAD)"
-  xdckr_git_update "$@" || return $?
-  xdckr_return_to_branch "$@"
+  xdckr_git_update "$1" "$current_branch" || return $?
+  xdckr_return_to_branch "$current_branch"
 }
 
 

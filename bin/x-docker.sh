@@ -36,7 +36,7 @@ xdckr__git_update_all()
 xdckr__git_update()
 {
   git checkout $1 &&
-  git pull &&
+  git pull origin $1 &&
   git merge master || {
       git merge --abort
       return 1

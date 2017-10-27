@@ -131,7 +131,8 @@ xdckr__release() # [ Version-Tag ]
     stderr "Release exists: $tag" 1
 
   sys_confirm "Retag $current_branch and create $tag?" && {
-    git tag -d $current_branch && git tag $current_branch
+    git tag -d $current_branch || true
+    git tag $current_branch
     title="$(str_title "$current_branch")"
     git tag -a -m "$title $version" $tag
     # Start building the tag

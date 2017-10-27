@@ -58,13 +58,13 @@ xdckr_git_update()
 	xdckr__link_custom_readme $1 && {
     {
       git add -f README.md &&
-        git commit -m "Updating $1 for README"
+        git commit -m "Updating $1"
     }|| return $?
   } || {
 
     test ! -e README.md || {
       git rm -f README.md &&
-      git commit -m "Updating for README"
+      git commit -m "Updating $1"
     }
   }
   not_trueish "$return" || {

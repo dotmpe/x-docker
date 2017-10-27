@@ -83,7 +83,9 @@ xdckr__git_update()
   test -n "$current_branch" ||
     local current_branch="$(git rev-parse --abbrev-ref HEAD)"
   xdckr_git_update "$1" "$current_branch" || return $?
-  xdckr_return_to_branch "$current_branch"
+  not_trueish "$return" || {
+    xdckr_return_to_branch "$current_branch" || return $?
+  }
 }
 
 

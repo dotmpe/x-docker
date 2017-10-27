@@ -40,7 +40,7 @@ autobuild.
 ## Testing
 No automated testing, but here is a checklist per tag.
 
-(0.0.1)
+0.0.1
   - is SSH accessible after mounting startup script and user authorized_keys.
   - has user in supergroup, adding NOPASSWD sudoers line works as expected
   - has a customized SSH "Treebox" banner

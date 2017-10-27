@@ -34,14 +34,6 @@ xdckr_return_to_branch()
   }
 }
 
-xdckr__git_update_all()
-{
-  test -n "$1" || stderr "branch expected" 1
-  git checkout master &&
-    git pull &&
-		xdckr__git_update $1
-}
-
 xdckr_git_update()
 {
   test -n "$1" || stderr "branch name expected" 1
@@ -62,6 +54,16 @@ xdckr_git_update()
   }
 }
 
+
+xdckr__git_update_all()
+{
+  test -n "$1" || stderr "branch expected" 1
+  git checkout master &&
+    git pull &&
+		xdckr__git_update $1
+}
+
+
 xdckr__git_update()
 {
   test -n "$1" || stderr "branch name expected" 1
@@ -81,6 +83,7 @@ xdckr__git_update_downstream()
 	done
   xdckr_return_to_branch
 }
+
 
 xdckr_man_1__link_custom_readme='
 With the autobuilder, README.md overrules all other matches

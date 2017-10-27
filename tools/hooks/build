@@ -1,9 +1,5 @@
 #!/bin/sh
 
-echo PWD: $PWD
-echo PWD: $(pwd)
-echo PWD: $(pwd -P)
-
 test -n "$WORKSPACE" || {
   test -n "$BUILD_CODE" && {
     export WORKSPACE=/src/$BUILD_CODE
@@ -37,6 +33,11 @@ docker build $xtra \
 		--build-arg X_DCKR_BASENAME=$LNAME \
 		--build-arg X_DCKR_NAME=$ONAME/$LNAME \
     --build-arg X_DCKR_TAG=$DOCKER_TAG \
+    --env DOCKER_HUB_BUILDCODE=$BUILD_CODE \
+    --env IMAGE_NAME=$IMAGE_NAME \
+    --env DOCKER_TAG=$DOCKER_TAG \
+    --env GIT_BRANCH=$SOURCE_BRANCH \
+    --env GIT_COMMIT=$GIT_SHA1 \
     -t $IMAGE_NAME .
 
 # Id: x-docker/

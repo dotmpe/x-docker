@@ -62,7 +62,9 @@ xdckr_git_update()
       git commit -m "Updating for README"
     }
   }
-  git push
+  not_trueish "$return" || {
+    git push || return $?
+  }
 }
 
 
@@ -92,7 +94,9 @@ xdckr__git_update_downstream()
 	do
 		xdckr__git_update $downstream || return $?
 	done
-  xdckr_return_to_branch
+  not_trueish "$return" || {
+    xdckr_return_to_branch || return $?
+  }
 }
 
 

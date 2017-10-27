@@ -41,7 +41,12 @@ xdckr_git_update()
   git pull origin $1 && {
 
     git merge $2 || {
-      { test -e README.md && git checkout README.md; } ||
+      {
+        test ! -e README.md || {
+          rm README.md
+          git add -u -- README.md
+        }
+      } ||
         stderr "Unexpected merge conflict" 1
     }
   } || {

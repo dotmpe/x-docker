@@ -98,6 +98,16 @@ RUN \
   chgrp supergroup /etc/container_environment && \
   chmod -R g+rx /etc/container_environment
 
+# Fancy up env
+ENV TREEBOX_USER=$username
+
+ENV TREEBOX_BUILD_ID=$BUILD_CODE
+ENV TREEBOX_IMAGE=$BUILD_IMAGE
+ENV TREEBOX_TAG=$DOCKER_TAG
+
+ENV TREEBOX_SCM=$SCM_TYPE
+ENV TREEBOX_SCM_BRANCH=$GIT_BRANCH
+ENV TREEBOX_SCM_COMMIT=$GIT_COMMIT
 
 USER $username
 

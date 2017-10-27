@@ -13,7 +13,7 @@ RUN \
   apt-get update -qqy && \
   apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
-    bash build-essential curl dash elinks git graphviz imagemagick \
+    bash build-essential curl dash elinks git graphviz imagemagick figlet \
     make man moreutils netcat nodejs npm pandoc php-cli posh \
     python python-dev python-tox python-yaml \
     realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
@@ -61,22 +61,30 @@ RUN { \
     } >> /etc/bash.bashrc
 
 
-# Setup user and passwordless sudo
+# Fancy up SSH
+RUN \
+  figlet Treebox > /etc/ssh/banner && \
+  echo "Banner /etc/ssh/banner" >> /etc/ssh/sshd_config
+
+
+# Setup user and prepare for ssh, sudo
 ARG username=treebox
 
 RUN \
   addgroup supergroup && \
-  touch /etc/sudoers.d/sandbox && { \
+  touch /etc/sudoers.d/treebox && { \
     echo "$username    ALL=NOPASSWD:/usr/sbin/service *"; \
     echo "$username    ALL=(www-data) NOPASSWD:ALL"; \
   } > /etc/sudoers.d/treebox
 
+# FIXME: I don't think I should need or want to create a system-user, however
+# usermod does not find the added user otherwise.
 RUN \
   adduser --system --home /home/$username --shell /bin/bash --group $username && \
-  ( echo "$username:$username" | chpasswd ) && \
   usermod $username -a -G sudo && \
   usermod $username -a -G staff && \
   usermod $username -a -G supergroup && \
+  usermod $username -a -G ssh && \
   \
   mkdir -vp /home/$username/project && \
   git clone https://github.com/basherpm/basher.git /home/$username/.basher && \

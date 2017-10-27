@@ -1,10 +1,17 @@
-An image for development/testing with passwordless sudo.
+An image for development/testing with `treebox` user (ssh, sudo, staff and supergroup) and installations for:
 
 - Python (PIP)
 - Node.JS (NPM, N)
 - PHP
 - Ruby (gem)
 - [Basher](https://github.com/basherpm/basher)
+
+There is no password for the user. To let the treebox user excercise its sudoers
+rights either allow for no-password use, or set a password. One of these lines:
+```
+echo treebox:password | chpasswd
+echo "%supergroup  ALL=NOPASSWD:ALL" >>/etc/sudoers.d/treebox
+```
 
 ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg)
 ![last commit on treebox](https://img.shields.io/github/last-commit/bvberkum/x-docker/treebox.svg)

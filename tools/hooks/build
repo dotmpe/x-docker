@@ -1,6 +1,21 @@
 #!/bin/sh
 
-pip install couchapp
+echo '---------- build env:'
+#env
+vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"
+other_vars="DOCKER_HOST MAX_LOG_SIZE CACHE_TAG SIGNED_URLS DOCKERCFG"
+
+for v in $vars
+do echo "$v: $(eval echo \"\$$v\")"; done
+
+echo '----------'
+
+# highland builder does not obey skip tag
+case "$COMMIT_MSG" in
+  *"[skip ci]"* | *"[ci skip]"* )
+    echo "Skipping build by ci-skip commit message"
+    exit 1 ;;
+esac
 
 test -n "$WORKSPACE" || {
   test -n "$BUILD_CODE" && {
@@ -16,9 +31,7 @@ test -n "$WORKSPACE" || {
 }
 
 echo WORKSPACE: $WORKSPACE
-
-echo '---------------'
-
+echo '--------------- loading env'
 test -e ../env.sh && {
   . ./../env.sh
 } || {
@@ -30,6 +43,7 @@ test ! -e ../build-args.sh || {
   xtra="$(grep '=' ../build-args.sh | sed 's/.*/--build-arg & \\/')"
 }
 
+echo '--------------- starting build'
 docker build $xtra \
 		--build-arg X_DCKR_PREFIX=$ONAME \
 		--build-arg X_DCKR_BASENAME=$LNAME \
@@ -42,6 +56,17 @@ docker build $xtra \
     --build-arg GIT_BRANCH=$SOURCE_BRANCH \
     --build-arg GIT_COMMIT=$GIT_SHA1 \
     -t $IMAGE_NAME .
+
+
+#echo '--------------- publishing results'
+#pip install couchapp
+##COUCH_DB=$(  )
+#mkdir -vp build/couch/build-log
+#(
+#  cd build/couch/build-log
+#  echo '{"env":{"default":{"db":"'$COUCH_DB'"}}}'>.couchapprc
+#  couchapp pushdocs
+#)
 
 
 # Id: x-docker/

@@ -75,7 +75,8 @@ test-official-bats:
 build\:%: TAG ?= $(DEFAULT_TAG)
 build\:%:
 	@# XXX: hooks/build...
-	cd $*/$(TAG) && docker build $(BUILD_FLAGS) \
+	test -d ./_/$*/$(TAG) && { cd ./_/$*/$(TAG) ; } || { cd ./_/$*/ ; } ;\
+	docker build $(BUILD_FLAGS) \
 		--build-arg X_DCKR_TAG=$(TAG) \
 		--build-arg X_DCKR_PREFIX=$(PREFIX) \
 		--build-arg X_DCKR_BASENAME=$* \
@@ -98,6 +99,7 @@ build\:debian-bats_dev: BUILD_FLAGS := \
 	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats.git \
 	--build-arg BATS_DEV_BRANCH=master
 
+build\:treebox: DEFAULT_TAG := treebox-local
 
 #
 # Docker Run <FLAGS> <*>:<TAG> [<ARGS>]

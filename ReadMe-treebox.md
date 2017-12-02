@@ -22,7 +22,7 @@ echo "%supergroup  ALL=NOPASSWD:ALL" >>/etc/sudoers.d/treebox
 [//]: # (This may be the most platform independent comment)
 [//]: <> (This is also a comment.)
 
-[//]: # ![last commit on treebox](https://img.shields.io/github/last-commit/bvberkum/x-docker/treebox.svg)
+[]( ![last commit on treebox](https://img.shields.io/github/last-commit/bvberkum/x-docker/treebox.svg) )
 
 ### Latest [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com image metadata") [![image version](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata")
 

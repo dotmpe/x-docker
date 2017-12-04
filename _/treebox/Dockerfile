@@ -104,6 +104,9 @@ RUN \
   chgrp supergroup /etc/container_environment && \
   chmod -R g+rx /etc/container_environment
 
+
+RUN locale-gen en_US.UTF-8
+
 # Fancy up env
 ENV TREEBOX_USER=$username \
   TREEBOX_BUILD_ID=$BUILD_CODE \
@@ -112,7 +115,9 @@ ENV TREEBOX_USER=$username \
   TREEBOX_SCM=$SCM_TYPE \
   TREEBOX_SCM_BRANCH=$GIT_BRANCH \
   TREEBOX_SCM_COMMIT=$GIT_COMMIT \
-  LANG=en_US.UTF-8
+  LANG=en_US.UTF-8 \
+  LANGUAGE=en_US:en \
+  LC_ALL=en_US.UTF-8
 
 USER $username
 

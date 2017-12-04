@@ -18,7 +18,7 @@ RUN \
     make man moreutils netcat nodejs npm pandoc php-cli posh \
     python python-dev python-tox python-yaml \
     realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
-    vim \
+    vim git-annex \
     software-properties-common && \
   curl -s \
     https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | \

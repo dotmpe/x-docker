@@ -4,7 +4,10 @@ FROM phusion/baseimage:0.9.22
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
-LABEL dc.description="Lots of dev tooling and a user setup"
+LABEL \
+  description="Lots of dev tooling and a user setup" \
+  urls.hub=https://hub.docker.com/r/bvberkum/treebox \
+  urls.repo=https://github.com/bvberkum/x-docker
 
 
 # Setup package manager

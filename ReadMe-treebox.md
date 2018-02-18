@@ -6,7 +6,7 @@ An image for development/testing with `treebox` user (ssh, sudo, staff and super
 - Node.JS (NPM, N)
 - PHP
 - Ruby (gem)
-- [Basher](https://github.com/basherpm/basher)
+- Shell package manager and tester [Basher](https://github.com/basherpm/basher), [Bats](https://github.com/bats-core/bats-core)
 
 There is no password for the user. To let the treebox user excercise its sudoers
 rights either allow for no-password use, or set a password. One of these lines:

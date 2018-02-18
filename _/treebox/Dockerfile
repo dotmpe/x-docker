@@ -31,11 +31,13 @@ RUN \
   apt-get install -qqy git-lfs && \
   rm -rf /var/cache/apt/*
 
+ARG node_version=lts
+
 RUN \
   npm install --quiet -g npm && \
       npm cache clean -f && \
       npm install --quiet -g n && \
-      n stable && \
+      n $node_version && \
   chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
   chgrp staff /usr/local/* /usr/local/lib/node_modules && \
   version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \

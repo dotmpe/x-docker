@@ -61,9 +61,15 @@ docker build $xtra \
     -t $IMAGE_NAME .
 
 
-#echo '--------------- publishing results'
 
-#echo '--------------- publishing results'
+echo '--------------- tagging '$DOCKER_TAGS
+
+echo $DOCKER_TAGS | tr -s ', ' ' ' | while read tag
+do
+  docker push $DOCKER_REPO:$tag
+done
+
+# TODO: #echo '--------------- publishing results'
 #pip install couchapp
 ##COUCH_DB=$(  )
 #mkdir -vp build/couch/build-log

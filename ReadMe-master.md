@@ -84,19 +84,28 @@ Docker hub hooks are:
 - post_checkout
 - pre_build
 - build
-    | IMAGE_NAME = '{}:{}'.format(DOCKER_REPO, DOCKER_TAGS[0])
-    | tag=IMAGE_NAME
+
+  :  Build image with IMAGE_NAME and then tag as 'this', and as 'DOCKER_REPO:<alias_tag>'
+     for each DOCKER_TAGS[1:] (since IMAGE_NAME contains the default tag name)
+     ```
+     IMAGE_NAME = '{}:{}'.format(DOCKER_REPO, DOCKER_TAGS[0])
+     tag=IMAGE_NAME
+     ```
+
 - post_build
 - pre_test
 - test
-    Look for ``[.-]test.yml`` docker-compose files.
-    For each file,
-    run `sut` service, read all log lines, wait for return status and cleanup.
+
+  :  Look for ``[.-]test.yml`` docker-compose files.
+     For each file,
+     run `sut` service, read all log lines, wait for return status and cleanup.
+
 - post_test
 - pre_push
 - push
-    DOCKER_TAG is 'latest' if not provided in shell env
-    Push every DOCKER_TAGS (a csv, derived from DOCKER_TAG with spaces stripped)
+
+  :  DOCKER_TAG is 'latest' if not provided in shell env
+     Push every DOCKER_TAGS (a csv, derived from DOCKER_TAG with spaces stripped)
 
 Looks like hub.docker.com has no way to pass shell profile settings, or even
 handle secrets.

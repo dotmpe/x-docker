@@ -45,3 +45,7 @@ No automated testing, but here is a checklist per tag.
 
 (0.0.2)
   - responds to files in update-motd.d by updating the login message
+  - Testing with libffi_convenience, but no joy.
+    phusion/baseimage:latest is 0.10.0
+  - Looked to introduce baseimage tag in build/docker tag maybe, updated docs
+    a bit and cleaning up hooks.

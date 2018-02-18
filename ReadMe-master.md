@@ -19,57 +19,57 @@ Trying to:
 
 
 ## Building
-TODO: cleanup
-
 ``make build``, or see docker hub for autobuilds.
 
+
 ## Issues
-- Does not look highland_builder does abort or skip builds. 
-  May try the 'ci skip'/'skip ci' that others like travis or drone support.
-  But exit 1 in a hook would suffice too. Could scan the commit message if
-  the above does not work.
-
-  For example, could check that Dockerfile, or subdir for base actually has
-  changes and don't bother with an entire rebuild/tag/push without reason.
+1. Could check that Dockerfile, or subdir for base actually has changes and
+   create a new build without good reason.
  
-  However, there is no easy way I can see to find the previous build ID. 
-  Short of spinning up the image for an older tag and checking for markers
-  placed during the previous build, or asking a public service.
+   However, there is no easy way I can see to find the previous build ID or
+   know much without either using docker images or some other remote service
+   besides docker registry.
 
-- Multiple autobuilds from one GIT repo works well, but it has issues.
-  One issue is the description that gets updated from the generic project ReadMe.
+   Ie. short of spinning up the image for an older tag and checking for markers
+   placed during the previous build, or asking a public service.
 
-  `highland builder`\ 's ``get_readme`` would allow for ``README.md`` to take
-  precedence over secondary matches (``[Rr][Ee][Aa][Dd][Mm][Ee]*``). [#]
+2. Multiple autobuilds from one GIT repo works well, but it has issues.
+   One issue is the description that gets updated from the generic project ReadMe.
 
-  Using hooks is of no use, the ReadMe seems be set before. So instead,
-  each branch has its own ``README.md``.
+   `highland builder`\ 's ``get_readme`` would allow for ``README.md`` to take
+   precedence over secondary matches (``[Rr][Ee][Aa][Dd][Mm][Ee]*``). [#]
 
-- Merging and keeping a custom README.md per branch is a bit of a pain too.
-  Tried to setup some help in bin/x-docker.sh
+   Using hooks is of no use, the ReadMe seems be set before.
+   So instead, each branch has its own ``README.md``.
+   A bit of a hassle but using different branches in a multi-image repo is the
+   only way, without a fancy version tracking mentioned in issue 1.
 
-- Also, when using version tags these like the branches need a pre- or -suffix
-  to distinguish them from versions for the other builds.
+3. But merging and keeping a custom README.md per branch is a bit of a pain,
+   Tried to setup some help in bin/x-docker.sh
 
-  The other slight issue is docker hub builds each commitish separately,
-  creating unique containers for what is a single source version.
+4. Also, when using version tags these like the branches need a pre- or -suffix
+   to distinguish them from versions for the other builds.
+
+   The other slight issue is docker hub builds each commitish separately,
+   creating unique containers for what is a single source version.
  
-  Only solution is to use one SCM triggered autobuild, or select which to run
-  using a hook and then cancel all but one. Everything using only data available
-  from the checkout, or public services.
+   Only solution is to use one SCM triggered autobuild, or select which to run
+   using a hook and then cancel all but one. Everything using only data available
+   from the checkout, or public services.
 
-- The main issue I see with docker hub autobuilds is the lack of secrets.
-  Its fine for public content, but also only public services.
-  Ie. no pushing to GIT, no remote DB or REST access and such.
+   Again, version tracking system or service would need to coordinate.
 
-  Because of this, even with an autobuild, much is done manually. Only this
-  time through GIT or mercurial. Branching and tagging now corresponding to
-  docker image tags as well.
+5. Another issue with docker hub autobuilds is the lack of secrets.
 
-  Note that docker builds on Travis are also possibility.
+   So for pushing to GIT, remote DB or REST access and such some additional
+   challenge would be required iot. trust the docker cloud builder.
+
+   Note that docker builds on Travis are also possibility.
 
 
 ---
+
+## Customizing builds
 
 hub.docker.com uses docker/highland_builder, a good start for (undocumented)
 features is
@@ -84,12 +84,25 @@ Docker hub hooks are:
 - post_checkout
 - pre_build
 - build
+    | IMAGE_NAME = '{}:{}'.format(DOCKER_REPO, DOCKER_TAGS[0])
+    | tag=IMAGE_NAME
 - post_build
 - pre_test
 - test
+    Look for ``[.-]test.yml`` docker-compose files.
+    For each file,
+    run `sut` service, read all log lines, wait for return status and cleanup.
 - post_test
 - pre_push
 - push
+    DOCKER_TAG is 'latest' if not provided in shell env
+    Push every DOCKER_TAGS (a csv, derived from DOCKER_TAG with spaces stripped)
+
+Looks like hub.docker.com has no way to pass shell profile settings, or even
+handle secrets.
+
+The only way to customize the build will be through shell scripts in the hooks
+dir.
 
 
 ---
@@ -122,3 +135,26 @@ DOCKER_HOST=unix:///var/run/docker.sock
 PWD=/src/......................./_/treebox
 IMAGE_NAME=index.docker.io/bvberkum/treebox:dev
 ```
+
+---
+
+# Auto-build post url specs
+
+At three points highland_builder takes an JSON file with::
+
+  { "url": ... , "fields": ... }
+
+And POSTs::
+
+  requests.post(post_spec['url'],
+    data=post_spec['fields'],
+    files={'file': fd})
+
+for paths at env vars::
+
+  DOCKERFILE_POST_SPEC
+  README_POST_SPEC
+  LOGS_POST_SPEC
+
+Probably to store Dockerfile, README and logs in docker cloud builder.
+

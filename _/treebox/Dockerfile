@@ -1,6 +1,6 @@
 
-# latest [2017-10-26] 
-FROM phusion/baseimage:0.9.22
+# Latest is 0.10.0
+FROM phusion/baseimage:latest
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
@@ -22,7 +22,8 @@ RUN \
     python python-dev python-tox python-yaml \
     realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
     vim git-annex \
-    software-properties-common && \
+    software-properties-common \
+    autoconf && \
   curl -s \
     https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | \
     bash && \

@@ -1,0 +1,3 @@
+[submodule "tools/hub-api-example"]
+	path = tools/hub-api-example
+	url = https://gist.github.com/e59f95f7557b4bbb8bf2.git

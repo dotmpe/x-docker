@@ -1,0 +1,39 @@
+#!/bin/sh
+
+echo '----------'
+
+
+# Determine workspace and relative CWD
+
+test -n "$WORKSPACE" || {
+  test -n "$BUILD_CODE" && {
+    export WORKSPACE=/src/$BUILD_CODE
+  }
+}
+
+test -n "$WORKSPACE" || {
+  test -n "$BUILD_PATH" && {
+    to_workspace=./$(printf -- "$BUILD_PATH" | cut -c2- | sed 's/[^/]*/../g')
+    export WORKSPACE=$(cd $to_workspace && pwd)
+  }
+}
+
+
+# Init shell
+
+echo WORKSPACE: $WORKSPACE
+echo '--------------- loading env'
+test -e ../env.sh && {
+  . ./../env.sh
+} || {
+  . $WORKSPACE/tools/build-env.sh
+}
+
+echo '---------- push '$(pwd)
+
+echo $DOCKER_TAGS | tr -s ', ' ' ' | while read tag
+do
+  test -n "$tag" || continue
+  echo docker push $DOCKER_REPO:$tag
+  docker push $DOCKER_REPO:$tag
+done

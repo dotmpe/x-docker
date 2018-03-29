@@ -9,7 +9,7 @@ RUN apk update && \
     rm -rf /var/cache/apk/*
 
 # Install BATS from source
-ARG BATS_DEV_REPO=https://github.com/bvberkum/bats.git
+ARG BATS_DEV_REPO=https://github.com/bvberkum/bats-core.git
 ARG BATS_DEV_BRANCH=master
 
 RUN cd && git clone $BATS_DEV_REPO bats && \

@@ -67,7 +67,7 @@ test-other-bats:
 # fork.
 test-official-bats: GIT_BRANCH ?= master
 test-official-bats:
-	make test-other-bats GIT_URL=https://github.com/sstephenson/bats.git GIT_BRANCH=$(GIT_BRANCH)
+	make test-other-bats GIT_URL=https://github.com/bats-core/bats-core.git GIT_BRANCH=$(GIT_BRANCH)
 
 #
 # Docker Build in <*>/<TAG> subdir
@@ -91,12 +91,12 @@ build\:ubuntu-docker: DEFAULT_TAG := xenial
 
 build\:alpine-bats_dev: DEFAULT_TAG := edge
 build\:alpine-bats_dev: BUILD_FLAGS := \
-	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats.git \
+	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats-core.git \
 	--build-arg BATS_DEV_BRANCH=master
 
 build\:debian-bats_dev: DEFAULT_TAG := latest
 build\:debian-bats_dev: BUILD_FLAGS := \
-	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats.git \
+	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats-core.git \
 	--build-arg BATS_DEV_BRANCH=master
 
 build\:treebox: DEFAULT_TAG := treebox-local

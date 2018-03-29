@@ -67,7 +67,7 @@ test-other-bats:
 # fork.
 test-official-bats: GIT_BRANCH ?= master
 test-official-bats:
-	make test-other-bats GIT_URL=https://github.com/sstephenson/bats.git GIT_BRANCH=$(GIT_BRANCH)
+	make test-other-bats GIT_URL=https://github.com/bats-core/bats-core.git GIT_BRANCH=$(GIT_BRANCH)
 
 #
 # Docker Build in <*>/<TAG> subdir
@@ -75,7 +75,8 @@ test-official-bats:
 build\:%: TAG ?= $(DEFAULT_TAG)
 build\:%:
 	@# XXX: hooks/build...
-	cd $*/$(TAG) && docker build $(BUILD_FLAGS) \
+	test -d ./_/$*/$(TAG) && { cd ./_/$*/$(TAG) ; } || { cd ./_/$*/ ; } ;\
+	docker build $(BUILD_FLAGS) \
 		--build-arg X_DCKR_TAG=$(TAG) \
 		--build-arg X_DCKR_PREFIX=$(PREFIX) \
 		--build-arg X_DCKR_BASENAME=$* \
@@ -90,14 +91,15 @@ build\:ubuntu-docker: DEFAULT_TAG := xenial
 
 build\:alpine-bats_dev: DEFAULT_TAG := edge
 build\:alpine-bats_dev: BUILD_FLAGS := \
-	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats.git \
+	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats-core.git \
 	--build-arg BATS_DEV_BRANCH=master
 
 build\:debian-bats_dev: DEFAULT_TAG := latest
 build\:debian-bats_dev: BUILD_FLAGS := \
-	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats.git \
+	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats-core.git \
 	--build-arg BATS_DEV_BRANCH=master
 
+build\:treebox: DEFAULT_TAG := treebox-local
 
 #
 # Docker Run <FLAGS> <*>:<TAG> [<ARGS>]
@@ -134,18 +136,6 @@ test-docker:
 	docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock \
 		alpine-docker:edge docker ps
 
-
 update:
-	grep -v '^#' gitflow.tab | cut -f 2 -d ' ' | while read downstream; \
-	do \
-		git co $$downstream && git merge master || git merge --abort ; \
-		name="$$(echo $$downstream | cut -f 2 -d '-')"; \
-		test -e ReadMe-$$name.md && { \
-			cp ReadMe-$$name.md README.md ; \
-			git add README.md && git ci -m "Updating $$downstream" || continue; \
-		}; \
-	done
-	git co master
+	./bin/x-docker.sh git-update-downstream
 
-.versioned-files.list: Makefile ReadMe.md
-	{ echo ReadMe.md; grep -sRIil '^#\ ID:\ ' . | while read p; do test -f "$$p" && echo $$p; done; } >$@

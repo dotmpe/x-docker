@@ -1,0 +1,85 @@
+#!/bin/sh
+
+echo '---------- build env: '$(pwd)
+#env
+vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"
+other_vars="DOCKER_HOST MAX_LOG_SIZE CACHE_TAG SIGNED_URLS DOCKERCFG"
+
+for v in $vars
+do echo "$v: $(eval echo \"\$$v\")"; done
+
+echo '----------'
+
+
+# Determine workspace and relative CWD
+
+test -n "$WORKSPACE" || {
+  test -n "$BUILD_CODE" && {
+    export WORKSPACE=/src/$BUILD_CODE
+  }
+}
+
+test -n "$WORKSPACE" || {
+  test -n "$BUILD_PATH" && {
+    to_workspace=./$(printf -- "$BUILD_PATH" | cut -c2- | sed 's/[^/]*/../g')
+    export WORKSPACE=$(cd $to_workspace && pwd)
+  }
+}
+
+
+# Init shell
+
+echo WORKSPACE: $WORKSPACE
+echo '--------------- loading env'
+test -e ../env.sh && {
+  . ./../env.sh
+} || {
+  . $WORKSPACE/tools/build-env.sh
+}
+
+
+# Load args at relative location
+
+xtra=
+test ! -e ../build-args.sh || {
+  xtra="$(grep '=' ../build-args.sh | sed 's/.*/--build-arg & \\/')"
+}
+
+
+echo '--------------- starting build'
+docker build $xtra \
+		--build-arg X_DCKR_PREFIX=$ONAME \
+		--build-arg X_DCKR_BASENAME=$LNAME \
+		--build-arg X_DCKR_NAME=$ONAME/$LNAME \
+    --build-arg X_DCKR_TAG=$DOCKER_TAG \
+    --build-arg BUILD_CODE=$BUILD_CODE \
+    --build-arg IMAGE_NAME=$IMAGE_NAME \
+    --build-arg DOCKER_TAG=$DOCKER_TAG \
+    --build-arg SCM_TYPE=$SOURCE_TYPE \
+    --build-arg GIT_BRANCH=$SOURCE_BRANCH \
+    --build-arg GIT_COMMIT=$GIT_SHA1 \
+    -t $IMAGE_NAME .
+
+
+
+echo '--------------- tagging '$DOCKER_TAGS
+
+echo $DOCKER_TAGS | tr -s ', ' ' ' | while read tag
+do
+  test -n "$tag" || continue
+  echo docker tag $IMAGE_NAME $DOCKER_REPO:$tag
+  docker tag $IMAGE_NAME $DOCKER_REPO:$tag
+done
+
+# TODO: #echo '--------------- publishing results'
+#pip install couchapp
+##COUCH_DB=$(  )
+#mkdir -vp build/couch/build-log
+#(
+#  cd build/couch/build-log
+#  echo '{"env":{"default":{"db":"'$COUCH_DB'"}}}'>.couchapprc
+#  couchapp pushdocs
+#)
+
+
+# Id: x-docker/

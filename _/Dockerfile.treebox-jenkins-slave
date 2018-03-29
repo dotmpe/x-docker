@@ -1,0 +1,15 @@
+
+FROM treebox:build
+
+USER root
+
+ARG JDK_Version=7
+
+# Install JDK 7/8/9/...
+RUN apt-get update &&\
+    apt-get install -y openjdk-${JDK_Version}-jdk && \
+    apt-get clean -y
+
+EXPOSE 22
+
+# vim:ft=dockerfile:

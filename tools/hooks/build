@@ -52,7 +52,7 @@ test ! -e ../build-args.sh || {
 echo "--------------- starting build '$IMAGE_NAME'"
 BUILD_DATE=$(date --rfc-3339=seconds)
 
-echo '--------------- starting build'
+echo "--------------- starting build '$IMAGE_NAME'"
 docker build $xtra \
 		--build-arg X_DCKR_PREFIX=$ONAME \
 		--build-arg X_DCKR_BASENAME=$LNAME \
@@ -69,7 +69,7 @@ docker build $xtra \
 
 
 
-echo '--------------- tagging '$DOCKER_TAGS
+echo "--------------- tagging '$DOCKER_TAG'"
 
 test -n "$DOCKER_TAGS" || {
   echo "Error, no Docker-Tags." >&2
@@ -79,7 +79,7 @@ test -n "$DOCKER_TAGS" || {
 echo $DOCKER_TAGS | tr -s ', ' ' ' | while read tag
 do
   test -n "$tag" || continue
-  echo docker tag $IMAGE_NAME $DOCKER_REPO:$tag
+  echo "docker tag '$IMAGE_NAME' '$DOCKER_REPO:$tag'"
   docker tag $IMAGE_NAME $DOCKER_REPO:$tag
 done
 

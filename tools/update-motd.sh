@@ -31,10 +31,10 @@ printf "System load:\t%s\t\tInt IP Address:\t%s %s\n" $load $ip
 printf "Memory usage:\t%s\n" $memory_usage
 printf "Usage on /:\t%s\t\tSwap usage:\t%s\n" $root_usage $swap_usage
 printf "Local Users:\t%s\t\tProcesses:\t%s\n" $users $processes
-printf "Image build:\t%s\tSystem uptime:\t%s\n" "${IMAGE_RELEASE}" "$time"
+printf "Image build:\t%s\tSystem uptime:\t%s\n" "${TREEBOX_BUILD_ID}" "$time"
 
 printf "\n"
-test -n "$IMAGE_SOURCE_URL" ||
-  printf "Image source:\t%s\n" "$IMAGE_SOURCE_URL"
+test -n "$IMAGE_SCM_COMMIT" ||
+  printf "Image source:\t%s\n" "$IMAGE_SCM_COMMIT"
 printf "\n"
 test -f /etc/motd.tail && cat /etc/motd.tail || true

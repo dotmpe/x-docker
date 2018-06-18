@@ -17,7 +17,7 @@ RUN \
   apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
     bash build-essential curl dash elinks git graphviz imagemagick \
-    figlet update-motd \
+    figlet update-motd libnet-ifconfig-wrapper-perl \
     make man moreutils netcat nodejs npm pandoc php-cli posh \
     python python-dev python-tox python-yaml \
     realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
@@ -113,20 +113,25 @@ RUN \
 
 RUN locale-gen en_US.UTF-8
 
-# Fancy up env
+# Fancy up (root) env
 ENV TREEBOX_USER=$username \
   TREEBOX_BUILD_ID=$BUILD_CODE \
-  TREEBOX_IMAGE=$BUILD_IMAGE \
+  TREEBOX_IMAGE=$IMAGE_NAME \
   TREEBOX_TAG=$DOCKER_TAG \
   TREEBOX_SCM=$SCM_TYPE \
   TREEBOX_SCM_BRANCH=$GIT_BRANCH \
   TREEBOX_SCM_COMMIT=$GIT_COMMIT \
+  TREEBOX_SCM_COMMIT_MSG="$COMMIT_MSG" \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
   LC_ALL=en_US.UTF-8
 
 USER $username
 
-ENV LANG=en_US.UTF-8
+# XXX: Idem for user env?
+ENV \
+  TREEBOX_IMAGE="$IMAGE_NAME:$DOCKER_TAG" \
+  TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
+  LANG=en_US.UTF-8
 
 # Id: x-docker/0.0.2-dev

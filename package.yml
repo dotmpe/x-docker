@@ -19,7 +19,7 @@
           --build-arg X_DCKR_TAG=xenial \
           -t ubuntu-treebox:xenial .
 
-- type: application/vnd.dotmpe.environment
+- type: application/vnd.org.wtwta.environment
   id: bvberkum/x-docker-main
   main: bvberkum/x-docker
 

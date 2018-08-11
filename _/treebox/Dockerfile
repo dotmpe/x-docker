@@ -88,7 +88,6 @@ RUN \
 ARG username=treebox
 
 RUN \
-  addgroup supergroup && \
   touch /etc/sudoers.d/treebox && { \
     echo "$username    ALL=NOPASSWD:/usr/sbin/service *"; \
     echo "$username    ALL=(www-data) NOPASSWD:ALL"; \
@@ -97,17 +96,20 @@ RUN \
 # FIXME: I don't think I should need or want to create a system-user, however
 # usermod does not find the added user otherwise.
 RUN \
-  adduser --system --home /home/$username --shell /bin/bash --group $username && \
-  usermod $username -a -G sudo,staff,supergroup,ssh && \
-  \
+  useradd -d /home/$username -s /bin/bash $username && \
   mkdir -vp /home/$username/project && \
+  usermod $username -a -G sudo,staff,ssh && \
+  \
   git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
   ( echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profile ) && \
   \
   chown -R $username:$username /home/$username/
 
 RUN \
-  chgrp supergroup /etc/container_environment && \
+  mkdir -vp /src/github.com /src/bitbucket.org /src/local /srv && \
+  chown $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
+  chmod g+rw /src/github.com /src/bitbucket.org /src/local && \
+  chgrp staff /srv /etc/container_environment && \
   chmod -R g+rx /etc/container_environment
 
 

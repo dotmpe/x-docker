@@ -15,3 +15,9 @@ script lines in sequence.
 
 Besides `bash` and `bats`, aditional tools installed into the base image are
 `jq`, `curl` and `ncurses` if needed for ``tput``.
+
+----
+
+- [Treebox](https://hub.docker.com/r/bvberkum/treebox)
+  - [Sitefile](https://hub.docker.com/r/bvberkum/node-sitefile)
+- [Sandbox](https://hub.docker.com/r/bvberkum/sandbox)

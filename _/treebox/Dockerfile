@@ -21,7 +21,7 @@ RUN \
     make man moreutils netcat nodejs npm pandoc php-cli posh \
     python python-dev python-tox python-yaml \
     realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
-    vim git-annex \
+    vim git-annex gist glances \
     software-properties-common \
     autoconf libtool && \
   curl -s \

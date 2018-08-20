@@ -52,7 +52,6 @@ test ! -e ../build-args.sh || {
 echo "--------------- starting build '$IMAGE_NAME'"
 BUILD_DATE=$(date --rfc-3339=seconds)
 
-echo "--------------- starting build '$IMAGE_NAME'"
 docker build $xtra \
 		--build-arg X_DCKR_PREFIX=$ONAME \
 		--build-arg X_DCKR_BASENAME=$LNAME \
@@ -66,7 +65,6 @@ docker build $xtra \
     --build-arg GIT_COMMIT=$GIT_SHA1 \
     --build-arg BUILD_DATE="$BUILD_DATE" \
     -t $IMAGE_NAME .
-
 
 
 echo "--------------- tagging '$DOCKER_TAG'"

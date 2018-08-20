@@ -137,4 +137,13 @@ ENV \
   TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
   LANG=en_US.UTF-8
 
+LABEL \
+    org.label-schema.name="$IMAGE_NAME:$DOCKER_TAG" \
+    org.label-schema.build-date="$BUILD_DATE" \
+    org.label-schema.version="$VERSION" \
+    org.label-schema.vcs-ref=$GIT_COMMIT \
+    org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
+    org.label-schema.schema-version="1.0"
+
+
 # Id: x-docker/0.0.2-dev

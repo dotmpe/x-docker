@@ -56,7 +56,7 @@ RUN \
     ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
 
 RUN \
-  npm install --quiet -g coffee-script pm2 grunt grunt-cli webpack && \
+  npm install --quiet -g coffee-script pm2 grunt grunt-cli webpack node-gyp && \
   gem install --quiet sass
 
 # TODO: fix pm2 fsevents

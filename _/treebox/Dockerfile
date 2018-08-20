@@ -5,9 +5,13 @@ FROM phusion/baseimage:latest
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 LABEL \
-  description="Lots of dev tooling and a user setup" \
-  urls.hub=https://hub.docker.com/r/bvberkum/treebox \
-  urls.repo=https://github.com/bvberkum/x-docker
+  org.label-schema.description="Lots of dev tooling and a user setup" \
+  org.label-schema.name="$IMAGE_NAME" \
+  org.label-schema.build-date="$BUILD_DATE" \
+  org.label-schema.version="$VERSION" \
+  org.label-schema.vcs-ref=$GIT_COMMIT \
+  org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
+  org.label-schema.schema-version="1.0"
 
 
 # Setup package manager
@@ -118,7 +122,7 @@ RUN locale-gen en_US.UTF-8
 # Fancy up (root) env
 ENV TREEBOX_USER=$username \
   TREEBOX_BUILD_ID=$BUILD_CODE \
-  TREEBOX_IMAGE="$IMAGE_NAME:$DOCKER_TAG" \
+  TREEBOX_IMAGE="$IMAGE_NAME" \
   TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
   TREEBOX_TAG=$DOCKER_TAG \
   TREEBOX_SCM=$SCM_TYPE \
@@ -133,17 +137,9 @@ USER $username
 
 # XXX: Idem for user env?
 ENV \
-  TREEBOX_IMAGE="$IMAGE_NAME:$DOCKER_TAG" \
+  TREEBOX_IMAGE="$IMAGE_NAME" \
   TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
   LANG=en_US.UTF-8
-
-LABEL \
-    org.label-schema.name="$IMAGE_NAME:$DOCKER_TAG" \
-    org.label-schema.build-date="$BUILD_DATE" \
-    org.label-schema.version="$VERSION" \
-    org.label-schema.vcs-ref=$GIT_COMMIT \
-    org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
-    org.label-schema.schema-version="1.0"
 
 
 # Id: x-docker/0.0.2-dev

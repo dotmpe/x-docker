@@ -22,8 +22,8 @@ RUN \
   apt-get install -qqy --allow-downgrades \
     bash build-essential curl dash elinks git graphviz imagemagick \
     figlet update-motd libnet-ifconfig-wrapper-perl \
-    make man moreutils netcat nodejs npm pandoc php-cli posh \
-    python python-dev python-tox python-yaml \
+    make man moreutils netcat nodejs npm pandoc unrtf antiword \
+    php-cli posh python python-dev python-tox python-yaml \
     realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
     vim git-annex gist glances \
     software-properties-common \

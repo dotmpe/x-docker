@@ -34,7 +34,7 @@ test -e ../env.sh && {
 
 echo '---------- push '$(pwd)
 
-echo $DOCKER_TAGS | tr -s ', ' ' ' | while read tag
+echo $DOCKER_TAGS | tr -s ', ' ' ' | while read -r tag
 do
   test -n "$tag" || continue
   echo docker push $DOCKER_REPO:$tag

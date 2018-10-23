@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+# Small smoke test for apenwarr/redo image
+
 mkdir -p _tmp
 rm _tmp/__test__* || true
 echo "echo 0: \$0" >> _tmp/__test__.do

@@ -110,6 +110,8 @@ RUN \
   \
   chown -R $username:$username /home/$username/
 
+# TODO: change from above manual installs to user-scripts repo
+
 RUN \
   mkdir -vp /src/github.com /src/bitbucket.org /src/local /srv && \
   chown $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \

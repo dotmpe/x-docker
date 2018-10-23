@@ -3,6 +3,7 @@
 # test is the sixth build-hook; See doc/dev.md
 # This is the second phase of pipeline, between test and push.
 
+echo "Test hook ($(pwd))"
 test ! -e ../test.sh && true || {
 
   echo "Executing test script.." >&2

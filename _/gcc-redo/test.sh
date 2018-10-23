@@ -2,7 +2,7 @@
 set -e
 
 mkdir -p _tmp
-rm _tmp/__test__*
+rm _tmp/__test__* || true
 echo "echo 0: \$0" >> _tmp/__test__.do
 echo "echo 1: \$1" >> _tmp/__test__.do
 echo "echo 2: \$2" >> _tmp/__test__.do
@@ -23,4 +23,4 @@ EOM
 
 diff -bqr \
   _tmp/__test__ \
-  _tmp/__expected__
+  _tmp/__expected__ && echo Test OK || { echo Test FAIL:$?; exit 1; }

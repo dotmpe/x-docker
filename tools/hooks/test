@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# test is the sixth build-hook; See doc/dev.md
+# This is the second phase of pipeline, between test and push.
+
+test -e ../test.sh && {
+  . ./../test.sh
+}

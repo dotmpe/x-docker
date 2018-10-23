@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# build is the third build-hook; See doc/dev.md
+# This is the first phase of pipeline, before test and push.
+
 echo '---------- build env: '$(pwd)
 #env
 vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"

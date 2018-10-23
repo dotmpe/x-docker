@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# post-checkout is the first build-hook; See doc/dev.md
+
 echo '---------- post_checkout '$(pwd)
 
 

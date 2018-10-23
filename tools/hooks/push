@@ -32,7 +32,7 @@ test -e ../env.sh && {
   . $WORKSPACE/tools/build-env.sh
 }
 
-echo '---------- push '$(pwd)
+echo "---------- push '$(pwd)'"
 
 test -n "$DOCKER_TAGS" || {
   echo "Error, no Docker-Tags." >&2
@@ -42,6 +42,6 @@ test -n "$DOCKER_TAGS" || {
 echo $DOCKER_TAGS | tr -s ', ' ' ' | while read -r tag
 do
   test -n "$tag" || continue
-  echo docker push $DOCKER_REPO:$tag
+  echo "docker push '$DOCKER_REPO:$tag'"
   docker push $DOCKER_REPO:$tag
 done

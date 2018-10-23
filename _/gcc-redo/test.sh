@@ -13,7 +13,7 @@ test -n "$IMAGE_NAME" || IMAGE_NAME="$ONAME/$LNAME:$DOCKER_TAG"
 
 docker run --rm \
   -v $(realpath _tmp):/_tmp/ \
-  -ti $IMAGE_NAME redo /_tmp/__test__
+  -i $IMAGE_NAME redo /_tmp/__test__
 
 
 { cat <<EOM

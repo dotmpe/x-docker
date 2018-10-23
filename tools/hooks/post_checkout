@@ -9,6 +9,5 @@ echo '---------- post_checkout '$(pwd)
 case "$(echo "$COMMIT_MSG" | tr 'A-Z' 'a-z') " in
   *"[skip ci]"* | *"[ci skip]"* )
     echo "Skipping build by ci-skip commit message"
-    exit 1 ;;
+    exit 1 ;; # XXX: test with zero-status
 esac
-

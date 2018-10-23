@@ -34,6 +34,11 @@ test -e ../env.sh && {
 
 echo '---------- push '$(pwd)
 
+test -n "$DOCKER_TAGS" || {
+  echo "Error, no Docker-Tags." >&2
+  exit 1
+}
+
 echo $DOCKER_TAGS | tr -s ', ' ' ' | while read -r tag
 do
   test -n "$tag" || continue

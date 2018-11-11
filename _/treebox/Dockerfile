@@ -21,7 +21,7 @@ RUN \
   apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
     bash zsh dash build-essential libreadline-dev time gawk mksh busybox-static \
-    curl elinks git graphviz imagemagick \
+    bc curl elinks git graphviz imagemagick \
     figlet update-motd libnet-ifconfig-wrapper-perl \
     make man moreutils netcat nodejs npm pandoc unrtf antiword \
     php-cli posh python python-dev python-tox python-yaml \

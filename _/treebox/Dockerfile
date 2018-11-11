@@ -14,7 +14,7 @@ LABEL \
   org.label-schema.schema-version="1.0"
 
 
-# Setup package manager
+# Setup package manager and install prerequisite packages
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
@@ -28,7 +28,11 @@ RUN \
     realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
     vim git-annex gist glances \
     software-properties-common \
-    autoconf libtool && \
+    autoconf libtool \
+    zlib1g wget libcurl4-openssl-dev libelf-dev libdw-dev cmake cmake-data g++ \
+    binutils-dev \
+    libiberty-dev zlib1g-dev \
+    && \
   curl -s \
     https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | \
     bash && \
@@ -36,6 +40,7 @@ RUN \
   apt-get install -qqy git-lfs && \
   rm -rf /var/cache/apt/*
 
+# Setup node NVM and some tooling
 ARG node_version=lts
 
 RUN \
@@ -49,6 +54,7 @@ RUN \
   { test -e /usr/bin/node || \
     ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }
 
+# Setup python PIP and some tooling
 RUN \
   cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && \
   pip install --quiet \
@@ -56,13 +62,26 @@ RUN \
   for b in rst2html rst2xml rst2pxml; do \
     ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
 
+# Setup some node tooling
 RUN \
-  npm install --quiet -g coffee-script pm2 grunt grunt-cli webpack node-gyp && \
+  npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
   gem install --quiet sass
+
+# Install KCov
+RUN \
+  git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKagstrom/kcov && \
+  cd /src/github.com/SimonKagstrom/kcov && \
+  DEFAULT_KCOV_GIT_REF=$(git tag --list | grep "^v[0-9]\+$" | sort -V | tail --lines 1) && \
+  KCOV_GIT_REF=${KCOV_GIT_REF:-$DEFAULT_KCOV_GIT_REF} && \
+  git reset --hard $KCOV_GIT_REF && \
+  mkdir build && cd build && cmake .. && make && make install
+
+RUN \
+  git clone https://github.com/apenwarr/redo.git /src/github.com/apenwarr/redo && \
+  cd /src/github.com/apenwarr/redo && ./redo test && ./redo install
 
 # TODO: fix pm2 fsevents
 # TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
-
 
 # Replace /etc/profile with local on PATH, because profile.d/ssh-env does not
 # seem to do it.
@@ -100,22 +119,18 @@ RUN \
 
 # FIXME: I don't think I should need or want to create a system-user, however
 # usermod does not find the added user otherwise.
+# Also fix permissions for /home, /src and /srv
 RUN \
   useradd -d /home/$username -s /bin/bash $username && \
   mkdir -vp /home/$username/project && \
   usermod $username -a -G sudo,staff,ssh && \
   \
-  git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
-  ( echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profile ) && \
+  chown -R $username:$username /home/$username/ && \
   \
-  chown -R $username:$username /home/$username/
-
-# TODO: change from above manual installs to user-scripts repo
-
-RUN \
   mkdir -vp /src/github.com /src/bitbucket.org /src/local /srv && \
-  chown $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
-  chmod g+rw /src/github.com /src/bitbucket.org /src/local && \
+  chown -R $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
+  chmod -R g+rw /src/github.com /src/bitbucket.org /src/local && \
+  \
   chgrp staff /srv /etc/container_environment && \
   chmod -R g+rx /etc/container_environment
 
@@ -138,11 +153,20 @@ ENV TREEBOX_USER=$username \
 
 USER $username
 
+# TODO: change from above manual installs to user-scripts repo
+RUN \
+  \
+  git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
+  ( echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profile ) && \
+  \
+  mkdir -p /src/github.com/bvberkum && \
+  git clone https://github.com/bvberkum/oil.git /src/github.com/bvberkum/oil
+
+
 # XXX: Idem for user env?
 ENV \
   TREEBOX_IMAGE="$IMAGE_NAME" \
   TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
   LANG=en_US.UTF-8
-
 
 # Id: x-docker/0.0.2-dev

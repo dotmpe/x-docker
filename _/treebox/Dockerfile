@@ -80,6 +80,19 @@ RUN \
   git clone https://github.com/apenwarr/redo.git /src/github.com/apenwarr/redo && \
   cd /src/github.com/apenwarr/redo && ./redo test && ./redo install
 
+RUN \
+  test -n "$BATS_REPO" || BATS_REPO=https://github.com/bvberkum/bats-core.git ; \
+  test -n "$SRC_PREFIX" || SRC_PREFIX=/src/github.com/bvberkum ; \
+  test -n "$BATS_BRANCH" || BATS_BRANCH=forks/bvb-dev ; \
+  git clone $BATS_REPO $SRC_PREFIX/bats && \
+  ( \
+    cd $SRC_PREFIX/bats && \
+    git checkout $BATS_BRANCH && \
+    ./install.sh /usr/local \
+  ) && \
+  bats --version
+
+
 # TODO: fix pm2 fsevents
 # TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
 

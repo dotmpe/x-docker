@@ -4,6 +4,12 @@ FROM phusion/baseimage:latest
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
+ARG BUILD_DATE=
+ARG BUILD_CODE=
+ARG IMAGE_NAME=
+ARG GIT_COMMIT=
+#ARG VERSION=
+
 LABEL \
   org.label-schema.description="Lots of dev tooling and a user setup" \
   org.label-schema.name="$IMAGE_NAME" \
@@ -151,10 +157,17 @@ RUN \
 RUN locale-gen en_US.UTF-8
 
 # Fancy up (root) env
+ARG BUILD_CODE=
+ARG DOCKER_TAG=
+ARG SOURCE_BRANCH=
+ARG SCM_TYPE=
+ARG GIT_BRANCH=
+ARG COMMIT_MSG=
+
 ENV TREEBOX_USER=$username \
   TREEBOX_BUILD_ID=$BUILD_CODE \
   TREEBOX_IMAGE="$IMAGE_NAME" \
-  TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
+  TREEBOX_SRC="$SOURCE_BRANCH:$GIT_COMMIT" \
   TREEBOX_TAG=$DOCKER_TAG \
   TREEBOX_SCM=$SCM_TYPE \
   TREEBOX_SCM_BRANCH=$GIT_BRANCH \
@@ -179,7 +192,7 @@ RUN \
 # XXX: Idem for user env?
 ENV \
   TREEBOX_IMAGE="$IMAGE_NAME" \
-  TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
+  TREEBOX_SRC="$SOURCE_BRANCH:$GIT_COMMIT" \
   LANG=en_US.UTF-8
 
 # Id: x-docker/0.0.2-dev

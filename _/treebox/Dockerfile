@@ -64,7 +64,6 @@ RUN \
 RUN \
   cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && \
   pip install --quiet \
-    markdown BeautifulSoup mkdocs \
   	setuptools PyYAML zope.interface zope.component objectpath docutils && \
   for b in rst2html rst2xml rst2pxml; do \
     ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
@@ -85,7 +84,7 @@ RUN \
 
 RUN \
   git clone https://github.com/apenwarr/redo.git /src/github.com/apenwarr/redo && \
-  cd /src/github.com/apenwarr/redo && ./redo test && ./redo install
+  cd /src/github.com/apenwarr/redo && ./redo install
 
 RUN \
   test -n "$BATS_REPO" || BATS_REPO=https://github.com/bvberkum/bats-core.git ; \

@@ -1,4 +1,5 @@
 #!/bin/sh
+_cmd=$_
 
 # push is the ninth and last build-hook; See doc/dev.md for all hooks
 # This is the third phase of pipeline, after build and test.

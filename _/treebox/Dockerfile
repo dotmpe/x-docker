@@ -65,7 +65,7 @@ RUN \
 RUN \
   cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && \
   pip install --quiet \
-    markdown BeautifulSoup mkdocs==1.0 \
+    markdown BeautifulSoup mkdocs==0.17.5 \
   	setuptools PyYAML zope.interface zope.component objectpath docutils && \
   for b in rst2html rst2xml rst2pxml; do \
     ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done

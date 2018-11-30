@@ -17,9 +17,7 @@ echo "%supergroup  ALL=NOPASSWD:ALL" >>/etc/sudoers.d/treebox
 
 ### Dev ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg) ![last commit on treebox-dev](https://img.shields.io/github/last-commit/bvberkum/x-docker/treebox-dev.svg) [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/treebox:dev.svg)](https://microbadger.com/images/bvberkum/treebox:dev "Get your own image badge on microbadger.com") ![docker hub pulls](https://img.shields.io/docker/pulls/bvberkum/treebox.svg) ![docker hub stars](https://img.shields.io/docker/stars/bvberkum/treebox.svg) ![repo license](https://img.shields.io/github/license/bvberkum/x-docker.svg) ![issues](https://img.shields.io/github/issues/bvberkum/x-docker.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/bvberkum/x-docker.svg) ![readme](https://img.shields.io/github/size/bvberkum/x-docker/ReadMe-treebox.md.svg) ![code](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2017.svg) 
 
-<!-- Not a tag.
-![last commit on treebox](https://img.shields.io/github/last-commit/bvberkum/x-docker/treebox.svg)
--->
+[//]: # 'Not a tag. ![last commit on treebox](https://img.shields.io/github/last-commit/bvberkum/x-docker/treebox.svg)'
 
 ### Latest [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com image metadata")
 [![image version](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata")

@@ -4,6 +4,9 @@ _cmd=$_
 # post-checkout is the first build-hook; See doc/dev.md
 
 echo '---------- post_checkout '$(pwd)
+echo "Term: $TERM"
+echo "Shell: $SHELL"
+echo "Shell Cmd: $0"
 echo "Hook Cmd: $_cmd"
 echo "Shell PID: $$"
 echo "Shell options: $-"
@@ -11,7 +14,7 @@ echo "Shell options: $-"
 
 # highland builder does not obey skip tag
 case "$(echo "$COMMIT_MSG" | tr 'A-Z' 'a-z') " in
-  *"[skip ci]"* | *"[ci skip]"* )
+  *"[skip build]"* | *"[build skip]"* | *"[skip ci]"* | *"[ci skip]"* )
     echo "Skipping build by ci-skip commit message"
     exit 0 ;;
 esac

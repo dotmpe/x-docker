@@ -26,11 +26,12 @@ RUN \
   apt-get update -qqy && \
   apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
-    bash zsh dash build-essential libreadline-dev time gawk mksh busybox-static \
+    bash zsh dash posh ash ksh mksh busybox-static \
+    build-essential libreadline-dev time gawk  \
     bc curl elinks git graphviz imagemagick \
     figlet update-motd libnet-ifconfig-wrapper-perl \
     make man moreutils netcat nodejs npm pandoc unrtf antiword \
-    php-cli posh python python-dev python-tox python-yaml \
+    php-cli python python-dev python-tox python-yaml \
     realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
     vim git-annex gist glances \
     software-properties-common \

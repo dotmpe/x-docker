@@ -84,9 +84,10 @@ RUN \
   git reset --hard $KCOV_GIT_REF && \
   mkdir build && cd build && cmake .. && make && make install
 
+# Install redo (and ignore possible failure, install OK currently)
 RUN \
   git clone https://github.com/apenwarr/redo.git /src/github.com/apenwarr/redo && \
-  cd /src/github.com/apenwarr/redo && ./redo install
+  cd /src/github.com/apenwarr/redo && ./redo install || true
 
 RUN \
   test -n "$BATS_REPO" || BATS_REPO=https://github.com/bvberkum/bats-core.git ; \

@@ -16,7 +16,8 @@ echo "Shell options: $-"
 case "$(echo "$COMMIT_MSG" | tr 'A-Z' 'a-z') " in
   *"[skip build]"* | *"[build skip]"* | *"[skip ci]"* | *"[ci skip]"* )
     echo "Skipping build by ci-skip commit message"
-    exit 0 ;;
+    # Zero-status exit doesnt abort the build
+    exit 1 ;;
 esac
 
 test "$GIT_SHA1" = "$( git rev-parse HEAD )"  || {

@@ -8,6 +8,7 @@ ARG BUILD_DATE=
 ARG BUILD_CODE=
 ARG IMAGE_NAME=
 ARG GIT_COMMIT=
+ARG COMMIT_MSG=
 #ARG VERSION=
 
 LABEL \
@@ -45,6 +46,7 @@ RUN \
     bash && \
   apt-get update -qqy && \
   apt-get install -qqy git-lfs && \
+  unset DEBIAN_FRONTEND RUNLEVEL && \
   rm -rf /var/cache/apt/*
 
 # Setup node NVM and some tooling
@@ -83,11 +85,6 @@ RUN \
   KCOV_GIT_REF=${KCOV_GIT_REF:-$DEFAULT_KCOV_GIT_REF} && \
   git reset --hard $KCOV_GIT_REF && \
   mkdir build && cd build && cmake .. && make && make install
-
-# Install redo (and ignore possible failure, install OK currently)
-RUN \
-  git clone https://github.com/apenwarr/redo.git /src/github.com/apenwarr/redo && \
-  cd /src/github.com/apenwarr/redo && ./redo install || true
 
 RUN \
   test -n "$BATS_REPO" || BATS_REPO=https://github.com/bvberkum/bats-core.git ; \
@@ -182,20 +179,36 @@ ENV TREEBOX_USER=$username \
 
 USER $username
 
+# Use Basher for lazy user-installs of new shell commands; it clones only the
+# need last slice, no history, tags, etc. For non-user-command repos and full
+# checkouts put stuff at /src/*.{net,org...tld}/<user>/<repo>.
+#
 # TODO: change from above manual installs to user-scripts repo
 RUN \
   \
   git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
-  ( echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profile ) && \
+  ( echo 'export PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH"' >> /home/$username/.bash_profile ) && \
+  ( echo 'export PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH"' >> /home/$username/.profile ) && \
+  ( echo ': "${CS:=dark}"; export CS' >> /home/$username/.bash_profile ) && \
+  ( echo ': "${TERM:=xterm}"; export TERM' >> /home/$username/.bash_profile ) && \
+  ( echo 'test -n "$CS" || CS=dark; export CS' >> /home/$username/.profile ) && \
+  ( echo 'test -n "$TERM" || TERM=xterm; export TERM' >> /home/$username/.profile ) && \
+  \
+  . ~/.profile && \
+  BASHER_FULL_CLONE=true basher install bvberkum/user-scripts && \
+  cd /home/$username/.basher/cellar/packages/bvberkum/user-scripts && \
+  git checkout r0.0 && \
   \
   mkdir -p /src/github.com/bvberkum && \
-  git clone https://github.com/bvberkum/oil.git /src/github.com/bvberkum/oil
+  git clone https://github.com/bvberkum/oil.git /src/github.com/bvberkum/oil && \
+  cd /src/github.com/bvberkum/oil && \
+  git checkout feature/ast-visitor-cli && \
+  make configure && build/dev.sh minimal
 
-
-# XXX: Idem for user env?
 ENV \
   TREEBOX_IMAGE="$IMAGE_NAME" \
   TREEBOX_SRC="$SOURCE_BRANCH:$GIT_COMMIT" \
-  LANG=en_US.UTF-8
+  LANG=en_US.UTF-8 \
+  U_S=/home/$username/.basher/cellar/packages/bvberkum/user-scripts
 
 # Id: x-docker/0.0.2-dev

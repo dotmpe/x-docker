@@ -67,7 +67,9 @@ docker build $xtra \
     --build-arg SCM_TYPE=$SOURCE_TYPE \
     --build-arg GIT_BRANCH=$SOURCE_BRANCH \
     --build-arg GIT_COMMIT=$GIT_SHA1 \
+    --build-arg COMMIT_MSG="$COMMIT_MSG" \
     --build-arg BUILD_DATE="$BUILD_DATE" \
+    \
     -t $IMAGE_NAME .
 
 

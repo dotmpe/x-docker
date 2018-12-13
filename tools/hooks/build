@@ -38,10 +38,13 @@ test -n "$WORKSPACE" || {
 # Init shell
 
 echo WORKSPACE: $WORKSPACE
-echo '--------------- loading env'
-test -e ../env.sh && {
-  . ./../env.sh
+pwd && ls -la
+
+test -e ./env.sh && {
+  echo '--------------- loading local env'
+  . ./env.sh
 } || {
+  echo '--------------- loading global env'
   . $WORKSPACE/tools/build-env.sh
 }
 
@@ -49,14 +52,15 @@ test -e ../env.sh && {
 # Load args at relative location
 
 xtra=
-test ! -e ../build-args.sh || {
-  xtra="$(grep '=' ../build-args.sh | sed 's/.*/--build-arg & \\/')"
+test ! -e ./build-args.sh || {
+  echo "--------------- Extra build-args"
+  xtra="$(grep '^[^\#]*=' ./build-args.sh | sed 's/.*/--build-arg & /')"
 }
 
 echo "--------------- starting build '$IMAGE_NAME'"
 BUILD_DATE=$(date --rfc-3339=seconds)
 
-docker build $xtra \
+eval "docker build $xtra \
 		--build-arg X_DCKR_PREFIX=$ONAME \
 		--build-arg X_DCKR_BASENAME=$LNAME \
 		--build-arg X_DCKR_NAME=$ONAME/$LNAME \
@@ -68,11 +72,11 @@ docker build $xtra \
     --build-arg SCM_TYPE=$SOURCE_TYPE \
     --build-arg GIT_BRANCH=$SOURCE_BRANCH \
     --build-arg GIT_COMMIT=$GIT_SHA1 \
-    --build-arg COMMIT_MSG="$COMMIT_MSG" \
-    --build-arg BUILD_DATE="$BUILD_DATE" \
-    --build-arg VERSION="$VERSION" \
+    --build-arg COMMIT_MSG=\"$COMMIT_MSG\" \
+    --build-arg BUILD_DATE=\"$BUILD_DATE\" \
+    --build-arg VERSION=\"$VERSION\" \
     \
-    -t $IMAGE_NAME .
+    -t $IMAGE_NAME ."
 
 
 echo "--------------- tagging '$DOCKER_TAG'"

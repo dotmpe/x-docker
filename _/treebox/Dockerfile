@@ -40,6 +40,7 @@ RUN \
     zlib1g wget libcurl4-openssl-dev libelf-dev libdw-dev cmake cmake-data g++ \
     binutils-dev \
     libiberty-dev zlib1g-dev \
+    libzmq-dev \
     && \
   curl -s \
     https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | \
@@ -72,9 +73,12 @@ RUN \
   for b in rst2html rst2xml rst2pxml; do \
     ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
 
-# Setup some node tooling
 RUN \
-  npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
+  npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp
+
+RUN \
+  npm update --quiet -g nan && \
+  npm install --quiet --unsafe-perm -g zmq && \
   gem install --quiet sass
 
 # Install KCov

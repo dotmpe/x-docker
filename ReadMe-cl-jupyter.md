@@ -25,7 +25,7 @@ docker build completes OK. Image seems to run fine.
 
 ## Tags
 (0.0.2)
-  - Restructured Dockerfile. Changed to run as user.
+  - Restructured Dockerfile. Tried to change to run as user but no luck so far.
   - Added a bunch of Jupyter/IPython kernels:
 
     - bash, metakernel_bash

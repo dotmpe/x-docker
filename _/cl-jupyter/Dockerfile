@@ -1,12 +1,16 @@
 FROM bvberkum/treebox:dev
+  
+ARG username=treebox
 
 USER root
 
-ARG username=treebox
-
 # Setup Python3/Jupyter and some kernels
 RUN \
-  apt-get update -qq && apt-get install -y bzip2 wget build-essential python3-dev python3-pip unzip libzmq3-dev && \
+  apt-get update -qq && apt-get install -y bzip2 wget build-essential python3-dev python3-pip unzip libzmq3-dev
+
+# USER $username
+
+RUN \
 # Update for older dists
   pip3 install -vU setuptools && \
   pip3 install jupyter && \
@@ -15,7 +19,6 @@ RUN \
   python3 -m metakernel_bash install && \
   python3 -m gnuplot_kernel install && \
   python3 -m redis_kernel install
-
 
 # Install SBCL
 RUN \
@@ -45,8 +48,6 @@ RUN \
   python3 ./cl-jupyter-master/install-cl-jupyter.py && \
   sbcl --load ./cl-jupyter-master/cl-jupyter.lisp --non-interactive
 
-USER $username
-
 # TODO: Setup nodejs kernel
 #RUN \
 #  mkdir -v /src/github.com/notablemind && \
@@ -61,4 +62,4 @@ USER $username
 #  # jupyter console --kernel nodejs
 
 WORKDIR /notebooks
-CMD ["jupyter", "notebook", "--ip=0.0.0.0"]
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--allow-root"]

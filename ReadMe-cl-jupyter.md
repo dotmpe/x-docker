@@ -1,11 +1,14 @@
-### ``bvberkum/cl-jupyter`` ``:dev`` ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/cl-jupyter.svg) ![last commit on cl-jupyter-dev](https://img.shields.io/github/last-commit/bvberkum/x-docker/cl-jupyter-dev.svg) [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/cl-jupyter:dev.svg)](https://microbadger.com/images/bvberkum/cl-jupyter:dev "Get your own image badge on microbadger.com") ![docker hub pulls](https://img.shields.io/docker/pulls/bvberkum/cl-jupyter.svg) ![docker hub stars](https://img.shields.io/docker/stars/bvberkum/cl-jupyter.svg) ![repo license](https://img.shields.io/github/license/bvberkum/x-docker.svg) ![issues](https://img.shields.io/github/issues/bvberkum/x-docker.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/bvberkum/x-docker.svg) ![readme](https://img.shields.io/github/size/bvberkum/x-docker/ReadMe-cl-jupyter.md.svg) ![code](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2018.svg) 
+### ``bvberkum/cl-jupyter`` [Dockerfile](./_/cl-jupyter/Dockerfile)
+
+Jupyter with SBCL and other kernels installed.
+
+#### ``:dev`` ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/cl-jupyter.svg) ![last commit on cl-jupyter-dev](https://img.shields.io/github/last-commit/bvberkum/x-docker/cl-jupyter-dev.svg) [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/cl-jupyter:dev.svg)](https://microbadger.com/images/bvberkum/cl-jupyter:dev "Get your own image badge on microbadger.com") ![docker hub pulls](https://img.shields.io/docker/pulls/bvberkum/cl-jupyter.svg) ![docker hub stars](https://img.shields.io/docker/stars/bvberkum/cl-jupyter.svg) ![repo license](https://img.shields.io/github/license/bvberkum/x-docker.svg) ![issues](https://img.shields.io/github/issues/bvberkum/x-docker.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/bvberkum/x-docker.svg) ![readme](https://img.shields.io/github/size/bvberkum/x-docker/ReadMe-cl-jupyter.md.svg) ![code](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2018.svg)
 
 [//]: # 'Not a tag. ![last commit on cl-jupyter](https://img.shields.io/github/last-commit/bvberkum/x-docker/cl-jupyter.svg)'
 
-### ``bvberkum/cl-jupyter`` ``:latest`` [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/cl-jupyter.svg)](https://microbadger.com/images/bvberkum/cl-jupyter "microbadger.com image metadata")
+#### ``:latest`` [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/cl-jupyter.svg)](https://microbadger.com/images/bvberkum/cl-jupyter "microbadger.com image metadata")
 [![image version](https://images.microbadger.com/badges/version/bvberkum/cl-jupyter.svg)](https://microbadger.com/images/bvberkum/cl-jupyter "microbadger.com version metadata")
 
-[Dockerfile](./_/cl-jupyter/Dockerfile)
 
 ```
 docker pull bvberkum/cl-jupyter &&
@@ -22,6 +25,17 @@ Already installs latest Quicklisp.
 
 After switching to latest baseimage (0.10.0) and SBCL 1.4.14 latest release
 docker build completes OK. Image seems to run fine.
+
+
+## Autobuilds
+Branch           | Dockerfile                   | Tag
+---------------- | -----------------------------| ----------------------------
+cl-jupyter-dev   | ``/_/cl-jupyter``            | dev
+
+Tag                                             | Dockerfile        | Tag
+----------------------------------------------- | ------------------| --------
+cl-jupyter                                      | ``/_/cl-jupyter`` | latest
+``/^cl-jupyter-([0-9\.]+[-a-z0-9+_-]*)/``       | ``/_/cl-jupyter`` | {\1}
 
 ## Tags
 (0.0.2)

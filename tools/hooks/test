@@ -1,0 +1,16 @@
+#!/bin/sh
+_cmd=$_
+
+# test is the sixth build-hook; See doc/dev.md
+# This is the second phase of pipeline, between test and push.
+
+echo "---------- test '$(pwd)'"
+test ! -e ./test.sh && true || {
+
+  echo "Executing test script.." >&2
+  . ./test.sh || {
+
+    # NOTE: Don't fail *-dev builds
+    case "$DOCKER_TAG" in "*-dev" ) true ;; * ) false ;; esac
+  }
+}

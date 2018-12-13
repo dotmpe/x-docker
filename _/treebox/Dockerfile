@@ -1,36 +1,56 @@
 
-# Latest is 0.10.0
+# Latest is 0.10.0 [2018-12-02]
 FROM phusion/baseimage:latest
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
+ARG BUILD_DATE=
+ARG BUILD_CODE=
+ARG IMAGE_NAME=
+ARG GIT_COMMIT=
+ARG COMMIT_MSG=
+ARG VERSION=
+
 LABEL \
-  description="Lots of dev tooling and a user setup" \
-  urls.hub=https://hub.docker.com/r/bvberkum/treebox \
-  urls.repo=https://github.com/bvberkum/x-docker
+  org.label-schema.description="Lots of dev tooling and a user setup" \
+  org.label-schema.name="$IMAGE_NAME" \
+  org.label-schema.build-date="$BUILD_DATE" \
+  org.label-schema.version="$VERSION" \
+  org.label-schema.vcs-ref=$GIT_COMMIT \
+  org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
+  org.label-schema.schema-version="1.0"
 
 
-# Setup package manager
+# Setup package manager and install prerequisite packages
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
   apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
-    bash build-essential curl dash elinks git graphviz imagemagick \
+    bash zsh dash posh ash ksh mksh busybox-static \
+    build-essential libreadline-dev time gawk  \
+    bc curl elinks git jq graphviz imagemagick \
     figlet update-motd libnet-ifconfig-wrapper-perl \
-    make man moreutils netcat nodejs npm pandoc php-cli posh \
-    python python-dev python-tox python-yaml \
+    make man moreutils netcat nodejs npm pandoc unrtf antiword \
+    php-cli python python-dev python-tox python-yaml \
     realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
-    vim git-annex \
+    vim git-annex gist glances \
     software-properties-common \
-    autoconf libtool && \
+    autoconf libtool \
+    zlib1g wget libcurl4-openssl-dev libelf-dev libdw-dev cmake cmake-data g++ \
+    binutils-dev \
+    libiberty-dev zlib1g-dev \
+    libzmq-dev \
+    && \
   curl -s \
     https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | \
     bash && \
   apt-get update -qqy && \
   apt-get install -qqy git-lfs && \
+  unset DEBIAN_FRONTEND RUNLEVEL && \
   rm -rf /var/cache/apt/*
 
+# Setup node NVM and some tooling
 ARG node_version=lts
 
 RUN \
@@ -44,20 +64,47 @@ RUN \
   { test -e /usr/bin/node || \
     ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }
 
+# Setup python PIP and some tooling
 RUN \
   cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && \
   pip install --quiet \
-  	    setuptools PyYAML zope.interface zope.component objectpath docutils && \
+    markdown BeautifulSoup mkdocs==0.17.5 \
+    setuptools PyYAML zope.interface zope.component objectpath docutils && \
   for b in rst2html rst2xml rst2pxml; do \
     ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
 
 RUN \
-  npm install --quiet -g coffee-script pm2 grunt grunt-cli webpack && \
+  npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp
+
+RUN \
+  npm update --quiet -g nan && \
+  npm install --quiet --unsafe-perm -g zmq && \
   gem install --quiet sass
+
+# Install KCov
+RUN \
+  git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKagstrom/kcov && \
+  cd /src/github.com/SimonKagstrom/kcov && \
+  DEFAULT_KCOV_GIT_REF=$(git tag --list | grep "^v[0-9]\+$" | sort -V | tail --lines 1) && \
+  KCOV_GIT_REF=${KCOV_GIT_REF:-$DEFAULT_KCOV_GIT_REF} && \
+  git reset --hard $KCOV_GIT_REF && \
+  mkdir build && cd build && cmake .. && make && make install
+
+RUN \
+  test -n "$BATS_REPO" || BATS_REPO=https://github.com/bvberkum/bats-core.git ; \
+  test -n "$SRC_PREFIX" || SRC_PREFIX=/src/github.com/bvberkum ; \
+  test -n "$BATS_BRANCH" || BATS_BRANCH=forks/bvb-dev ; \
+  git clone $BATS_REPO $SRC_PREFIX/bats && \
+  ( \
+    cd $SRC_PREFIX/bats && \
+    git checkout $BATS_BRANCH && \
+    ./install.sh /usr/local \
+  ) && \
+  bats --version
+
 
 # TODO: fix pm2 fsevents
 # TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
-
 
 # Replace /etc/profile with local on PATH, because profile.d/ssh-env does not
 # seem to do it.
@@ -95,20 +142,18 @@ RUN \
 
 # FIXME: I don't think I should need or want to create a system-user, however
 # usermod does not find the added user otherwise.
+# Also fix permissions for /home, /src and /srv
 RUN \
   useradd -d /home/$username -s /bin/bash $username && \
   mkdir -vp /home/$username/project && \
   usermod $username -a -G sudo,staff,ssh && \
   \
-  git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
-  ( echo 'export PATH="$HOME/.basher/bin:$PATH"' >> /home/$username/.bash_profile ) && \
+  chown -R $username:$username /home/$username/ && \
   \
-  chown -R $username:$username /home/$username/
-
-RUN \
   mkdir -vp /src/github.com /src/bitbucket.org /src/local /srv && \
-  chown $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
-  chmod g+rw /src/github.com /src/bitbucket.org /src/local && \
+  chown -R $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
+  chmod -R g+rw /src/github.com /src/bitbucket.org /src/local && \
+  \
   chgrp staff /srv /etc/container_environment && \
   chmod -R g+rx /etc/container_environment
 
@@ -116,10 +161,17 @@ RUN \
 RUN locale-gen en_US.UTF-8
 
 # Fancy up (root) env
+ARG BUILD_CODE=
+ARG DOCKER_TAG=
+ARG SOURCE_BRANCH=
+ARG SCM_TYPE=
+ARG GIT_BRANCH=
+ARG COMMIT_MSG=
+
 ENV TREEBOX_USER=$username \
   TREEBOX_BUILD_ID=$BUILD_CODE \
-  TREEBOX_IMAGE="$IMAGE_NAME:$DOCKER_TAG" \
-  TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
+  TREEBOX_IMAGE="$IMAGE_NAME" \
+  TREEBOX_SRC="$SOURCE_BRANCH:$GIT_COMMIT" \
   TREEBOX_TAG=$DOCKER_TAG \
   TREEBOX_SCM=$SCM_TYPE \
   TREEBOX_SCM_BRANCH=$GIT_BRANCH \
@@ -131,10 +183,36 @@ ENV TREEBOX_USER=$username \
 
 USER $username
 
-# XXX: Idem for user env?
+# Use Basher for lazy user-installs of new shell commands; it clones only the
+# need last slice, no history, tags, etc. For non-user-command repos and full
+# checkouts put stuff at /src/*.{net,org...tld}/<user>/<repo>.
+#
+# TODO: change from above manual installs to user-scripts repo
+RUN \
+  \
+  git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
+  ( echo 'export PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH"' >> /home/$username/.bash_profile ) && \
+  ( echo 'export PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH"' >> /home/$username/.profile ) && \
+  ( echo ': "${CS:=dark}"; export CS' >> /home/$username/.bash_profile ) && \
+  ( echo ': "${TERM:=xterm}"; export TERM' >> /home/$username/.bash_profile ) && \
+  ( echo 'test -n "$CS" || CS=dark; export CS' >> /home/$username/.profile ) && \
+  ( echo 'test -n "$TERM" || TERM=xterm; export TERM' >> /home/$username/.profile ) && \
+  \
+  . ~/.profile && \
+  BASHER_FULL_CLONE=true basher install bvberkum/user-scripts && \
+  cd /home/$username/.basher/cellar/packages/bvberkum/user-scripts && \
+  git checkout r0.0 && \
+  \
+  mkdir -p /src/github.com/bvberkum && \
+  git clone https://github.com/bvberkum/oil.git /src/github.com/bvberkum/oil && \
+  cd /src/github.com/bvberkum/oil && \
+  git checkout feature/ast-visitor-cli && \
+  make configure && build/dev.sh minimal
+
 ENV \
-  TREEBOX_IMAGE="$IMAGE_NAME:$DOCKER_TAG" \
-  TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
-  LANG=en_US.UTF-8
+  TREEBOX_IMAGE="$IMAGE_NAME" \
+  TREEBOX_SRC="$SOURCE_BRANCH:$GIT_COMMIT" \
+  LANG=en_US.UTF-8 \
+  U_S=/home/$username/.basher/cellar/packages/bvberkum/user-scripts
 
 # Id: x-docker/0.0.2-dev

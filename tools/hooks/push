@@ -1,4 +1,8 @@
 #!/bin/sh
+_cmd=$_
+
+# push is the ninth and last build-hook; See doc/dev.md for all hooks
+# This is the third phase of pipeline, after build and test.
 
 echo '----------'
 
@@ -31,7 +35,12 @@ test -e ../env.sh && {
 
 echo "---------- push '$(pwd)'"
 
-echo $DOCKER_TAG | tr -s ', ' ' ' | while read tag
+test -n "$DOCKER_TAGS" || {
+  echo "Error, no Docker-Tags." >&2
+  exit 1
+}
+
+echo $DOCKER_TAGS | tr -s ', ' ' ' | while read -r tag
 do
   test -n "$tag" || continue
   echo "docker push '$DOCKER_REPO:$tag'"

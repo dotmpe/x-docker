@@ -1,8 +1,15 @@
 #!/bin/sh
+_cmd=$_
 
-echo '---------- build env: '$(pwd)
-env
-echo '------'
+# build is the third build-hook; See doc/dev.md
+# This is the first phase of pipeline, before test and push.
+
+echo "---------- build env: "$(pwd)
+echo "Hook Cmd: $_cmd"
+echo "Shell PID: $$"
+echo "Shell options: $-"
+#env
+#echo '------'
 vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"
 other_vars="DOCKER_HOST MAX_LOG_SIZE CACHE_TAG SIGNED_URLS DOCKERCFG"
 
@@ -31,10 +38,13 @@ test -n "$WORKSPACE" || {
 # Init shell
 
 echo WORKSPACE: $WORKSPACE
-echo '--------------- loading env'
-test -e ../env.sh && {
-  . ./../env.sh
+pwd && ls -la
+
+test -e ./env.sh && {
+  echo '--------------- loading local env'
+  . ./env.sh
 } || {
+  echo '--------------- loading global env'
   . $WORKSPACE/tools/build-env.sh
 }
 
@@ -42,30 +52,41 @@ test -e ../env.sh && {
 # Load args at relative location
 
 xtra=
-test ! -e ../build-args.sh || {
-  xtra="$(grep '=' ../build-args.sh | sed 's/.*/--build-arg & \\/')"
+test ! -e ./build-args.sh || {
+  echo "--------------- Extra build-args"
+  xtra="$(grep '^[^\#]*=' ./build-args.sh | sed 's/.*/--build-arg & /')"
 }
 
-
 echo "--------------- starting build '$IMAGE_NAME'"
-docker build $xtra \
+BUILD_DATE=$(date --rfc-3339=seconds)
+
+eval "docker build $xtra \
 		--build-arg X_DCKR_PREFIX=$ONAME \
 		--build-arg X_DCKR_BASENAME=$LNAME \
 		--build-arg X_DCKR_NAME=$ONAME/$LNAME \
-    --build-arg X_DCKR_TAG=$DOCKER_TAG \
+    --build-arg X_DCKR_BASE=$X_DCKR_BASE \
+    --build-arg X_DCKR_TAG=$X_DCKR_TAG \
     --build-arg BUILD_CODE=$BUILD_CODE \
     --build-arg IMAGE_NAME=$IMAGE_NAME \
     --build-arg DOCKER_TAG=$DOCKER_TAG \
     --build-arg SCM_TYPE=$SOURCE_TYPE \
     --build-arg GIT_BRANCH=$SOURCE_BRANCH \
     --build-arg GIT_COMMIT=$GIT_SHA1 \
-    -t $IMAGE_NAME .
-
+    --build-arg COMMIT_MSG=\"$COMMIT_MSG\" \
+    --build-arg BUILD_DATE=\"$BUILD_DATE\" \
+    --build-arg VERSION=\"$VERSION\" \
+    \
+    -t $IMAGE_NAME ."
 
 
 echo "--------------- tagging '$DOCKER_TAG'"
 
-echo $DOCKER_TAG | tr -s ', ' ' ' | while read tag
+test -n "$DOCKER_TAGS" || {
+  echo "Error, no Docker-Tags." >&2
+  exit 1
+}
+
+echo $DOCKER_TAGS | tr -s ', ' ' ' | while read tag
 do
   test -n "$tag" || continue
   echo "docker tag '$IMAGE_NAME' '$DOCKER_REPO:$tag'"

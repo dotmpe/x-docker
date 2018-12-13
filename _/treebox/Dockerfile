@@ -9,7 +9,7 @@ ARG BUILD_CODE=
 ARG IMAGE_NAME=
 ARG GIT_COMMIT=
 ARG COMMIT_MSG=
-#ARG VERSION=
+ARG VERSION=
 
 LABEL \
   org.label-schema.description="Lots of dev tooling and a user setup" \
@@ -29,7 +29,7 @@ RUN \
   apt-get install -qqy --allow-downgrades \
     bash zsh dash posh ash ksh mksh busybox-static \
     build-essential libreadline-dev time gawk  \
-    bc curl elinks git graphviz imagemagick \
+    bc curl elinks git jq graphviz imagemagick \
     figlet update-motd libnet-ifconfig-wrapper-perl \
     make man moreutils netcat nodejs npm pandoc unrtf antiword \
     php-cli python python-dev python-tox python-yaml \

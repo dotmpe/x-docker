@@ -21,6 +21,7 @@ Besides `bash` and `bats`, aditional tools installed into the base image are
 - [Treebox](https://hub.docker.com/r/bvberkum/treebox)
   - [Sitefile](https://hub.docker.com/r/bvberkum/node-sitefile)
 - [Sandbox](https://hub.docker.com/r/bvberkum/sandbox)
+- [CL-Jupyter](https://hub.docker.com/r/bvberkum/cl-jupyter)
 
 ### Other tools
 

@@ -60,7 +60,8 @@ docker build $xtra \
 		--build-arg X_DCKR_PREFIX=$ONAME \
 		--build-arg X_DCKR_BASENAME=$LNAME \
 		--build-arg X_DCKR_NAME=$ONAME/$LNAME \
-    --build-arg X_DCKR_TAG=$DOCKER_TAG \
+    --build-arg X_DCKR_BASE=$X_DCKR_BASE \
+    --build-arg X_DCKR_TAG=$X_DCKR_TAG \
     --build-arg BUILD_CODE=$BUILD_CODE \
     --build-arg IMAGE_NAME=$IMAGE_NAME \
     --build-arg DOCKER_TAG=$DOCKER_TAG \

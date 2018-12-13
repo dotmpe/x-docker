@@ -50,7 +50,7 @@ test -e ../env.sh && {
 
 xtra=
 test ! -e ../build-args.sh || {
-  xtra="$(grep '=' ../build-args.sh | sed 's/.*/--build-arg & \\/')"
+  xtra="$(grep '^[^\#]*=' ../build-args.sh | sed 's/.*/--build-arg & \\/')"
 }
 
 echo "--------------- starting build '$IMAGE_NAME'"

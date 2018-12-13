@@ -51,7 +51,10 @@ exec git diff-index --check --cached $against --
 
 branch_name="$(git rev-parse --abbrev-ref HEAD)"
 
-test ! -e "ReadMe-$branch_name.md" || {
+test ! -e "ReadMe-$branch_name.md" && {
+
+  echo "No special README for branch '$branch_name'" >&2
+} || {
 
   test "$(readlink README.md)" = "ReadMe-$branch_name.md" || {
 

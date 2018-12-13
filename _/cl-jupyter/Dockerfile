@@ -1,9 +1,11 @@
-#FROM bvberkum/treebox:dev
-FROM phusion/baseimage:0.10.0
+FROM bvberkum/treebox:dev
+#FROM phusion/baseimage:0.10.0
 
 #ARG X_DCKR_BASE=bvberkum/treebox
 #ARG X_DCKR_TAG=dev
 #FROM $X_DCKR_BASE:$X_DCKR_TAG
+
+USER root
 
 RUN apt-get update -qq && apt-get install -y bzip2 wget build-essential python3-dev python3-pip unzip libzmq3-dev
 

@@ -9,7 +9,7 @@ ARG BUILD_CODE=
 ARG IMAGE_NAME=
 ARG GIT_COMMIT=
 ARG COMMIT_MSG=
-#ARG VERSION=
+ARG VERSION=
 
 LABEL \
   org.label-schema.description="Lots of dev tooling and a user setup" \

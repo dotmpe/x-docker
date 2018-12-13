@@ -14,11 +14,13 @@ RUN \
 # Update for older dists
   pip3 install -vU setuptools && \
   pip3 install jupyter && \
-  pip3 install bash_kernel gnuplot_kernel metakernel_bash redis_kernel && \
+  pip3 install bash_kernel gnuplot_kernel metakernel_bash redis_kernel ansible-kernel && \
   python3 -m bash_kernel.install && \
   python3 -m metakernel_bash install && \
   python3 -m gnuplot_kernel install && \
-  python3 -m redis_kernel install
+  python3 -m redis_kernel install && \
+  python3 -m ansible_kernel.install && \
+  npm install -g jp-coffeescript
 
 # Install SBCL
 RUN \

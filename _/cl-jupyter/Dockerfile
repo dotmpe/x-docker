@@ -19,8 +19,13 @@ RUN \
   python3 -m metakernel_bash install && \
   python3 -m gnuplot_kernel install && \
   python3 -m redis_kernel install && \
-  python3 -m ansible_kernel.install && \
-  npm install -g jp-coffeescript
+  python3 -m ansible_kernel.install
+
+#RUN \
+#  export USER=root && \
+#  ls -la /root /root/.npm && \
+#  chown -R root:root /root/.npm && \
+#  npm install -g jp-coffeescript
 
 # Install SBCL
 RUN \

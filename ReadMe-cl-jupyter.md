@@ -1,4 +1,4 @@
-### ``bvberkum/cl-jupyter`` [Dockerfile](./_/cl-jupyter/Dockerfile)
+### ``bvberkum/cl-jupyter`` [Dockerfile](https://github.com/bvberkum/x-docker/blobl/master/_/cl-jupyter/Dockerfile)
 
 Jupyter with SBCL and other kernels installed.
 
@@ -40,6 +40,7 @@ cl-jupyter                                      | ``/_/cl-jupyter`` | latest
 ## Tags
 (0.0.2)
   - Restructured Dockerfile. Tried to change to run as user but no luck so far.
+    Also getting strange root permission issues with other kernels.
   - Added a bunch of Jupyter/IPython kernels:
 
     - bash, metakernel_bash

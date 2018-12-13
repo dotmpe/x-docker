@@ -1,5 +1,5 @@
-FROM bvberkum/treebox:dev
-#FROM phusion/baseimage:0.10.0
+#FROM bvberkum/treebox:dev
+FROM phusion/baseimage:0.10.0
 
 #ARG X_DCKR_BASE=bvberkum/treebox
 #ARG X_DCKR_TAG=dev

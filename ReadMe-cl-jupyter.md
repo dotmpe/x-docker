@@ -1,18 +1,23 @@
-### ``bvberkum/cl-jupyter`` [Dockerfile](./_/cl-jupyter/Dockerfile)
+## ``bvberkum/cl-jupyter`` [![image version](https://images.microbadger.com/badges/version/bvberkum/cl-jupyter.svg)](https://microbadger.com/images/bvberkum/cl-jupyter "microbadger.com version metadata") [ ![Dockerfile](https://img.shields.io/badge/Dockerfile-GitHub-blue.svg) ](https://github.com/bvberkum/x-docker/blob/master/_/cl-jupyter/Dockerfile) [ ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/cl-jupyter.svg) ](https://cloud.docker.com/repository/docker/bvberkum/cl-jupyter) ![docker hub pulls](https://img.shields.io/docker/pulls/bvberkum/cl-jupyter.svg) ![code](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2018.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/bvberkum/x-docker.svg)
 
 Jupyter with SBCL and other kernels installed.
 
-#### ``:dev`` ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/cl-jupyter.svg) ![last commit on cl-jupyter-dev](https://img.shields.io/github/last-commit/bvberkum/x-docker/cl-jupyter-dev.svg) [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/cl-jupyter:dev.svg)](https://microbadger.com/images/bvberkum/cl-jupyter:dev "Get your own image badge on microbadger.com") ![docker hub pulls](https://img.shields.io/docker/pulls/bvberkum/cl-jupyter.svg) ![docker hub stars](https://img.shields.io/docker/stars/bvberkum/cl-jupyter.svg) ![repo license](https://img.shields.io/github/license/bvberkum/x-docker.svg) ![issues](https://img.shields.io/github/issues/bvberkum/x-docker.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/bvberkum/x-docker.svg) ![readme](https://img.shields.io/github/size/bvberkum/x-docker/ReadMe-cl-jupyter.md.svg) ![code](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2018.svg)
-
-[//]: # 'Not a tag. ![last commit on cl-jupyter](https://img.shields.io/github/last-commit/bvberkum/x-docker/cl-jupyter.svg)'
-
+#### ``:dev`` ![last commit on cl-jupyter-dev](https://img.shields.io/github/last-commit/bvberkum/x-docker/cl-jupyter-dev.svg) [ ![image size/layers](https://images.microbadger.com/badges/image/bvberkum/cl-jupyter:dev.svg) ](https://microbadger.com/images/bvberkum/cl-jupyter:dev "microbadger.com")
 #### ``:latest`` [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/cl-jupyter.svg)](https://microbadger.com/images/bvberkum/cl-jupyter "microbadger.com image metadata")
-[![image version](https://images.microbadger.com/badges/version/bvberkum/cl-jupyter.svg)](https://microbadger.com/images/bvberkum/cl-jupyter "microbadger.com version metadata")
+
+Lots of install based on treebox.
+
+#### ``:baseimage-dev`` ![last commit on cl-jupyter/baseimage-dev](https://img.shields.io/github/last-commit/bvberkum/x-docker/cl-jupyter/baseimage-dev.svg) [ ![image size/layers](https://images.microbadger.com/badges/image/bvberkum/cl-jupyter:baseimage-dev.svg) ](https://microbadger.com/images/bvberkum/cl-jupyter:baseimage-dev "microbadger.com")
+#### ``:baseimage-latest`` [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/cl-jupyter:baseimage-latest.svg)](https://microbadger.com/images/bvberkum/cl-jupyter:baseimage-latest "microbadger.com image metadata")
+
+Latest ``phusion/baseimage``.
 
 
 ```
 docker pull bvberkum/cl-jupyter &&
-docker run -d -p 8888:8888 -v $(realpath /srv/docker-volumes-local)/notebooks:/notebooks bvberkum/cl-jupyter
+docker run -d -p 8888:8888 \
+  -v $(realpath /srv/docker-volumes-local)/notebooks:/notebooks \
+  bvberkum/cl-jupyter
 ```
 ```
 docker exec -ti <container> bash
@@ -40,6 +45,7 @@ cl-jupyter                                      | ``/_/cl-jupyter`` | latest
 ## Tags
 (0.0.2)
   - Restructured Dockerfile. Tried to change to run as user but no luck so far.
+    Also getting strange root permission issues with other kernels.
   - Added a bunch of Jupyter/IPython kernels:
 
     - bash, metakernel_bash

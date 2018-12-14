@@ -1,5 +1,5 @@
-FROM bvberkum/treebox:dev
-  
+FROM phusion/baseimage:0.10.0
+
 ARG username=treebox
 
 USER root
@@ -14,11 +14,18 @@ RUN \
 # Update for older dists
   pip3 install -vU setuptools && \
   pip3 install jupyter && \
-  pip3 install bash_kernel gnuplot_kernel metakernel_bash redis_kernel && \
+  pip3 install bash_kernel gnuplot_kernel metakernel_bash redis_kernel ansible-kernel && \
   python3 -m bash_kernel.install && \
   python3 -m metakernel_bash install && \
   python3 -m gnuplot_kernel install && \
-  python3 -m redis_kernel install
+  python3 -m redis_kernel install && \
+  python3 -m ansible_kernel.install
+
+#RUN \
+#  export USER=root && \
+#  ls -la /root /root/.npm && \
+#  chown -R root:root /root/.npm && \
+#  npm install -g jp-coffeescript
 
 # Install SBCL
 RUN \
@@ -58,7 +65,7 @@ RUN \
 #  npm install && node install.js && \
 #  npm run build && \
 #  npm run build-ext
-#  
+#
 #  # jupyter console --kernel nodejs
 
 WORKDIR /notebooks

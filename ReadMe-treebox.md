@@ -37,7 +37,7 @@ treebox                                         | ``/_/treebox``   | latest
 No automated testing, but here is a checklist per tag.
 
 ## Tags
-(0.0.2)
+0.0.2
   - responds to files in update-motd.d by updating the login message
   - Testing with libffi_convenience, but no joy.
     phusion/baseimage:latest is 0.10.0
@@ -46,7 +46,7 @@ No automated testing, but here is a checklist per tag.
   - Lots more build tools, a string of shells, missing bits like `binutils`, `jq`.
   - Fixed docker labels a bit.
   - Added more extensive user setup; Basher, user-scripts.
-  - TOTEST: added KCov install, Oil shell.
+  - Added KCov install, Oil shell.
 
 0.0.1
   - is SSH accessible after mounting startup script and user authorized_keys.

@@ -32,6 +32,8 @@ treebox                                         | ``/_/treebox``   | latest
 ``/^treebox-([0-9\.]+[-a-z0-9+_-]*)/``          | ``/_/treebox``   | {\1}
 
 ## Tags
+(0.0.4)
+
 0.0.3
   - Lots more build tools, a string of shells, missing bits like `binutils`, `jq`.
   - Fixed docker labels a bit.

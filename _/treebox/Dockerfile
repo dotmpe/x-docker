@@ -12,7 +12,7 @@ ARG COMMIT_MSG=
 ARG VERSION=
 
 LABEL \
-  org.label-schema.description="Lots of dev tooling and a user setup" \
+  org.label-schema.description="A bunch of py/rb/js dev tooling and a user setup" \
   org.label-schema.name="$IMAGE_NAME" \
   org.label-schema.build-date="$BUILD_DATE" \
   org.label-schema.version="$VERSION" \

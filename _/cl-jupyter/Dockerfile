@@ -6,7 +6,11 @@ USER root
 
 # Setup Python3/Jupyter and some kernels
 RUN \
-  apt-get update -qq && apt-get install -y bzip2 wget build-essential python3-dev python3-pip unzip libzmq3-dev
+  apt-get update -qq && \
+  apt-get install -qqy \
+  bzip2 wget build-essential \
+  python3-dev python3-pip unzip libzmq3-dev \
+  libssl-dev
 
 # USER $username
 
@@ -43,10 +47,7 @@ RUN \
   echo '                                       (user-homedir-pathname))))' >> /root/.sbclrc && \
   echo '  (when (probe-file quicklisp-init)' >> /root/.sbclrc && \
   echo '    (load quicklisp-init)))' >> /root/.sbclrc && \
-  echo '(push #p"/workspace/" asdf:*central-registry*)' >> /root/.sbclrc && \
-\
-  cp /root/.sbclrc /home/$username/ && \
-  chown $username:$username /home/$username/.sbclrc
+  echo '(push #p"/workspace/" asdf:*central-registry*)' >> /root/.sbclrc
 
 # Setup cl-jupyter kernel
 RUN \

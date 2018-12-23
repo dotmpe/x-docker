@@ -1,11 +1,18 @@
 #!/bin/sh
-#
-# An example hook script to verify what is about to be committed.
-# Called by "git commit" with no arguments.  The hook should
-# exit with non-zero status after issuing an appropriate message if
-# it wants to stop the commit.
-#
-# To enable this hook, rename this file to "pre-commit".
+
+# Executes before commit-msg is determined, to check stage or tree and abort if desired
+
+# See man 5 githooks
+
+test -z "$scm_nok" || exit $scm_nok
+
+set -e
+
+
+BRANCH_NAME="$(git rev-parse --abbrev-ref HEAD)"
+
+
+# Compare to-be committed against HEAD or emty for initial commit
 
 if git rev-parse --verify HEAD >/dev/null 2>&1
 then
@@ -15,8 +22,9 @@ else
 	against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
 fi
 
-# If you want to allow non-ASCII filenames set this variable to true.
-allownonascii=$(git config --bool hooks.allownonascii)
+# Use config hooks.allownonascii to configure this check
+# If you want to allow non-ASCII filenames set hooks.allownonascii to true.
+allownonascii=$(git config --bool hooks.allownonascii) || true
 
 # Redirect output to stderr.
 exec 1>&2
@@ -46,20 +54,33 @@ EOF
 fi
 
 # If there are whitespace errors, print the offending file names and fail.
-exec git diff-index --check --cached $against --
+git diff-index --check --cached $against --
 
 
-branch_name="$(git rev-parse --abbrev-ref HEAD)"
+test ! -x $HOME/.git-checks || {
 
-test ! -e "ReadMe-$branch_name.md" && {
+  . ~/.git-checks
+}
 
-  echo "No special README for branch '$branch_name'" >&2
+
+test ! -e "ReadMe-$BRANCH_NAME.md" && {
+
+  echo "No special README for branch '$BRANCH_NAME'" >&2
 } || {
 
-  test "$(readlink README.md)" = "ReadMe-$branch_name.md" || {
+  test "$(readlink README.md)" = "ReadMe-$BRANCH_NAME.md" || {
 
     # Force update README.md symlink
-    rm README.md && ln -s ReadMe-$branch_name.md README.md
+    rm README.md && ln -s ReadMe-$BRANCH_NAME.md README.md
     exit 1
   }
 }
+
+
+# From GIT Annex hooks
+
+test ! -d .git/annex || {
+  git annex pre-commit . || error "GIT Annex pre-commit hook failed" $?
+}
+
+# Id: x-docker/0.0 tools/git-hooks/pre-commit

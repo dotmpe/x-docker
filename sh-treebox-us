@@ -1,10 +1,1 @@
-#!/bin/sh
-set -e
-
-PPWD="$(pwd -P)"
-
-docker pull bvberkum/treebox:dev
-
-docker run \
-  -v $PPWD/sh-treebox-us-inner:/sh-treebox-us.sh \
-  -ti --rm bvberkum/treebox:dev sh -c /sh-treebox-us.sh
+/srv/home-local/sh-treebox-us

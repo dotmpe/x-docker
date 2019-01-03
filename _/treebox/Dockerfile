@@ -141,8 +141,8 @@ RUN \
   useradd -d /home/$username -s /bin/bash $username && \
   mkdir -vp /home/$username/project && \
   usermod $username -a -G sudo,staff,ssh && \
-  ln -s /home/$username /srv/home-local &&
-  ln -s /srv/home-local/project /srv/project-local &&
+  ln -s /home/$username /srv/home-local && \
+  ln -s /srv/home-local/project /srv/project-local && \
   \
   chown -R $username:$username /home/$username/ && \
   \

@@ -1,0 +1,17 @@
+sudo: false
+language: shell
+services:
+- docker
+jobs:
+  include:
+    - stage: Build
+      script:
+        - . ./tools/ci/env.sh &&
+          . ./tools/ci/init.sh &&
+          . ./tools/ci/build.sh
+#cache:
+#  directories:
+branches:
+  only:
+    - master
+    - test

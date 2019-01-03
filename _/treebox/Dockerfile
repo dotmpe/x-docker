@@ -74,9 +74,7 @@ RUN \
     ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
 
 RUN \
-  npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp
-
-RUN \
+  npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
   npm update --quiet -g nan && \
   npm install --quiet --unsafe-perm -g zmq && \
   gem install --quiet sass
@@ -113,16 +111,13 @@ RUN \
   mv /etc/profile /tmp/profile; \
   { echo 'export PATH=$PATH:/usr/local/bin'; \
     cat /tmp/profile; \
-  } >/etc/profile
-
-RUN { \
-      echo ; \
-      echo "if test -e ~/.bashrc ; then source ~/.bashrc ; fi "; \
-    } >> /etc/bash.bashrc
-
+  } >/etc/profile; \
+  { \
+    echo ; \
+    echo "if test -e ~/.bashrc ; then source ~/.bashrc ; fi "; \
+  } >> /etc/bash.bashrc; \
 
 # Fancy up SSH
-RUN \
   figlet Treebox > /etc/ssh/banner && \
   echo "Banner /etc/ssh/banner" >> /etc/ssh/sshd_config
 
@@ -138,15 +133,16 @@ RUN \
   touch /etc/sudoers.d/treebox && { \
     echo "$username    ALL=NOPASSWD:/usr/sbin/service *"; \
     echo "$username    ALL=(www-data) NOPASSWD:ALL"; \
-  } > /etc/sudoers.d/treebox
-
+  } > /etc/sudoers.d/treebox; \
+  \
 # FIXME: I don't think I should need or want to create a system-user, however
 # usermod does not find the added user otherwise.
 # Also fix permissions for /home, /src and /srv
-RUN \
   useradd -d /home/$username -s /bin/bash $username && \
   mkdir -vp /home/$username/project && \
   usermod $username -a -G sudo,staff,ssh && \
+  ln -s /home/$username /srv/home-local &&
+  ln -s /srv/home-local/project /srv/project-local &&
   \
   chown -R $username:$username /home/$username/ && \
   \

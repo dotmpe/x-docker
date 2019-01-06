@@ -143,6 +143,7 @@ RUN \
   usermod $username -a -G sudo,staff,ssh && \
   ln -s /home/$username /srv/home-local && \
   ln -s /srv/home-local/project /srv/project-local && \
+  ln -s /src /srv/src-local && \
   \
   chown -R $username:$username /home/$username/ && \
   \

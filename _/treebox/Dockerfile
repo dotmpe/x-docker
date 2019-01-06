@@ -41,6 +41,7 @@ RUN \
     binutils-dev \
     libiberty-dev zlib1g-dev \
     libzmq-dev \
+    golang \
     && \
   curl -s \
     https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | \

@@ -1,5 +1,5 @@
 
-# Latest is 0.10.0
+# treebox:latest is 0.0.4, phusiona/baseimage:0.10.0
 FROM bvberkum/treebox:latest
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>

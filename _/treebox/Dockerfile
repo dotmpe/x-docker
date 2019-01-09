@@ -41,6 +41,7 @@ RUN \
     binutils-dev \
     libiberty-dev zlib1g-dev \
     libzmq-dev \
+    golang \
     && \
   curl -s \
     https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | \
@@ -143,6 +144,7 @@ RUN \
   usermod $username -a -G sudo,staff,ssh && \
   ln -s /home/$username /srv/home-local && \
   ln -s /srv/home-local/project /srv/project-local && \
+  ln -s /src /srv/src-local && \
   \
   chown -R $username:$username /home/$username/ && \
   \
@@ -157,16 +159,14 @@ RUN \
 RUN locale-gen en_US.UTF-8
 
 # Fancy up (root) env
-ARG BUILD_CODE=
 ARG DOCKER_TAG=
 ARG SOURCE_BRANCH=
 ARG SCM_TYPE=
 ARG GIT_BRANCH=
-ARG COMMIT_MSG=
 
 ENV TREEBOX_USER=$username \
   TREEBOX_BUILD_ID=$BUILD_CODE \
-  TREEBOX_IMAGE="$IMAGE_NAME" \
+  TREEBOX_IMAGE="$IMAGE_NAME:$DOCKER_TAG" \
   TREEBOX_SRC="$SOURCE_BRANCH:$GIT_COMMIT" \
   TREEBOX_TAG=$DOCKER_TAG \
   TREEBOX_SCM=$SCM_TYPE \

@@ -1,4 +1,4 @@
-## ``bvberkum/treebox`` [![image version](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata") [ ![Dockerfile](https://img.shields.io/badge/Dockerfile-GitHub-blue.svg) ](https://github.com/bvberkum/x-docker/blob/master/_/treebox/Dockerfile) [ ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg) ](https://cloud.docker.com/repository/docker/bvberkum/treebox) ![docker hub pulls](https://img.shields.io/docker/pulls/bvberkum/treebox.svg) ![code](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2018.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/bvberkum/x-docker.svg) ![repo license](https://img.shields.io/github/license/bvberkum/x-docker.svg)
+## ``bvberkum/treebox`` [![image version](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata") [ ![Dockerfile](https://img.shields.io/badge/Dockerfile-GitHub-blue.svg) ](https://github.com/bvberkum/x-docker/blob/master/_/treebox/Dockerfile) [ ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg) ](https://cloud.docker.com/repository/docker/bvberkum/treebox) ![docker hub pulls](https://img.shields.io/docker/pulls/bvberkum/treebox.svg) ![code](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2019.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/bvberkum/x-docker.svg) ![repo license](https://img.shields.io/github/license/bvberkum/x-docker.svg)
 
 An image for development/testing with `treebox` user (ssh, sudo, staff and supergroup) and installations for:
 
@@ -32,7 +32,8 @@ treebox                                         | ``/_/treebox``   | latest
 ``/^treebox-([0-9\.]+[-a-z0-9+_-]*)/``          | ``/_/treebox``   | {\1}
 
 ## Tags
-(0.0.4)
+0.0.4
+  - Added go.
 
 0.0.3
   - Lots more build tools, a string of shells, missing bits like `binutils`, `jq`.

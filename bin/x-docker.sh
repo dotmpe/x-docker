@@ -21,7 +21,9 @@ load()
 
 xdckr__usage()
 {
-	echo TODO
+  echo "Usage: x-docker.sh <command>"
+
+  TODO
 }
 
 xdckr_return_to_branch()

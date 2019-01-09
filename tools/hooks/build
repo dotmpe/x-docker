@@ -79,7 +79,7 @@ eval "docker build $xtra \
     -t $IMAGE_NAME ."
 
 
-echo "--------------- tagging '$DOCKER_TAG'"
+echo "--------------- tagging '$DOCKER_TAGS'"
 
 test -n "$DOCKER_TAGS" || {
   echo "Error, no Docker-Tags." >&2

@@ -12,7 +12,7 @@ ARG COMMIT_MSG=
 ARG VERSION=
 
 LABEL \
-  org.label-schema.description="Lots of dev tooling and a user setup" \
+  org.label-schema.description="A bunch of py/rb/js dev tooling and a user setup" \
   org.label-schema.name="$IMAGE_NAME" \
   org.label-schema.build-date="$BUILD_DATE" \
   org.label-schema.version="$VERSION" \
@@ -41,6 +41,7 @@ RUN \
     binutils-dev \
     libiberty-dev zlib1g-dev \
     libzmq-dev \
+    golang \
     && \
   curl -s \
     https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | \
@@ -74,9 +75,7 @@ RUN \
     ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
 
 RUN \
-  npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp
-
-RUN \
+  npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
   npm update --quiet -g nan && \
   npm install --quiet --unsafe-perm -g zmq && \
   gem install --quiet sass
@@ -113,16 +112,13 @@ RUN \
   mv /etc/profile /tmp/profile; \
   { echo 'export PATH=$PATH:/usr/local/bin'; \
     cat /tmp/profile; \
-  } >/etc/profile
-
-RUN { \
-      echo ; \
-      echo "if test -e ~/.bashrc ; then source ~/.bashrc ; fi "; \
-    } >> /etc/bash.bashrc
-
+  } >/etc/profile; \
+  { \
+    echo ; \
+    echo "if test -e ~/.bashrc ; then source ~/.bashrc ; fi "; \
+  } >> /etc/bash.bashrc; \
 
 # Fancy up SSH
-RUN \
   figlet Treebox > /etc/ssh/banner && \
   echo "Banner /etc/ssh/banner" >> /etc/ssh/sshd_config
 
@@ -138,15 +134,17 @@ RUN \
   touch /etc/sudoers.d/treebox && { \
     echo "$username    ALL=NOPASSWD:/usr/sbin/service *"; \
     echo "$username    ALL=(www-data) NOPASSWD:ALL"; \
-  } > /etc/sudoers.d/treebox
-
+  } > /etc/sudoers.d/treebox; \
+  \
 # FIXME: I don't think I should need or want to create a system-user, however
 # usermod does not find the added user otherwise.
 # Also fix permissions for /home, /src and /srv
-RUN \
   useradd -d /home/$username -s /bin/bash $username && \
   mkdir -vp /home/$username/project && \
   usermod $username -a -G sudo,staff,ssh && \
+  ln -s /home/$username /srv/home-local && \
+  ln -s /srv/home-local/project /srv/project-local && \
+  ln -s /src /srv/src-local && \
   \
   chown -R $username:$username /home/$username/ && \
   \
@@ -161,17 +159,10 @@ RUN \
 RUN locale-gen en_US.UTF-8
 
 # Fancy up (root) env
-ARG BUILD_CODE=
-ARG DOCKER_TAG=
-ARG SOURCE_BRANCH=
-ARG SCM_TYPE=
-ARG GIT_BRANCH=
-ARG COMMIT_MSG=
-
 ENV TREEBOX_USER=$username \
   TREEBOX_BUILD_ID=$BUILD_CODE \
-  TREEBOX_IMAGE="$IMAGE_NAME" \
-  TREEBOX_SRC="$SOURCE_BRANCH:$GIT_COMMIT" \
+  TREEBOX_IMAGE="$IMAGE_NAME:$DOCKER_TAG" \
+  TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
   TREEBOX_TAG=$DOCKER_TAG \
   TREEBOX_SCM=$SCM_TYPE \
   TREEBOX_SCM_BRANCH=$GIT_BRANCH \

@@ -45,7 +45,7 @@ cl-jupyter                                      | ``/_/cl-jupyter`` | latest
 ## Tags
 (0.0.2)
   - Restructured Dockerfile. Tried to change to run as user but no luck so far.
-    Also getting strange root permission issues with other kernels.
+    Also getting strange root permission issues with NPM/JS kernels.
   - Added a bunch of Jupyter/IPython kernels:
 
     - bash, metakernel_bash

@@ -19,9 +19,14 @@ Besides `bash` and `bats`, aditional tools installed into the base image are
 ### Dockerfile builds at hub.docker.com
 
 - [Treebox](https://hub.docker.com/r/bvberkum/treebox)
+  Py/Node/PHP dev container [docs](ReadMe-treebox.md)
+
   - [Sitefile](https://hub.docker.com/r/bvberkum/node-sitefile)
-- [Sandbox](https://hub.docker.com/r/bvberkum/sandbox)
+  - [Sandbox](https://hub.docker.com/r/bvberkum/sandbox)
+    treebox docker-in-docker
+
 - [CL-Jupyter](https://hub.docker.com/r/bvberkum/cl-jupyter)
+  LISP, Bash, Python codebook editor [docs](ReadMe-cl-jupyter.md)
 
 ### Other tools
 

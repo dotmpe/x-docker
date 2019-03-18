@@ -32,7 +32,7 @@ printf "Memory usage:\t%s\n" $memory_usage
 printf "Usage on /:\t%s\t\tSwap usage:\t%s\n" $root_usage $swap_usage
 printf "Local Users:\t%s\t\tProcesses:\t%s\n" $users $processes
 printf "Image build:\t%s\tSystem uptime:\t%s\n" "${TREEBOX_BUILD_ID}" "$time"
-printf "Image name:\t%s\tImage version:\t%s\n" "${TREEBOX_IMAGE}" "${TREEBOX_SRC}"
+printf "Image name:\t%s\tImage version:\t%s\n" "${TREEBOX_IMAGE}" "${TREEBOX_SOURCE}"
 
 printf "\n"
 test -f /etc/motd.tail && cat /etc/motd.tail || true

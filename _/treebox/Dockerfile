@@ -4,11 +4,23 @@ FROM phusion/baseimage:latest
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
-ARG BUILD_DATE=
+ARG X_DCKR_PREFIX=
+ARG X_DCKR_BASENAME=
+ARG X_DCKR_NAME=
+ARG X_DCKR_BASE=
+ARG X_DCKR_TAG=
+ARG X_DCKR_AI_TIME=
+ARG X_DCKR_CI_TIME=
+ARG X_DCKR_RELEASE=
 ARG BUILD_CODE=
 ARG IMAGE_NAME=
-ARG GIT_COMMIT=
+ARG DOCKER_TAGS=
+ARG DOCKER_TAG=
+ARG SOURCE_TYPE=
+ARG SOURCE_BRANCH=
+ARG GIT_SHA1=
 ARG COMMIT_MSG=
+ARG BUILD_DATE=
 ARG VERSION=
 
 LABEL \
@@ -130,12 +142,10 @@ RUN \
 # Setup user and prepare for ssh, sudo
 ARG username=treebox
 
-RUN \
-  touch /etc/sudoers.d/treebox && { \
+RUN touch /etc/sudoers.d/treebox && { \
     echo "$username    ALL=NOPASSWD:/usr/sbin/service *"; \
     echo "$username    ALL=(www-data) NOPASSWD:ALL"; \
   } > /etc/sudoers.d/treebox; \
-  \
 # FIXME: I don't think I should need or want to create a system-user, however
 # usermod does not find the added user otherwise.
 # Also fix permissions for /home, /src and /srv
@@ -145,13 +155,10 @@ RUN \
   ln -s /home/$username /srv/home-local && \
   ln -s /srv/home-local/project /srv/project-local && \
   ln -s /src /srv/src-local && \
-  \
   chown -R $username:$username /home/$username/ && \
-  \
   mkdir -vp /src/github.com /src/bitbucket.org /src/local /srv && \
   chown -R $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
   chmod -R g+rw /src/github.com /src/bitbucket.org /src/local && \
-  \
   chgrp staff /srv /etc/container_environment && \
   chmod -R g+rx /etc/container_environment
 
@@ -160,13 +167,19 @@ RUN locale-gen en_US.UTF-8
 
 # Fancy up (root) env
 ENV TREEBOX_USER=$username \
-  TREEBOX_BUILD_ID=$BUILD_CODE \
+  TREEBOX_BUILD_ID="$BUILD_CODE" \
   TREEBOX_IMAGE="$IMAGE_NAME:$DOCKER_TAG" \
-  TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
-  TREEBOX_TAG=$DOCKER_TAG \
-  TREEBOX_SCM=$SCM_TYPE \
-  TREEBOX_SCM_BRANCH=$GIT_BRANCH \
-  TREEBOX_SCM_COMMIT=$GIT_COMMIT \
+  TREEBOX_SOURCE="$SOURCE_BRANCH:$GIT_SHA1" \
+  X_DCKR_AI_TIME="$X_DCKR_AI_TIME" \
+  X_DCKR_CI_TIME="$X_DCKR_CI_TIME" \
+  TREEBOX_TAGS="$DOCKER_TAGS" \
+  TREEBOX_TAG="$DOCKER_TAG" \
+  TREEBOX_BUILD_TIME="$BUILD_DATE" \
+  TREEBOX_BUILD="$X_DCKR_RELEASE" \
+  TREEBOX_VERSION="$VERSION" \
+  TREEBOX_SCM=$SOURCE_TYPE \
+  TREEBOX_SCM_BRANCH="$SOURCE_BRANCH" \
+  TREEBOX_SCM_COMMIT="$GIT_SHA1" \
   TREEBOX_SCM_COMMIT_MSG="$COMMIT_MSG" \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
@@ -179,30 +192,25 @@ USER $username
 # checkouts put stuff at /src/*.{net,org...tld}/<user>/<repo>.
 #
 # TODO: change from above manual installs to user-scripts repo
-RUN \
-  \
-  git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
+RUN git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
   ( echo 'export PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH"' >> /home/$username/.bash_profile ) && \
   ( echo 'export PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH"' >> /home/$username/.profile ) && \
   ( echo ': "${CS:=dark}"; export CS' >> /home/$username/.bash_profile ) && \
   ( echo ': "${TERM:=xterm}"; export TERM' >> /home/$username/.bash_profile ) && \
   ( echo 'test -n "$CS" || CS=dark; export CS' >> /home/$username/.profile ) && \
   ( echo 'test -n "$TERM" || TERM=xterm; export TERM' >> /home/$username/.profile ) && \
-  \
   . ~/.profile && \
   BASHER_FULL_CLONE=true basher install bvberkum/user-scripts && \
   cd /home/$username/.basher/cellar/packages/bvberkum/user-scripts && \
   git checkout r0.0 && \
-  \
   mkdir -p /src/github.com/bvberkum && \
   git clone https://github.com/bvberkum/oil.git /src/github.com/bvberkum/oil && \
   cd /src/github.com/bvberkum/oil && \
   git checkout feature/ast-visitor-cli && \
   make configure && build/dev.sh minimal
 
-ENV \
-  TREEBOX_IMAGE="$IMAGE_NAME" \
-  TREEBOX_SRC="$SOURCE_BRANCH:$GIT_COMMIT" \
+ENV TREEBOX_IMAGE="$IMAGE_NAME" \
+  TREEBOX_SOURCE="$SOURCE_BRANCH:$GIT_COMMIT" \
   LANG=en_US.UTF-8 \
   U_S=/home/$username/.basher/cellar/packages/bvberkum/user-scripts
 

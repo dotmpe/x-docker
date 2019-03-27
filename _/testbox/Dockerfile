@@ -1,5 +1,5 @@
 
-# Latest is 0.10.0 [2018-12-02] 
+# Latest is 0.10.0 [2018-12-02]
 FROM phusion/baseimage:latest
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
@@ -11,7 +11,8 @@ ARG GIT_COMMIT=
 ARG COMMIT_MSG=
 ARG VERSION=
 
-LABEL org.label-schema.description="A bunch of py/rb/js dev tooling and a user setup" \
+LABEL \
+  org.label-schema.description="TODO: smaller baseimage for treebox, maybe more stable/LTS versions" \
   org.label-schema.name="$IMAGE_NAME" \
   org.label-schema.build-date="$BUILD_DATE" \
   org.label-schema.version="$VERSION" \
@@ -20,24 +21,23 @@ LABEL org.label-schema.description="A bunch of py/rb/js dev tooling and a user s
   org.label-schema.schema-version="1.0"
 
 # Setup package manager and install prerequisite packages
-RUN DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
+# XXX: no more php, nodejs, ruby?
+RUN \
+  DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
-  apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
+  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
-    bash zsh dash posh ash ksh mksh busybox-static \
-    build-essential libreadline-dev time gawk  \
+    bash zsh dash posh ash busybox-static \
+    build-essential time gawk  \
     bc curl elinks git jq graphviz imagemagick \
-    figlet update-motd libnet-ifconfig-wrapper-perl \
-    make man moreutils netcat nodejs npm pandoc unrtf antiword \
-    php-cli python python-dev python-tox python-yaml \
-    realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
+    figlet update-motd \
+    make man moreutils netcat pandoc unrtf antiword \
+    python python-dev python-tox python-yaml \
+    realpath sqlite3 ssh sudo tmux tree uuid-runtime \
     vim git-annex gist glances \
     software-properties-common \
     autoconf libtool \
-    zlib1g wget libcurl4-openssl-dev libelf-dev libdw-dev cmake cmake-data g++ \
-    binutils-dev \
-    libiberty-dev zlib1g-dev \
-    libzmq-dev \
+    zlib1g wget cmake g++ \
     golang \
     && \
   curl -s \
@@ -45,44 +45,25 @@ RUN DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
     bash && \
   apt-get update -qqy && \
   apt-get install -qqy git-lfs && \
+  cd /tmp && wget --quiet --content-disposition \
+    "https://github.com/git-hooks/git-hooks/releases/download/v1.1.4/git-hooks_linux_amd64.tar.gz" && \
+  tar xf git-hooks_linux_amd64.tar.gz && \
+  mv build/git-hooks_linux_amd64 /usr/local/bin/git-hooks && \
+  rm -rf build git-hooks_linux_amd64.tar.gz && \
   unset DEBIAN_FRONTEND RUNLEVEL && \
   rm -rf /var/cache/apt/*
 
-# Setup node NVM and some tooling
-ARG node_version=lts
-
-RUN npm install --quiet -g npm && \
-      npm cache clean -qf && \
-      npm install --quiet -g n && \
-      n $node_version && \
-  chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
-  chgrp staff /usr/local/* /usr/local/lib/node_modules && \
-  version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
-  { test -e /usr/bin/node || \
-    ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }
 
 # Setup python PIP and some tooling
 RUN cd /tmp/ && \
       curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-      python get-pip.py && \
+      python get-pip.py && rm get-pip.py && \
   pip install --quiet \
     markdown BeautifulSoup mkdocs==0.17.5 \
-  	setuptools PyYAML zope.interface zope.component objectpath docutils && \
+    setuptools PyYAML zope.interface zope.component objectpath docutils && \
   for b in rst2html rst2xml rst2pxml; do \
     ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
 
-RUN npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
-  npm update --quiet -g nan && \
-  npm install --quiet --unsafe-perm -g zmq && \
-  gem install --quiet sass
-
-# Install KCov
-RUN git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKagstrom/kcov && \
-  cd /src/github.com/SimonKagstrom/kcov && \
-  DEFAULT_KCOV_GIT_REF=$(git tag --list | grep "^v[0-9]\+$" | sort -V | tail --lines 1) && \
-  KCOV_GIT_REF=${KCOV_GIT_REF:-$DEFAULT_KCOV_GIT_REF} && \
-  git reset --hard $KCOV_GIT_REF && \
-  mkdir build && cd build && cmake .. && make && make install
 
 RUN \
   test -n "$BATS_REPO" || BATS_REPO=https://github.com/bvberkum/bats-core.git ; \
@@ -96,13 +77,8 @@ RUN \
   ) && \
   bats --version
 
-
-# TODO: fix pm2 fsevents
-# TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
-
 # Add /usr/local/bin for SSH and normal profile
-# Replace /etc/profile with local on PATH, because profile.d/ssh-env does not
-# seem to do it.
+# and include .bashrc from /etc/bash.bashrc
 RUN \
   echo 'export PATH=$PATH:/usr/local/bin' > /etc/profile.d/ssh-environment; \
   mv /etc/profile /tmp/profile; \
@@ -113,7 +89,6 @@ RUN \
     echo ; \
     echo "if test -e ~/.bashrc ; then source ~/.bashrc ; fi "; \
   } >> /etc/bash.bashrc; \
-
 # Fancy up SSH
   figlet Treebox > /etc/ssh/banner && \
   echo "Banner /etc/ssh/banner" >> /etc/ssh/sshd_config
@@ -176,30 +151,8 @@ USER $username
 #
 # TODO: change from above manual installs to user-scripts repo
 RUN \
-  \
   git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
-  ( echo 'export PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH"' >> /home/$username/.bash_profile ) && \
-  ( echo 'export PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH"' >> /home/$username/.profile ) && \
-  ( echo ': "${CS:=dark}"; export CS' >> /home/$username/.bash_profile ) && \
-  ( echo ': "${TERM:=xterm}"; export TERM' >> /home/$username/.bash_profile ) && \
-  ( echo 'test -n "$CS" || CS=dark; export CS' >> /home/$username/.profile ) && \
-  ( echo 'test -n "$TERM" || TERM=xterm; export TERM' >> /home/$username/.profile ) && \
-  \
-  . ~/.profile && \
-  BASHER_FULL_CLONE=true basher install bvberkum/user-scripts && \
-  cd /home/$username/.basher/cellar/packages/bvberkum/user-scripts && \
-  git checkout r0.0 && \
-  \
-  mkdir -p /src/github.com/bvberkum && \
-  git clone https://github.com/bvberkum/oil.git /src/github.com/bvberkum/oil && \
-  cd /src/github.com/bvberkum/oil && \
-  git checkout feature/ast-visitor-cli && \
-  make configure && build/dev.sh minimal
+  PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH" basher install erichs/composure
 
-ENV \
-  TREEBOX_IMAGE="$IMAGE_NAME" \
-  TREEBOX_SRC="$SOURCE_BRANCH:$GIT_COMMIT" \
-  LANG=en_US.UTF-8 \
-  U_S=/home/$username/.basher/cellar/packages/bvberkum/user-scripts
 
-# Id: x-docker/0.0.2-dev
+# Derive: _/treebox/Dockerfile

@@ -1,0 +1,157 @@
+
+# Latest is 0.10.0 [2018-12-02]
+FROM phusion/baseimage:latest
+
+MAINTAINER B. van Berkum <dev@dotmpe.com>
+
+ARG BUILD_DATE=
+ARG BUILD_CODE=
+ARG IMAGE_NAME=
+ARG GIT_COMMIT=
+ARG COMMIT_MSG=
+ARG VERSION=
+
+LABEL \
+  org.label-schema.description="TODO: smaller baseimage for treebox, maybe more stable/LTS versions" \
+  org.label-schema.name="$IMAGE_NAME" \
+  org.label-schema.build-date="$BUILD_DATE" \
+  org.label-schema.version="$VERSION" \
+  org.label-schema.vcs-ref=$GIT_COMMIT \
+  org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
+  org.label-schema.schema-version="1.0"
+
+# Setup package manager and install prerequisite packages
+# XXX: no more php, nodejs, ruby?
+RUN \
+  DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
+  apt-get update -qqy && \
+  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
+  apt-get install -qqy --allow-downgrades \
+    bash zsh dash posh ash busybox-static \
+    build-essential time gawk  \
+    bc curl elinks git jq graphviz imagemagick \
+    figlet update-motd \
+    make man moreutils netcat pandoc unrtf antiword \
+    python python-dev python-tox python-yaml \
+    realpath sqlite3 ssh sudo tmux tree uuid-runtime \
+    vim git-annex gist glances \
+    software-properties-common \
+    autoconf libtool \
+    zlib1g wget cmake g++ \
+    golang \
+    && \
+  curl -s \
+    https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | \
+    bash && \
+  apt-get update -qqy && \
+  apt-get install -qqy git-lfs && \
+  cd /tmp && wget --quiet --content-disposition \
+    "https://github.com/git-hooks/git-hooks/releases/download/v1.1.4/git-hooks_linux_amd64.tar.gz" && \
+  tar xf git-hooks_linux_amd64.tar.gz && \
+  mv build/git-hooks_linux_amd64 /usr/local/bin/git-hooks && \
+  rm -rf build git-hooks_linux_amd64.tar.gz && \
+  unset DEBIAN_FRONTEND RUNLEVEL && \
+  rm -rf /var/cache/apt/*
+
+
+# Setup python PIP and some tooling
+RUN cd /tmp/ && \
+      curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+      python get-pip.py && rm get-pip.py && \
+  pip install --quiet \
+    markdown BeautifulSoup mkdocs==0.17.5 \
+    setuptools PyYAML zope.interface zope.component objectpath docutils && \
+  for b in rst2html rst2xml rst2pxml; do \
+    ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
+
+
+RUN \
+  test -n "$BATS_REPO" || BATS_REPO=https://github.com/bvberkum/bats-core.git ; \
+  test -n "$SRC_PREFIX" || SRC_PREFIX=/src/github.com/bvberkum ; \
+  test -n "$BATS_BRANCH" || BATS_BRANCH=forks/bvb-dev ; \
+  git clone $BATS_REPO $SRC_PREFIX/bats && \
+  ( \
+    cd $SRC_PREFIX/bats && \
+    git checkout $BATS_BRANCH && \
+    ./install.sh /usr/local \
+  ) && \
+  bats --version
+
+# Add /usr/local/bin for SSH and normal profile
+# and include .bashrc from /etc/bash.bashrc
+RUN \
+  echo 'export PATH=$PATH:/usr/local/bin' > /etc/profile.d/ssh-environment; \
+  mv /etc/profile /tmp/profile; \
+  { echo 'export PATH=$PATH:/usr/local/bin'; \
+    cat /tmp/profile; \
+  } >/etc/profile; \
+  { \
+    echo ; \
+    echo "if test -e ~/.bashrc ; then source ~/.bashrc ; fi "; \
+  } >> /etc/bash.bashrc; \
+# Fancy up SSH
+  figlet Treebox > /etc/ssh/banner && \
+  echo "Banner /etc/ssh/banner" >> /etc/ssh/sshd_config
+
+# TODO: And login (update-motd)
+#RUN \
+#  echo "" >> /etc/my_init.d
+
+
+# Setup user and prepare for ssh, sudo
+ARG username=treebox
+
+RUN \
+  touch /etc/sudoers.d/treebox && { \
+    echo "$username    ALL=NOPASSWD:/usr/sbin/service *"; \
+    echo "$username    ALL=(www-data) NOPASSWD:ALL"; \
+  } > /etc/sudoers.d/treebox; \
+# FIXME: I don't think I should need or want to create a system-user, however
+# usermod does not find the added user otherwise.
+# Also fix permissions for /home, /src and /srv
+  useradd -d /home/$username -s /bin/bash $username && \
+  mkdir -vp /home/$username/{.local/{etc,var,usr},project} && \
+  usermod $username -a -G sudo,staff,ssh && \
+  ln -s /home/$username /srv/home-local && \
+  ln -s /srv/home-local/project /srv/project-local && \
+  ln -s /src /srv/src-local && \
+  chown -R $username:$username /home/$username/ && \
+  # Setup /srv/src-local and permissions
+  mkdir -vp /src/github.com /src/bitbucket.org /src/local /srv && \
+  chown -R $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
+  chmod -R g+rw /src/github.com /src/bitbucket.org /src/local && \
+  # XXX: ???
+  chgrp staff /srv /etc/container_environment && \
+  chmod -R g+rx /etc/container_environment
+
+
+RUN locale-gen en_US.UTF-8
+
+# Fancy up (root) env
+ENV TREEBOX_USER=$username \
+  TREEBOX_BUILD_ID=$BUILD_CODE \
+  TREEBOX_IMAGE="$IMAGE_NAME:$DOCKER_TAG" \
+  TREEBOX_SRC="$SRC_BRANCH:$GIT_COMMIT" \
+  TREEBOX_TAG=$DOCKER_TAG \
+  TREEBOX_SCM=$SCM_TYPE \
+  TREEBOX_SCM_BRANCH=$GIT_BRANCH \
+  TREEBOX_SCM_COMMIT=$GIT_COMMIT \
+  TREEBOX_SCM_COMMIT_MSG="$COMMIT_MSG" \
+  LANG=en_US.UTF-8 \
+  LANGUAGE=en_US:en \
+  LC_ALL=en_US.UTF-8
+
+USER $username
+
+# Use Basher for lazy user-installs of new shell commands; it clones only the
+# need last slice, no history, tags, etc. For non-user-command repos and full
+# checkouts put stuff at /src/*.{net,org...tld}/<user>/<repo>.
+#
+# TODO: change from above manual installs to user-scripts repo
+RUN \
+  git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
+  PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH" basher install erichs/composure
+
+
+# Derive: _/treebox/Dockerfile
+# Id: x-docker/0.0.2-dev

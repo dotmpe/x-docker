@@ -23,8 +23,7 @@ ARG COMMIT_MSG=
 ARG BUILD_DATE=
 ARG VERSION=
 
-LABEL \
-  org.label-schema.description="A bunch of py/rb/js dev tooling and a user setup" \
+LABEL org.label-schema.description="A bunch of py/rb/js dev tooling and a user setup" \
   org.label-schema.name="$IMAGE_NAME" \
   org.label-schema.build-date="$BUILD_DATE" \
   org.label-schema.version="$VERSION" \
@@ -32,10 +31,8 @@ LABEL \
   org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
   org.label-schema.schema-version="1.0"
 
-
 # Setup package manager and install prerequisite packages
-RUN \
-  DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
+RUN DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
   apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
@@ -66,9 +63,8 @@ RUN \
 # Setup node NVM and some tooling
 ARG node_version=lts
 
-RUN \
-  npm install --quiet -g npm && \
-      npm cache clean -f && \
+RUN npm install --quiet -g npm && \
+      npm cache clean -qf && \
       npm install --quiet -g n && \
       n $node_version && \
   chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
@@ -78,23 +74,22 @@ RUN \
     ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }
 
 # Setup python PIP and some tooling
-RUN \
-  cd /tmp/ && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py && \
+RUN cd /tmp/ && \
+      curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+      python get-pip.py && \
   pip install --quiet \
     markdown BeautifulSoup mkdocs==0.17.5 \
   	setuptools PyYAML zope.interface zope.component objectpath docutils && \
   for b in rst2html rst2xml rst2pxml; do \
     ln -s /usr/local/bin/$b.py /usr/local/bin/$b; done
 
-RUN \
-  npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
+RUN npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
   npm update --quiet -g nan && \
   npm install --quiet --unsafe-perm -g zmq && \
   gem install --quiet sass
 
 # Install KCov
-RUN \
-  git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKagstrom/kcov && \
+RUN git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKagstrom/kcov && \
   cd /src/github.com/SimonKagstrom/kcov && \
   DEFAULT_KCOV_GIT_REF=$(git tag --list | grep "^v[0-9]\+$" | sort -V | tail --lines 1) && \
   KCOV_GIT_REF=${KCOV_GIT_REF:-$DEFAULT_KCOV_GIT_REF} && \
@@ -117,6 +112,7 @@ RUN \
 # TODO: fix pm2 fsevents
 # TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
 
+# Add /usr/local/bin for SSH and normal profile
 # Replace /etc/profile with local on PATH, because profile.d/ssh-env does not
 # seem to do it.
 RUN \

@@ -70,3 +70,5 @@ RUN \
 
 WORKDIR /notebooks
 CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--allow-root"]
+
+# Id: x-docker/0.0.2-dev _/cl-jupyter/Dockerfile

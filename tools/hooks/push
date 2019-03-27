@@ -46,3 +46,5 @@ do
   echo "docker push '$DOCKER_REPO:$tag'"
   docker push $DOCKER_REPO:$tag
 done
+
+# Id: x-docker/0.0.2-dev tools/hooks/push

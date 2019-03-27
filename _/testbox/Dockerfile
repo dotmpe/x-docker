@@ -1,6 +1,5 @@
 
-# Latest is 0.10.0 [2018-12-02]
-FROM phusion/baseimage:latest
+FROM bvberkum/basebox:0.0.1
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 

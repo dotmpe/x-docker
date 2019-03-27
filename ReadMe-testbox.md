@@ -13,11 +13,11 @@ Branch           | Dockerfile                   | Tag
 ---------------- | -----------------------------| ----------------------------
 testbox-dev      | ``/_/testbox``               | dev
 
-Tag                                             | Dockerfile       | Tag
------------------------------------------------ | -----------------| ---------
-testbox                                         | ``/_/testbox``   | latest
-``/^testbox-([0-9\.]+[-a-z0-9+_-]*)/``          | ``/_/testbox``   | {\1}
+Tagged manually, to preserve identical layers iso. re-building per tag.
 
 ## Tags
 (0.0.1)
   - Copy Dockerfile from treebox.
+
+    Using ``bvberkum/basebox:0.0.1`` for upgraded ``apt`` packages on
+    ``phusion/baseimage`` ``latest`` ``0.10.0``

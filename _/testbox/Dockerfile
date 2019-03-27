@@ -106,23 +106,21 @@ RUN \
     echo "$username    ALL=NOPASSWD:/usr/sbin/service *"; \
     echo "$username    ALL=(www-data) NOPASSWD:ALL"; \
   } > /etc/sudoers.d/treebox; \
-  \
 # FIXME: I don't think I should need or want to create a system-user, however
 # usermod does not find the added user otherwise.
 # Also fix permissions for /home, /src and /srv
   useradd -d /home/$username -s /bin/bash $username && \
-  mkdir -vp /home/$username/project && \
+  mkdir -vp /home/$username/{.local/{etc,var,usr},project} && \
   usermod $username -a -G sudo,staff,ssh && \
   ln -s /home/$username /srv/home-local && \
   ln -s /srv/home-local/project /srv/project-local && \
   ln -s /src /srv/src-local && \
-  \
   chown -R $username:$username /home/$username/ && \
-  \
+  # Setup /srv/src-local and permissions
   mkdir -vp /src/github.com /src/bitbucket.org /src/local /srv && \
   chown -R $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
   chmod -R g+rw /src/github.com /src/bitbucket.org /src/local && \
-  \
+  # XXX: ???
   chgrp staff /srv /etc/container_environment && \
   chmod -R g+rx /etc/container_environment
 

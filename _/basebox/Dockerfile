@@ -32,6 +32,7 @@ RUN \
     bc curl git \
     ssh sudo tmux tree uuid-runtime \
     vim git-annex \
+    && \
   curl -s \
     https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | \
     bash && \

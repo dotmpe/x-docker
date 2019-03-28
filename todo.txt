@@ -1,0 +1,1 @@
+2019-01-10 TODO: see about replacing version managers with asdf; remove nvm, and ruby, python, go, Haskel, and PHP setup. See about Redis, ImageMagick and Postgres eventually too. <https://github.com/asdf-vm/asdf-plugins> due:0.0.5

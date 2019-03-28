@@ -2,8 +2,6 @@
 
 echo '-------- Build ('$(date --iso=ns)')'
 
-echo 'TODO'
-exit 0
 
 # Must link README.md using tag from branch name or use master.
 x_dckr_check_readme $TRAVIS_BRANCH || {
@@ -40,3 +38,6 @@ case "$BRANCH_NAME" in
     ;;
 
 esac
+
+# Sync: U-S:
+# Sync: BIN:

@@ -9,6 +9,9 @@ test -z "$scm_nok" || exit $scm_nok
 test -n "$LOG" || LOG="/srv/project-local/user-scripts/tools/sh/log.sh"
 test -x "${LOG:-}" || exit 103
 
+test -n "$scriptname" || scriptname=x-docker:pre-commit
+export scriptname
+
 set -e
 
 test -n "$PROJECT_BASE" || PROJECT_BASE="`git rev-parse --show-toplevel`"
@@ -80,8 +83,8 @@ test -n "$git_pre_commit_whitespace" || {
 
   # If there are whitespace errors, print the offending file names and fail.
   git diff-index --check --cached $against -- &&
-    $LOG note "OK" "Git whitespace checked" ||
-    $LOG warn "Not OK" "Git whitespace check failed" "$?" 1
+    $LOG "pass" "OK" "Git whitespace checked" ||
+    $LOG "fail" "Not OK" "Git whitespace check failed" "$?" 1
 
   git_pre_commit_whitespace=1
 }
@@ -108,8 +111,8 @@ test -n "$git_pre_commit_versioning" || {
     -o -e ${PROJECT_BASE}/.versioned-files.list && {
 
     git-versioning check &&
-      $LOG note "OK" "Git-version checked" ||
-      $LOG warn "Not OK" "Git versioning check failed" "$?" 1
+      $LOG "pass" "OK" "Git-version checked" ||
+      $LOG "fail" "Not OK" "Git versioning check failed" "$?" 1
   }
   git_pre_commit_versioning=1
 }
@@ -127,13 +130,19 @@ test -n "$git_pre_commit_make" || {
 
 test ! -e "ReadMe-$BRANCH_NAME.md" && {
 
-  echo "No special README for branch '$BRANCH_NAME'" >&2
+  $LOG warn "" "No special README for branch '$BRANCH_NAME'"
 } || {
 
-  test "$(readlink README.md)" = "ReadMe-$BRANCH_NAME.md" || {
+  test "$(readlink README.md)" = "ReadMe-$BRANCH_NAME.md" && {
 
+    $LOG pass "" "README--branch matches" "$BRANCH_NAME"
+  } || {
+
+    $LOG warn "" "README--branch mismatch" "$BRANCH_NAME"
     # Force update README.md symlink
-    rm README.md && ln -s ReadMe-$BRANCH_NAME.md README.md
+    rm README.md &&
+      ln -s ReadMe-$BRANCH_NAME.md README.md
+    git add README.md
     exit 1
   }
 }

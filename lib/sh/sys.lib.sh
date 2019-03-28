@@ -61,4 +61,5 @@ sys_confirm()
   trueish "$choice_confirm"
 }
 
-# Id: x-docker/
+# Copy: User-scripts/r0.0 src/sh/lib/sys.lib.sh
+# Id: x-docker/0.0.2-dev src/sh/sys.lib.sh

@@ -26,12 +26,14 @@ Branch           | Dockerfile                   | Tag
 ---------------- | -----------------------------| ----------------------------
 treebox-dev      | ``/_/treebox``               | dev
 
-Tag                                             | Dockerfile       | Tag
------------------------------------------------ | -----------------| ---------
-treebox                                         | ``/_/treebox``   | latest
-``/^treebox-([0-9\.]+[-a-z0-9+_-]*)/``          | ``/_/treebox``   | {\1}
-
 ## Tags
+(0.0.5)
+  - Now from ``bvberkum/testbox`` ``latest`` ``0.0.2``.
+    Removed tagged autobuilds, now tagging manually to properly re-use images.
+  - TODO: see about replacing version managers with asdf; remove nvm, and ruby,
+    python, go, Haskel, and PHP setup. See about Redis, ImageMagick and Postgres
+    too. <https://github.com/asdf-vm/asdf-plugins> [2019-01-10]
+
 0.0.4
   - Added go.
 

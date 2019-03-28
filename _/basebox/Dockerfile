@@ -28,6 +28,7 @@ RUN \
   apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
     bash zsh dash posh ash busybox-static \
+    apt-transport-https \
     bc curl git \
     ssh sudo tmux tree uuid-runtime \
     vim git-annex \

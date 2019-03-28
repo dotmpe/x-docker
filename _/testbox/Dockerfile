@@ -1,6 +1,5 @@
 
-# Latest is 0.10.0 [2018-12-02]
-FROM phusion/baseimage:latest
+FROM bvberkum/basebox:0.0.2
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
@@ -12,7 +11,7 @@ ARG COMMIT_MSG=
 ARG VERSION=
 
 LABEL \
-  org.label-schema.description="TODO: smaller baseimage for treebox, maybe more stable/LTS versions" \
+  org.label-schema.description="smaller baseimage for treebox" \
   org.label-schema.name="$IMAGE_NAME" \
   org.label-schema.build-date="$BUILD_DATE" \
   org.label-schema.version="$VERSION" \
@@ -20,8 +19,6 @@ LABEL \
   org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
   org.label-schema.schema-version="1.0"
 
-# Setup package manager and install prerequisite packages
-# XXX: no more php, nodejs, ruby?
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \

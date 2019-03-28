@@ -16,7 +16,7 @@ basebox-dev      | ``/_/basebox``               | dev
 Tagged manually, to preserve identical layers iso. re-building per tag.
 
 ## Tags
-(0.0.2)
+0.0.2
   - Moving some basic user tools to basebox: `vim`, `curl`, `git`, GIT LFS, etc.
 
 0.0.1

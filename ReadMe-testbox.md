@@ -16,7 +16,11 @@ testbox-dev      | ``/_/testbox``               | dev
 Tagged manually, to preserve identical layers iso. re-building per tag.
 
 ## Tags
-(0.0.1)
+0.0.2
+  - Fixed metadata.
+  - Using ``bvberkum/basebox:0.0.3``
+
+0.0.1
   - Copy Dockerfile from treebox.
 
     Using ``bvberkum/basebox:0.0.1`` for upgraded ``apt`` packages on

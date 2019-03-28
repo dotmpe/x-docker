@@ -28,8 +28,8 @@ treebox-dev      | ``/_/treebox``               | dev
 
 ## Tags
 (0.0.5)
-  - Now from ``bvberkum/testbox`` ``latest`` ``0.0.1``, removed tagged
-    autobuilds.
+  - Now from ``bvberkum/testbox`` ``latest`` ``0.0.2``.
+    Removed tagged autobuilds, now tagging manually to properly re-use images.
   - TODO: see about replacing version managers with asdf; remove nvm, and ruby,
     python, go, Haskel, and PHP setup. See about Redis, ImageMagick and Postgres
     too. <https://github.com/asdf-vm/asdf-plugins> [2019-01-10]

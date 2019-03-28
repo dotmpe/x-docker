@@ -1,5 +1,5 @@
 
-FROM bvberkum/testbox:0.0.1
+FROM bvberkum/testbox:0.0.2
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
@@ -27,7 +27,7 @@ LABEL \
   org.label-schema.name="$IMAGE_NAME" \
   org.label-schema.build-date="$BUILD_DATE" \
   org.label-schema.version="$VERSION" \
-  org.label-schema.vcs-ref=$GIT_COMMIT \
+  org.label-schema.vcs-ref=$GIT_SHA1 \
   org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
   org.label-schema.schema-version="1.0"
 

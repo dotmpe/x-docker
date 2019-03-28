@@ -110,7 +110,7 @@ RUN \
 # usermod does not find the added user otherwise.
 # Also fix permissions for /home, /src and /srv
   useradd -d /home/$username -s /bin/bash $username && \
-  mkdir -vp /home/$username/{.local/{etc,var,usr},project} && \
+  bash -c 'mkdir -vp /home/$username/{.local/{etc,var,usr},project}' && \
   usermod $username -a -G sudo,staff,ssh && \
   ln -s /home/$username /srv/home-local && \
   ln -s /srv/home-local/project /srv/project-local && \

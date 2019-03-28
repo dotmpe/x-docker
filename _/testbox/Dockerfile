@@ -1,5 +1,5 @@
 
-FROM bvberkum/basebox:0.0.1
+FROM bvberkum/basebox:0.0.2
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 

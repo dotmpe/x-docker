@@ -16,7 +16,7 @@ basebox-dev      | ``/_/basebox``               | dev
 Tagged manually, to preserve identical layers iso. re-building per tag.
 
 ## Tags
-(0.0.3)
+0.0.3
   - Fixing metadata, labels.
 
 0.0.2

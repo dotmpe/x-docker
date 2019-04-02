@@ -1,5 +1,7 @@
 
-FROM bvberkum/testbox:0.0.2
+ARG X_DCKR_BASETAG=dev
+
+FROM bvberkum/testbox:$X_DCKR_BASETAG
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
@@ -34,23 +36,23 @@ USER root
 # Setup package manager and install prerequisite packages
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
-  apt-get update -qqy && \
-  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
-  apt-get install -qqy --allow-downgrades \
+  apt-get update -y && \
+  apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
+  apt-get install -y --allow-downgrades \
     bash zsh dash posh ash ksh mksh busybox-static \
     build-essential libreadline-dev time gawk  \
     bc curl elinks git jq graphviz imagemagick \
     libnet-ifconfig-wrapper-perl \
     make man moreutils netcat nodejs npm pandoc unrtf antiword \
     php-cli python python-dev python-tox python-yaml \
-    realpath ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
+    ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
     vim git-annex gist glances \
     software-properties-common \
     autoconf libtool \
-    zlib1g wget libcurl4-openssl-dev libelf-dev libdw-dev cmake cmake-data g++ \
+    zlib1g wget libelf-dev libdw-dev cmake cmake-data g++ \
     binutils-dev \
     libiberty-dev zlib1g-dev \
-    libzmq-dev \
+    libzmq3-dev \
     golang \
     && \
   unset DEBIAN_FRONTEND RUNLEVEL && \
@@ -59,20 +61,20 @@ RUN \
 # Setup node NVM and some tooling
 ARG node_version=lts
 
-RUN npm install --quiet -g npm && \
-      npm cache clean -qf && \
-      npm install --quiet -g n && \
-      n $node_version && \
-  chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
-  chgrp staff /usr/local/* /usr/local/lib/node_modules && \
-  version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
-  { test -e /usr/bin/node || \
-    ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }
-
-RUN npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
-  npm update --quiet -g nan && \
-  npm install --quiet --unsafe-perm -g zmq && \
-  gem install --quiet sass
+#RUN npm install --quiet -g npm && \
+#      npm cache clean -qf && \
+#      npm install --quiet -g n && \
+#      n $node_version && \
+#  chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
+#  chgrp staff /usr/local/* /usr/local/lib/node_modules && \
+#  version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
+#  { test -e /usr/bin/node || \
+#    ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }
+#
+#RUN npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
+#  npm update --quiet -g nan && \
+#  npm install --quiet --unsafe-perm -g zmq && \
+#  gem install --quiet sass
 
 # Install KCov
 RUN git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKagstrom/kcov && \

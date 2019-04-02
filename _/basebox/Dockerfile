@@ -1,14 +1,16 @@
 
-# Latest is 0.10.0 [2018-12-02]
-FROM phusion/baseimage:latest
+ARG X_DCKR_BASETAG=master
+
+# Tag 'latest' is 0.10.0
+# Last version is 0.11
+# Newest version is 'master'
+FROM phusion/baseimage:$X_DCKR_BASETAG
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 ARG X_DCKR_PREFIX=
 ARG X_DCKR_BASENAME=
 ARG X_DCKR_NAME=
-ARG X_DCKR_BASE=
-ARG X_DCKR_TAG=
 ARG X_DCKR_AI_TIME=
 ARG X_DCKR_CI_TIME=
 ARG X_DCKR_RELEASE=
@@ -41,7 +43,7 @@ RUN \
   apt-get install -qqy --allow-downgrades \
     bash zsh dash posh ash busybox-static \
     apt-transport-https \
-    bc curl git \
+    bc curl git man jq \
     ssh sudo tmux tree uuid-runtime \
     vim git-annex \
     && \

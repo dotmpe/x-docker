@@ -1,5 +1,5 @@
 
-FROM bvberkum/testbox:0.0.1
+FROM bvberkum/testbox:0.0.2
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
@@ -27,9 +27,11 @@ LABEL \
   org.label-schema.name="$IMAGE_NAME" \
   org.label-schema.build-date="$BUILD_DATE" \
   org.label-schema.version="$VERSION" \
-  org.label-schema.vcs-ref=$GIT_COMMIT \
+  org.label-schema.vcs-ref=$GIT_SHA1 \
   org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
   org.label-schema.schema-version="1.0"
+
+USER root
 
 # Setup package manager and install prerequisite packages
 RUN \
@@ -85,11 +87,15 @@ RUN git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKag
 # TODO: fix pm2 fsevents
 # TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
 
-
+# Fix permissions
 ARG username=treebox
 
+RUN \
+  chown -R $username:$username /home/$username/ && \
+  chown -R $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
+  chmod -R g+rw /src/github.com /src/bitbucket.org /src/local
 
-#RUN locale-gen en_US.UTF-8
+RUN locale-gen en_US.UTF-8
 
 # Fancy up (root) env
 ENV \

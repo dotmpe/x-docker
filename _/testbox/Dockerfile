@@ -1,13 +1,13 @@
 
-FROM bvberkum/basebox:0.0.3
+ARG X_DCKR_BASETAG=dev
+
+FROM bvberkum/basebox:$X_DCKR_BASETAG
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 ARG X_DCKR_PREFIX=
 ARG X_DCKR_BASENAME=
 ARG X_DCKR_NAME=
-ARG X_DCKR_BASE=
-ARG X_DCKR_TAG=
 ARG X_DCKR_AI_TIME=
 ARG X_DCKR_CI_TIME=
 ARG X_DCKR_RELEASE=
@@ -43,7 +43,7 @@ RUN \
     figlet update-motd \
     make man moreutils netcat pandoc unrtf antiword \
     python python-dev python-tox python-yaml \
-    realpath sqlite3 ssh sudo tmux tree uuid-runtime \
+    sqlite3 ssh sudo tmux tree uuid-runtime \
     vim git-annex gist glances \
     software-properties-common \
     autoconf libtool \

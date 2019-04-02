@@ -1,6 +1,7 @@
 ## ``bvberkum/basebox`` [![image version](https://images.microbadger.com/badges/version/bvberkum/basebox.svg)](https://microbadger.com/images/bvberkum/basebox "microbadger.com version metadata") [ ![Dockerfile](https://img.shields.io/badge/Dockerfile-GitHub-blue.svg) ](https://github.com/bvberkum/x-docker/blob/master/_/basebox/Dockerfile) [ ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/basebox.svg) ](https://cloud.docker.com/repository/docker/bvberkum/basebox) ![docker hub pulls](https://img.shields.io/docker/pulls/bvberkum/basebox.svg) ![code](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2019.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/bvberkum/x-docker.svg) ![repo license](https://img.shields.io/github/license/bvberkum/x-docker.svg)
 
-A full apt-get upgrade on latest Phusion Baseimage (0.10.0).
+A full apt-get upgrade on latest Phusion Baseimage (0.10.0), with some user
+tools (man, git, vim, curl, jq, etc) added.
 
 #### ``:dev`` ![last commit on basebox-dev](https://img.shields.io/github/last-commit/bvberkum/x-docker/basebox-dev.svg) [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/basebox:dev.svg)](https://microbadger.com/images/bvberkum/basebox:dev "Get your own image badge on microbadger.com")
 

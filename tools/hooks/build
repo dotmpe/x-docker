@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 _cmd=$_
 
 # build is the third build-hook; See doc/dev.md
@@ -60,6 +60,11 @@ test ! -e ./build-args.sh || {
   xtra="$(grep '^[^\#]*=' ./build-args.sh | sed 's/.*/--build-arg & /')"
 }
 
+test -n "$DOCKER_TAGS" || {
+  echo "Error, no Docker-Tags." >&2
+  exit 1
+}
+
 echo "--------------- starting build '$IMAGE_NAME'"
 BUILD_DATE="$(date --rfc-3339=seconds)"
 
@@ -67,8 +72,7 @@ eval "docker build $xtra \
 		--build-arg X_DCKR_PREFIX=$ONAME \
 		--build-arg X_DCKR_BASENAME=$LNAME \
 		--build-arg X_DCKR_NAME=$ONAME/$LNAME \
-    --build-arg X_DCKR_BASE=$X_DCKR_BASE \
-    --build-arg X_DCKR_TAG=\"$X_DCKR_TAG\" \
+    --build-arg X_DCKR_BASETAG=$X_DCKR_BASETAG \
     --build-arg X_DCKR_AI_TIME=\"$X_DCKR_AI_TIME\" \
     --build-arg X_DCKR_CI_TIME=\"$X_DCKR_CI_TIME\" \
     --build-arg X_DCKR_RELEASE=\"x-docker/$SOURCE_BRANCH $DOCKER_TAG ($VERSION) $SCM_TYPE:$GIT_SHA1 $BUILD_DATE\" \
@@ -88,16 +92,15 @@ eval "docker build $xtra \
 
 echo "--------------- tagging '$DOCKER_TAGS'"
 
-test -n "$DOCKER_TAGS" || {
-  echo "Error, no Docker-Tags." >&2
-  exit 1
-}
-
-echo $DOCKER_TAGS | tr -s ', ' ' ' | while read tag
+echo $DOCKER_TAGS | tr -s ', ' ' ' | tr ' ' '\n' | while read tag
 do
   test -n "$tag" || continue
-  echo "docker tag '$IMAGE_NAME' '$DOCKER_REPO:$tag'"
-  docker tag $IMAGE_NAME $DOCKER_REPO:$tag
+
+  echo "docker tag '$IMAGE_NAME' '$DOCKER_REPO:$tag'" >&2
+  docker tag $IMAGE_NAME $DOCKER_REPO:$tag &&
+
+  echo "docker push $DOCKER_REPO:$tag" >&2
+  docker push $DOCKER_REPO:$tag
 done
 
 # TODO: #echo '--------------- publishing results'

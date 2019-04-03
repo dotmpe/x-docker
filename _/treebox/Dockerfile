@@ -36,14 +36,14 @@ USER root
 # Setup package manager and install prerequisite packages
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
-  apt-get update -y && \
-  apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
-  apt-get install -y --allow-downgrades \
+  apt-get update -qqy && \
+  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
+  apt-get install -qqy --allow-downgrades \
     bash zsh dash posh ash ksh mksh busybox-static \
     build-essential libreadline-dev time gawk  \
     bc curl elinks git jq graphviz imagemagick \
     libnet-ifconfig-wrapper-perl \
-    make man moreutils netcat nodejs npm pandoc unrtf antiword \
+    make man moreutils netcat npm pandoc unrtf antiword \
     php-cli python python-dev python-tox python-yaml \
     ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
     vim git-annex gist glances \
@@ -61,23 +61,23 @@ RUN \
 # Setup node NVM and some tooling
 ARG node_version=lts
 
-#RUN npm install --quiet -g npm && \
-#      npm cache clean -qf && \
-#      npm install --quiet -g n && \
-#      n $node_version && \
-#  chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
-#  chgrp staff /usr/local/* /usr/local/lib/node_modules && \
-#  version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
-#  { test -e /usr/bin/node || \
-#    ln -sf /usr/local/n/versions/node/$version/bin/node /usr/bin/node ; }
-#
-#RUN npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
-#  npm update --quiet -g nan && \
-#  npm install --quiet --unsafe-perm -g zmq && \
-#  gem install --quiet sass
+RUN npm install -g npm && \
+  npm install -g n && \
+  n $node_version && \
+  chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
+  chgrp staff /usr/local/* /usr/local/lib/node_modules && \
+  version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
+  { test ! -e /usr/local/bin/node || rm /usr/local/bin/node; } && \
+  ln -sf /usr/local/n/versions/node/$version/bin/node /usr/local/bin/node ; }
+
+RUN npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
+  npm update --quiet -g nan && \
+  npm install --quiet --unsafe-perm -g zmq && \
+  gem install --quiet sass
 
 # Install KCov
-RUN git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKagstrom/kcov && \
+RUN \
+  git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKagstrom/kcov && \
   cd /src/github.com/SimonKagstrom/kcov && \
   DEFAULT_KCOV_GIT_REF=$(git tag --list | grep "^v[0-9]\+$" | sort -V | tail --lines 1) && \
   KCOV_GIT_REF=${KCOV_GIT_REF:-$DEFAULT_KCOV_GIT_REF} && \

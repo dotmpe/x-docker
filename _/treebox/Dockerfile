@@ -48,8 +48,10 @@ RUN \
     bash && \
   apt-get update -qqy && \
   apt-get install -qqy git-lfs && \
-  unset DEBIAN_FRONTEND RUNLEVEL && \
+  DEBIAN_FRONTEND=teletype \
+  unset RUNLEVEL && \
   rm -rf /var/cache/apt/*
+
 
 # Setup node NVM and some tooling
 ARG node_version=lts

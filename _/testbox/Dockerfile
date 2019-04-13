@@ -124,9 +124,9 @@ RUN \
   mkdir -vp /src/github.com /src/bitbucket.org /src/local /srv && \
   chown -R $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
   chmod -R g+rw /src/github.com /src/bitbucket.org /src/local && \
-  # XXX: ???
-  chgrp staff /srv /etc/container_environment && \
-  chmod -R g+rx /etc/container_environment
+  chgrp staff /srv /etc/container_environment /etc/sudoers.d/README && \
+  chmod -R g+rx /etc/container_environment && \
+  chmod g+r /etc/sudoers.d/README
 
 
 RUN locale-gen en_US.UTF-8

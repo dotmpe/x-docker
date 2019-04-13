@@ -1,0 +1,11 @@
+App-Id: x-docker
+Version: 0.0.2-dev
+Main-File: ReadMe-master.md
+Other-Files: bin/* tools/hooks/* lib/sh/* _/*/Dockerfile _/*/*/*/Dockerfile
+# Local-Formats: local-formats.sh
+
+# XXX: either provide sub-repo / group / multi stack app versioning metadata structs. Or derive version tags.
+#Main-Id: x-docker
+#App: docker-treebox <#treebox-dev>
+#App: docker-sandbox <latest#sandbox> <dev#treebox-dev> `release#v-[0-9]*`
+#App: docker-cl-jupyter <#treebox-dev>

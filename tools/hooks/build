@@ -10,12 +10,15 @@ echo "Shell PID: $$"
 echo "Shell options: $-"
 #env
 #echo '------'
-vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"
+vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE SCM_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"
 other_vars="DOCKER_HOST MAX_LOG_SIZE CACHE_TAG SIGNED_URLS DOCKERCFG"
 
 for v in $vars
 do echo "$v: $(eval echo \"\$$v\")"; done
-
+#echo '---------- exported env'
+#env
+#echo '---------- typeset vars'
+#set | grep '^[A-Za-z0-9_-]*='
 echo '----------'
 
 
@@ -58,20 +61,24 @@ test ! -e ./build-args.sh || {
 }
 
 echo "--------------- starting build '$IMAGE_NAME'"
-BUILD_DATE=$(date --rfc-3339=seconds)
+BUILD_DATE="$(date --rfc-3339=seconds)"
 
 eval "docker build $xtra \
 		--build-arg X_DCKR_PREFIX=$ONAME \
 		--build-arg X_DCKR_BASENAME=$LNAME \
 		--build-arg X_DCKR_NAME=$ONAME/$LNAME \
     --build-arg X_DCKR_BASE=$X_DCKR_BASE \
-    --build-arg X_DCKR_TAG=$X_DCKR_TAG \
-    --build-arg BUILD_CODE=$BUILD_CODE \
-    --build-arg IMAGE_NAME=$IMAGE_NAME \
-    --build-arg DOCKER_TAG=$DOCKER_TAG \
-    --build-arg SCM_TYPE=$SOURCE_TYPE \
-    --build-arg GIT_BRANCH=$SOURCE_BRANCH \
-    --build-arg GIT_COMMIT=$GIT_SHA1 \
+    --build-arg X_DCKR_TAG=\"$X_DCKR_TAG\" \
+    --build-arg X_DCKR_AI_TIME=\"$X_DCKR_AI_TIME\" \
+    --build-arg X_DCKR_CI_TIME=\"$X_DCKR_CI_TIME\" \
+    --build-arg X_DCKR_RELEASE=\"x-docker/$SOURCE_BRANCH $DOCKER_TAG ($VERSION) $SCM_TYPE:$GIT_SHA1 $BUILD_DATE\" \
+    --build-arg BUILD_CODE=\"$BUILD_CODE\" \
+    --build-arg IMAGE_NAME=\"$IMAGE_NAME\" \
+    --build-arg DOCKER_TAGS=\"$DOCKER_TAGS\" \
+    --build-arg DOCKER_TAG=\"$DOCKER_TAG\" \
+    --build-arg SOURCE_TYPE=$SOURCE_TYPE \
+    --build-arg SOURCE_BRANCH=\"$SOURCE_BRANCH\" \
+    --build-arg GIT_SHA1=\"$GIT_SHA1\" \
     --build-arg COMMIT_MSG=\"$COMMIT_MSG\" \
     --build-arg BUILD_DATE=\"$BUILD_DATE\" \
     --build-arg VERSION=\"$VERSION\" \
@@ -103,5 +110,4 @@ done
 #  couchapp pushdocs
 #)
 
-
-# Id: x-docker/
+# Id: x-docker/0.0.2-dev tools/hooks/build

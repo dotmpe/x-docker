@@ -38,4 +38,5 @@ str_title()
   }
 }
 
-# Id: x-docker/
+# Copy: User-scripts/r0.0 src/sh/lib/str.lib.sh
+# Id: x-docker/0.0.2-dev src/sh/str.lib.sh

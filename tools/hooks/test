@@ -14,3 +14,5 @@ test ! -e ./test.sh && true || {
     case "$DOCKER_TAG" in "*-dev" ) true ;; * ) false ;; esac
   }
 }
+
+# Id: x-docker/0.0.2-dev tools/hooks/test

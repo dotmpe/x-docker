@@ -41,6 +41,6 @@ RUN cd /tmp/ \
       && ./install-deps.sh \
       && ./install.sh $RDL_PREFIX
 
- 
 # TODO: Add main user
-
+#
+# Id: x-docker/0.0.2-dev _/redland-rdf-suite/Dockerfile

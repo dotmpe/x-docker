@@ -30,3 +30,6 @@ x_dckr_branch_readme() # [Branch-Name]
   done
   return 1
 }
+
+# Copy: User-scripts/r0.0 src/sh/lib/x-dckr.lib.sh
+# Id: x-docker/0.0.2-dev src/sh/x-dckr.lib.sh

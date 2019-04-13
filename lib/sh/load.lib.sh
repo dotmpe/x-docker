@@ -65,4 +65,6 @@ lib_load()
   done
 }
 
-# Id: x-docker/
+# Copy: User-scripts/r0.0 src/sh/lib/lib.lib.sh
+# Copy: User-scripts/r0.0 src/sh/lib/lib-util.lib.sh
+# Id: x-docker/0.0.2-dev lib/sh/load.lib.sh

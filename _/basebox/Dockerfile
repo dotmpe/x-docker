@@ -6,7 +6,7 @@ ARG X_DCKR_BASETAG=master
 # Newest version is 'master'
 FROM phusion/baseimage:$X_DCKR_BASETAG
 
-MAINTAINER B. van Berkum <dev@dotmpe.com>
+MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
 ARG X_DCKR_PREFIX=
 ARG X_DCKR_BASENAME=
@@ -31,15 +31,16 @@ LABEL \
   org.label-schema.build-date="$BUILD_DATE" \
   org.label-schema.version="$VERSION" \
   org.label-schema.vcs-ref=$GIT_SHA1 \
-  org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
+  org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
   org.label-schema.schema-version="1.0"
+
+#  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
 
 # Upgrade with apt-get
 # Then install minimal user tools
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
-  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
     bash zsh dash posh ash busybox-static \
     apt-transport-https \

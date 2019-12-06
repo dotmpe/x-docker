@@ -1,5 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 _cmd=$_
+
+. ./../../tools/env.sh
+
 
 # test is the sixth build-hook; See doc/dev.md
 # This is the second phase of pipeline, between test and push.

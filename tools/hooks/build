@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
+
 _cmd=$_
+
+. ./../../tools/env.sh
+
 
 # build is the third build-hook; See doc/dev.md
 # This is the first phase of pipeline, before test and push.
@@ -10,7 +14,7 @@ echo "Shell PID: $$"
 echo "Shell options: $-"
 #env
 #echo '------'
-vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE SCM_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"
+vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG DOCKER_TAGS GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE SCM_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"
 other_vars="DOCKER_HOST MAX_LOG_SIZE CACHE_TAG SIGNED_URLS DOCKERCFG"
 
 for v in $vars
@@ -22,36 +26,6 @@ do echo "$v: $(eval echo \"\$$v\")"; done
 echo '----------'
 
 
-# Determine workspace and relative CWD
-
-test -n "$WORKSPACE" || {
-  test -n "$BUILD_CODE" && {
-    export WORKSPACE=/src/$BUILD_CODE
-  }
-}
-
-test -n "$WORKSPACE" || {
-  test -n "$BUILD_PATH" && {
-    to_workspace=./$(printf -- "$BUILD_PATH" | cut -c2- | sed 's/[^/]*/../g')
-    export WORKSPACE=$(cd $to_workspace && pwd)
-  }
-}
-
-
-# Init shell
-
-echo WORKSPACE: $WORKSPACE
-pwd && ls -la
-
-test -e ./env.sh && {
-  echo '--------------- loading local env'
-  . ./env.sh
-} || {
-  echo '--------------- loading global env'
-  . $WORKSPACE/tools/build-env.sh
-}
-
-
 # Load args at relative location
 
 xtra=
@@ -60,12 +34,13 @@ test ! -e ./build-args.sh || {
   xtra="$(grep '^[^\#]*=' ./build-args.sh | sed 's/.*/--build-arg & /')"
 }
 
-test -n "$DOCKER_TAGS" || {
+test -n "${DOCKER_TAGS:-}" || {
   echo "Error, no Docker-Tags." >&2
   exit 1
 }
 
-echo "--------------- starting build '$IMAGE_NAME'"
+
+echo "--------------- Starting build '${IMAGE_NAME:-}'"
 BUILD_DATE="$(date --rfc-3339=seconds)"
 
 eval "docker build $xtra \
@@ -90,17 +65,14 @@ eval "docker build $xtra \
     -t $IMAGE_NAME ."
 
 
-echo "--------------- tagging '$DOCKER_TAGS'"
+echo "--------------- Tagging '$DOCKER_TAGS'"
 
 echo $DOCKER_TAGS | tr -s ', ' ' ' | tr ' ' '\n' | while read tag
 do
-  test -n "$tag" || continue
+  # test -n "$tag" || continue
 
   echo "docker tag '$IMAGE_NAME' '$DOCKER_REPO:$tag'" >&2
-  docker tag $IMAGE_NAME $DOCKER_REPO:$tag &&
-
-  echo "docker push $DOCKER_REPO:$tag" >&2
-  docker push $DOCKER_REPO:$tag
+  docker tag $IMAGE_NAME $DOCKER_REPO:$tag
 done
 
 # TODO: couch or (l)edge container #echo '--------------- publishing results'

@@ -1,28 +1,25 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 _cmd=$_
+
+. ./../../tools/env.sh
+
 
 # post-checkout is the first build-hook; See doc/dev.md
 
 echo '---------- post_checkout '$(pwd)
 echo "Term: $TERM"
 echo "Shell: $SHELL"
-echo "Shell Cmd: $0"
-echo "Hook Cmd: $_cmd"
+echo "Shell Cmd: '$0' '$*'"
+echo "Post-Checkout Hook Cmd: $_cmd"
 echo "Shell PID: $$"
 echo "Shell options: $-"
 
-
-# highland builder does not obey skip tag
-case "$(echo "$COMMIT_MSG" | tr 'A-Z' 'a-z') " in
-  *"[skip build]"* | *"[build skip]"* | *"[skip ci]"* | *"[ci skip]"* )
-    echo "Skipping build by ci-skip commit message"
-    # Zero-status exit doesnt abort the build
-    exit 1 ;;
-esac
 
 test "$GIT_SHA1" = "$( git rev-parse HEAD )"  || {
   echo "Illegal env"
   exit 1
 }
+
 
 # Id: x-docker/0.0.2-dev tools/hooks/post_checkout

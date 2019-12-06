@@ -42,24 +42,27 @@ RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
   apt-get install -qqy --allow-downgrades \
-    bash zsh dash posh ash busybox-static \
+    dash \
     apt-transport-https \
-    bc curl git man jq \
+    bc wget curl git man jq \
     ssh sudo tmux tree uuid-runtime \
-    vim git-annex \
-    && \
-  curl -s \
-    https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | \
-    bash && \
-  apt-get update -qqy && \
-  apt-get install -qqy git-lfs && \
+    vim && \
   cd /tmp && wget --quiet --content-disposition \
     "https://github.com/git-hooks/git-hooks/releases/download/v1.1.4/git-hooks_linux_amd64.tar.gz" && \
   tar xf git-hooks_linux_amd64.tar.gz && \
   mv build/git-hooks_linux_amd64 /usr/local/bin/git-hooks && \
   rm -rf build git-hooks_linux_amd64.tar.gz && \
+  \
   unset DEBIAN_FRONTEND RUNLEVEL && \
-  rm -rf /var/cache/apt/*
+  apt-get clean autoclean && \
+  apt-get autoremove -qqy && \
+  rm -Rf /usr/local/src/* -Rf && \
+  rm -Rf /tmp/* && \
+  rm -Rf /var/lib/apt/lists/*.gz && \
+  rm -Rf /var/lib/cache/* && \
+  rm -Rf /var/lib/log/* && \
+  rm -Rf /var/log/* && \
+  rm -Rf /var/cache/*
 
 RUN locale-gen en_US.UTF-8
 

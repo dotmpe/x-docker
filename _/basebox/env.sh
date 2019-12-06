@@ -12,7 +12,7 @@ case "$DOCKER_TAG" in
     ;;
 
   * )
-      X_DCKR_BASETAG="$(echo "$DOCKER_TAG"|cut -c9-)"
+      X_DCKR_BASETAG="$DOCKER_TAG"
       DOCKER_TAGS=$X_DCKR_BASETAG
     ;;
 

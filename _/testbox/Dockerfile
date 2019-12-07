@@ -7,14 +7,14 @@ MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
 COPY docker-buildenv /etc/docker-buildenv
 
-ARG IMAGE_NAME
+ARG DOCKER_IMAGE
 ARG HUB_BUILD_TIME
 ARG X_DCKR_COMMIT
 ARG X_DCKR_VERSION
 
 LABEL \
   org.label-schema.description="smaller baseimage for treebox" \
-  org.label-schema.name="$IMAGE_NAME" \
+  org.label-schema.name="$DOCKER_IMAGE" \
   org.label-schema.build-date="$HUB_BUILD_TIME" \
   org.label-schema.version="$X_DCKR_VERSION" \
   org.label-schema.vcs-ref=$X_DCKR_COMMIT \

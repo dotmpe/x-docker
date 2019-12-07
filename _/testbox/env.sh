@@ -3,6 +3,8 @@
 
 . $WORKSPACE/tools/build-env.sh
 
+INAME=testbox
+
 
 # Handle GIT branch: set upstream tag
 case "$DOCKER_TAG" in
@@ -13,6 +15,13 @@ case "$DOCKER_TAG" in
     ;;
 
 esac
+
+
+eval $(docker run --rm dotmpe/basebox:$X_DCKR_BASETAG \
+  bash -c 'cat /etc/os-release' | grep -v '^VERSION=' )
+
+PHUSION_CODENAME=$UBUNTU_CODENAME
+PHUSION_VER=$ID-$VERSION_ID
 
 
 # Override tags with commit-msg tag, adding basetag from branch/tag also

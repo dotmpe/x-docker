@@ -7,18 +7,18 @@ MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
 COPY docker-buildenv /etc/docker-buildenv
 
-ARG IMAGE_NAME
+ARG DOCKER_IMAGE
 ARG HUB_BUILD_TIME
 ARG X_DCKR_COMMIT
 ARG X_DCKR_VERSION
 
 LABEL \
   org.label-schema.description="smaller baseimage for treebox" \
-  org.label-schema.name="$IMAGE_NAME" \
+  org.label-schema.name="$DOCKER_IMAGE" \
   org.label-schema.build-date="$HUB_BUILD_TIME" \
   org.label-schema.version="$X_DCKR_VERSION" \
-  org.label-schema.vcs-ref=$X_DCKR_COMMIT \
   org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
+  org.label-schema.vcs-ref=$X_DCKR_COMMIT \
   org.label-schema.schema-version="1.0"
 
 # Setup package manager and install prerequisite packages
@@ -37,19 +37,7 @@ RUN \
     software-properties-common \
     autoconf libtool \
     zlib1g wget cmake g++ \
-    golang \
-    && \
-  apt-get clean autoclean && \
-  apt-get autoremove -qqy && \
-  unset DEBIAN_FRONTEND RUNLEVEL && \
-  DEBIAN_FRONTEND=teletype \
-  rm -Rf /usr/local/src/* -Rf && \
-  rm -Rf /tmp/* && \
-  rm -Rf /var/lib/apt/lists/*.gz && \
-  rm -Rf /var/lib/cache/* && \
-  rm -Rf /var/lib/log/* && \
-  rm -Rf /var/log/* && \
-  rm -Rf /var/cache/*
+    golang
 
 
 # Setup python PIP and some tooling
@@ -129,6 +117,19 @@ RUN \
 
 RUN locale-gen en_US.UTF-8
 
+RUN \
+  apt-get clean autoclean && \
+  apt-get autoremove -qqy && \
+  unset DEBIAN_FRONTEND RUNLEVEL && \
+  DEBIAN_FRONTEND=teletype \
+  rm -Rf /usr/local/src/* -Rf && \
+  rm -Rf /tmp/* && \
+  rm -Rf /var/lib/apt/lists/*.gz && \
+  rm -Rf /var/lib/cache/* && \
+  rm -Rf /var/lib/log/* && \
+  rm -Rf /var/log/* && \
+  rm -Rf /var/cache/*
+
 # Fancy up (root) env
 ENV \
   TREEBOX_USER=$username \
@@ -148,7 +149,9 @@ ENV \
   TREEBOX_SCM_COMMIT_MSG="$COMMIT_MSG" \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
-  LC_ALL=en_US.UTF-8
+  LC_ALL=en_US.UTF-8 \
+  DEBIAN_FRONTEND=teletype \
+  DOCKER_IMAGE=$DOCKER_IMAGE
 
 USER $username
 

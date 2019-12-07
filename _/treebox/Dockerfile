@@ -1,24 +1,24 @@
 
 ARG X_DCKR_BASETAG=dev
 
-FROM dotmpe/basebox:$X_DCKR_BASETAG
+FROM dotmpe/testbox:$X_DCKR_BASETAG
 
 MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
 COPY docker-buildenv /etc/docker-buildenv
 
-ARG IMAGE_NAME
+ARG DOCKER_IMAGE
 ARG HUB_BUILD_TIME
 ARG X_DCKR_COMMIT
 ARG X_DCKR_VERSION
 
 LABEL \
   org.label-schema.description="A bunch of py/rb/js dev tooling and a user setup" \
-  org.label-schema.name="$IMAGE_NAME" \
+  org.label-schema.name="$DOCKER_IMAGE" \
   org.label-schema.build-date="$HUB_BUILD_TIME" \
   org.label-schema.version="$X_DCKR_VERSION" \
-  org.label-schema.vcs-ref=$X_DCKR_COMMIT \
   org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
+  org.label-schema.vcs-ref=$X_DCKR_COMMIT \
   org.label-schema.schema-version="1.0"
 
 USER root
@@ -42,19 +42,7 @@ RUN \
     binutils-dev \
     libiberty-dev zlib1g-dev \
     libzmq3-dev \
-    golang \
-    && \
-  apt-get clean autoclean && \
-  apt-get autoremove -qqy && \
-  unset DEBIAN_FRONTEND RUNLEVEL && \
-  DEBIAN_FRONTEND=teletype \
-  rm -Rf /usr/local/src/* -Rf && \
-  rm -Rf /tmp/* && \
-  rm -Rf /var/lib/apt/lists/*.gz && \
-  rm -Rf /var/lib/cache/* && \
-  rm -Rf /var/lib/log/* && \
-  rm -Rf /var/log/* && \
-  rm -Rf /var/cache/*
+    golang
 
 # Setup node NVM and some tooling
 ARG node_version=lts
@@ -95,11 +83,25 @@ RUN \
 
 RUN locale-gen en_US.UTF-8
 
+RUN \
+  apt-get clean autoclean && \
+  apt-get autoremove -qqy && \
+  unset DEBIAN_FRONTEND RUNLEVEL && \
+  DEBIAN_FRONTEND=teletype \
+  rm -Rf /usr/local/src/* -Rf && \
+  rm -Rf /tmp/* && \
+  rm -Rf /var/lib/apt/lists/*.gz && \
+  rm -Rf /var/lib/cache/* && \
+  rm -Rf /var/lib/log/* && \
+  rm -Rf /var/log/* && \
+  rm -Rf /var/cache/*
+
 # Fancy up (root) env
 ENV \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
   LC_ALL=en_US.UTF-8 \
+  DEBIAN_FRONTEND=teletype \
   DOCKER_IMAGE=$DOCKER_IMAGE
 
 USER $username

@@ -1,4 +1,4 @@
-## ``bvberkum/treebox`` [![image version](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata") [ ![Dockerfile](https://img.shields.io/badge/Dockerfile-GitHub-blue.svg) ](https://github.com/bvberkum/x-docker/blob/master/_/treebox/Dockerfile) [ ![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg) ](https://cloud.docker.com/repository/docker/bvberkum/treebox) ![docker hub pulls](https://img.shields.io/docker/pulls/bvberkum/treebox.svg) ![code](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2019.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/bvberkum/x-docker.svg) ![repo license](https://img.shields.io/github/license/bvberkum/x-docker.svg)
+## ``dotmpe/treebox`` [![image version](https://images.microbadger.com/badges/version/dotmpe/treebox.svg)](https://microbadger.com/images/dotmpe/treebox "microbadger.com version metadata") [ ![Dockerfile](https://img.shields.io/badge/Dockerfile-GitHub-blue.svg) ](https://github.com/dotmpe/x-docker/blob/master/_/treebox/Dockerfile) [ ![docker autobuild status](https://img.shields.io/docker/build/dotmpe/treebox.svg) ](https://cloud.docker.com/repository/docker/dotmpe/treebox) ![docker hub pulls](https://img.shields.io/docker/pulls/dotmpe/treebox.svg) ![code](https://img.shields.io/github/languages/code-size/dotmpe/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/dotmpe/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2019.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/dotmpe/x-docker.svg) ![repo license](https://img.shields.io/github/license/dotmpe/x-docker.svg)
 
 An image for development/testing with `treebox` user (ssh, sudo, staff and supergroup) and installations for:
 
@@ -15,10 +15,10 @@ echo treebox:password | chpasswd
 echo "%supergroup  ALL=NOPASSWD:ALL" >>/etc/sudoers.d/treebox
 ```
 
-#### ``:dev`` ![last commit on treebox-dev](https://img.shields.io/github/last-commit/bvberkum/x-docker/treebox-dev.svg) [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/treebox:dev.svg)](https://microbadger.com/images/bvberkum/treebox:dev "Get your own image badge on microbadger.com")
+#### ``:dev`` ![last commit on treebox-dev](https://img.shields.io/github/last-commit/dotmpe/x-docker/treebox-dev.svg) [![image size/layers](https://images.microbadger.com/badges/image/dotmpe/treebox:dev.svg)](https://microbadger.com/images/dotmpe/treebox:dev "Get your own image badge on microbadger.com")
 
-#### ``:latest`` [![image size/layers](https://images.microbadger.com/badges/image/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com image metadata")
-[![image version](https://images.microbadger.com/badges/version/bvberkum/treebox.svg)](https://microbadger.com/images/bvberkum/treebox "microbadger.com version metadata")
+#### ``:latest`` [![image size/layers](https://images.microbadger.com/badges/image/dotmpe/treebox.svg)](https://microbadger.com/images/dotmpe/treebox "microbadger.com image metadata")
+[![image version](https://images.microbadger.com/badges/version/dotmpe/treebox.svg)](https://microbadger.com/images/dotmpe/treebox "microbadger.com version metadata")
 
 
 ## Autobuilds
@@ -28,7 +28,7 @@ treebox-dev      | ``/_/treebox``               | dev
 
 ## Tags
 (0.0.5)
-  - Now from ``bvberkum/testbox`` ``latest`` ``0.0.2``.
+  - Now from ``dotmpe/testbox`` ``latest`` ``0.0.2``.
     Removed tagged autobuilds, now tagging manually to properly re-use images.
   - TODO: see about replacing version managers with asdf; remove nvm, and ruby,
     python, go, Haskel, and PHP setup. See about Redis, ImageMagick and Postgres

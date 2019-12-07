@@ -9,15 +9,19 @@ FROM phusion/baseimage:$X_DCKR_BASETAG
 MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
 COPY docker-buildenv /etc/docker-buildenv
-RUN . /etc/docker-buildenv
+# XXX: no effect? RUN . /etc/docker-buildenv
+ARG IMAGE_NAME
+ARG HUB_BUILD_TIME
+ARG X_DCKR_COMMIT
+ARG X_DCKR_VERSION
 
 LABEL \
   org.label-schema.description="Fully upgraded phusion/baseimage and usertools" \
   org.label-schema.name="$IMAGE_NAME" \
   org.label-schema.build-date="$HUB_BUILD_TIME" \
   org.label-schema.version="$X_DCKR_VERSION" \
-  org.label-schema.vcs-ref=$X_DCKR_COMMIT \
   org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
+  org.label-schema.vcs-ref=$X_DCKR_COMMIT \
   org.label-schema.schema-version="1.0"
 
 # Upgrade with apt-get

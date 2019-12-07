@@ -34,7 +34,7 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
   DOCKER_TAGS="$T baseimage-$T-$PHUSION_CODENAME baseimage-$T-$PHUSION_VER"
 
   # Handle GIT tags
-  for tag in $(git_rev_tags | grep basebox- | tr '\n' ' ')
+  for tag in $(git_rev_tags | grep testbox- | tr '\n' ' ')
   do
     tag="$(echo "$tag"|cut -c9-)"
     DOCKER_TAGS="$DOCKER_TAGS $tag $tag-$T $tag-$T-$PHUSION_CODENAME $tag-$T-$PHUSION_VER"

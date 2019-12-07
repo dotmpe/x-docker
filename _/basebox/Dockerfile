@@ -13,7 +13,7 @@ ARG X_DCKR_COMMIT
 ARG X_DCKR_VERSION
 
 LABEL \
-  org.label-schema.description="Fully upgraded phusion/baseimage and usertools" \
+  org.label-schema.description="Upgraded phusion/baseimage with some usertools" \
   org.label-schema.name="$IMAGE_NAME" \
   org.label-schema.build-date="$HUB_BUILD_TIME" \
   org.label-schema.version="$X_DCKR_VERSION" \
@@ -37,9 +37,10 @@ RUN \
   mv build/git-hooks_linux_amd64 /usr/local/bin/git-hooks && \
   rm -rf build git-hooks_linux_amd64.tar.gz && \
   \
-  unset DEBIAN_FRONTEND RUNLEVEL && \
   apt-get clean autoclean && \
   apt-get autoremove -qqy && \
+  unset DEBIAN_FRONTEND RUNLEVEL && \
+  DEBIAN_FRONTEND=teletype \
   rm -Rf /usr/local/src/* -Rf && \
   rm -Rf /tmp/* && \
   rm -Rf /var/lib/apt/lists/*.gz && \
@@ -55,6 +56,7 @@ ENV \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
   LC_ALL=en_US.UTF-8 \
+  DEBIAN_FRONTEND=teletype \
   DOCKER_IMAGE=$DOCKER_IMAGE
 
 

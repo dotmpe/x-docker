@@ -25,7 +25,7 @@ do
 done
 
 
-curl -X post \
+curl -X POST \
   https://hooks.microbadger.com/images/dotmpe/basebox/MzwGjG3Jh-gkuiy9gq4ybDVhpfk=
 
 

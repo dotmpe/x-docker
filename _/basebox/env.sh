@@ -38,7 +38,7 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
 } || {
 
   # Or start with tag from branch
-  DOCKER_TAGS="$T baseimage-$T-$PHUSION_CODENAME baseimage-$T-$PHUSION_VER"
+  DOCKER_TAGS="$T $T-$PHUSION_VER baseimage-$T-$PHUSION_CODENAME baseimage-$T-$PHUSION_VER"
 
   # Handle GIT tags
   for tag in $(git_rev_tags | grep basebox- | tr '\n' ' ')

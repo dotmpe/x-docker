@@ -6,7 +6,11 @@ FROM dotmpe/basebox:$X_DCKR_BASETAG
 MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
 COPY docker-buildenv /etc/docker-buildenv
-RUN . /etc/docker-buildenv
+
+ARG IMAGE_NAME
+ARG HUB_BUILD_TIME
+ARG X_DCKR_COMMIT
+ARG X_DCKR_VERSION
 
 LABEL \
   org.label-schema.description="A bunch of py/rb/js dev tooling and a user setup" \
@@ -23,7 +27,6 @@ USER root
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
-  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
     bash zsh dash posh ash ksh mksh busybox-static \
     build-essential libreadline-dev time gawk  \
@@ -41,9 +44,10 @@ RUN \
     libzmq3-dev \
     golang \
     && \
-  unset DEBIAN_FRONTEND RUNLEVEL && \
   apt-get clean autoclean && \
   apt-get autoremove -qqy && \
+  unset DEBIAN_FRONTEND RUNLEVEL && \
+  DEBIAN_FRONTEND=teletype \
   rm -Rf /usr/local/src/* -Rf && \
   rm -Rf /tmp/* && \
   rm -Rf /var/lib/apt/lists/*.gz && \

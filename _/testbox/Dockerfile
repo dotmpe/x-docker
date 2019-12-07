@@ -1,7 +1,7 @@
 
 ARG X_DCKR_BASETAG=dev
 
-FROM bvberkum/basebox:$X_DCKR_BASETAG
+FROM dotmpe/basebox:$X_DCKR_BASETAG
 
 MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
@@ -17,8 +17,8 @@ LABEL \
   org.label-schema.name="$IMAGE_NAME" \
   org.label-schema.build-date="$HUB_BUILD_TIME" \
   org.label-schema.version="$X_DCKR_VERSION" \
-  org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
   org.label-schema.vcs-ref=$X_DCKR_COMMIT \
+  org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
   org.label-schema.schema-version="1.0"
 
 # Setup package manager and install prerequisite packages

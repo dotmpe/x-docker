@@ -1,9 +1,6 @@
 
 ARG X_DCKR_BASETAG=master
 
-# Tag 'latest' is 0.10.0
-# Last version is 0.11
-# Newest version is 'master'
 FROM phusion/baseimage:$X_DCKR_BASETAG
 
 MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>

@@ -3,6 +3,8 @@
 
 . $WORKSPACE/tools/build-env.sh
 
+INAME=treebox
+
 
 # Handle GIT branch: set upstream tag
 case "$DOCKER_TAG" in

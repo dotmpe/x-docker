@@ -1,34 +1,20 @@
 
 ARG X_DCKR_BASETAG=dev
 
-FROM bvberkum/testbox:$X_DCKR_BASETAG
+FROM dotmpe/basebox:$X_DCKR_BASETAG
 
-MAINTAINER B. van Berkum <dev@dotmpe.com>
+MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
-ARG X_DCKR_PREFIX=
-ARG X_DCKR_BASENAME=
-ARG X_DCKR_NAME=
-ARG X_DCKR_AI_TIME=
-ARG X_DCKR_CI_TIME=
-ARG X_DCKR_RELEASE=
-ARG BUILD_CODE=
-ARG IMAGE_NAME=
-ARG DOCKER_TAGS=
-ARG DOCKER_TAG=
-ARG SOURCE_TYPE=
-ARG SOURCE_BRANCH=
-ARG GIT_SHA1=
-ARG COMMIT_MSG=
-ARG BUILD_DATE=
-ARG VERSION=
+COPY docker-buildenv /etc/docker-buildenv
+RUN . /etc/docker-buildenv
 
 LABEL \
   org.label-schema.description="A bunch of py/rb/js dev tooling and a user setup" \
   org.label-schema.name="$IMAGE_NAME" \
-  org.label-schema.build-date="$BUILD_DATE" \
-  org.label-schema.version="$VERSION" \
-  org.label-schema.vcs-ref=$GIT_SHA1 \
-  org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
+  org.label-schema.build-date="$HUB_BUILD_TIME" \
+  org.label-schema.version="$X_DCKR_VERSION" \
+  org.label-schema.vcs-ref=$X_DCKR_COMMIT \
+  org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
   org.label-schema.schema-version="1.0"
 
 USER root
@@ -56,7 +42,15 @@ RUN \
     golang \
     && \
   unset DEBIAN_FRONTEND RUNLEVEL && \
-  rm -rf /var/cache/apt/*
+  apt-get clean autoclean && \
+  apt-get autoremove -qqy && \
+  rm -Rf /usr/local/src/* -Rf && \
+  rm -Rf /tmp/* && \
+  rm -Rf /var/lib/apt/lists/*.gz && \
+  rm -Rf /var/lib/cache/* && \
+  rm -Rf /var/lib/log/* && \
+  rm -Rf /var/log/* && \
+  rm -Rf /var/cache/*
 
 # Setup node NVM and some tooling
 ARG node_version=lts
@@ -99,24 +93,10 @@ RUN locale-gen en_US.UTF-8
 
 # Fancy up (root) env
 ENV \
-  TREEBOX_USER=$username \
-  TREEBOX_BUILD_ID="$BUILD_CODE" \
-  TREEBOX_IMAGE="$IMAGE_NAME:$DOCKER_TAG" \
-  TREEBOX_SOURCE="$SOURCE_BRANCH:$GIT_SHA1" \
-  X_DCKR_AI_TIME="$X_DCKR_AI_TIME" \
-  X_DCKR_CI_TIME="$X_DCKR_CI_TIME" \
-  TREEBOX_TAGS="$DOCKER_TAGS" \
-  TREEBOX_TAG="$DOCKER_TAG" \
-  TREEBOX_BUILD_TIME="$BUILD_DATE" \
-  TREEBOX_BUILD="$X_DCKR_RELEASE" \
-  TREEBOX_VERSION="$VERSION" \
-  TREEBOX_SCM=$SOURCE_TYPE \
-  TREEBOX_SCM_BRANCH="$SOURCE_BRANCH" \
-  TREEBOX_SCM_COMMIT="$GIT_SHA1" \
-  TREEBOX_SCM_COMMIT_MSG="$COMMIT_MSG" \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
-  LC_ALL=en_US.UTF-8
+  LC_ALL=en_US.UTF-8 \
+  DOCKER_IMAGE=$DOCKER_IMAGE
 
 USER $username
 
@@ -134,18 +114,18 @@ USER $username
 #  ( echo 'test -n "$CS" || CS=dark; export CS' >> /home/$username/.profile ) && \
 #  ( echo 'test -n "$TERM" || TERM=xterm; export TERM' >> /home/$username/.profile ) && \
 #  . ~/.profile && \
-#  BASHER_FULL_CLONE=true basher install bvberkum/user-scripts && \
-#  cd /home/$username/.basher/cellar/packages/bvberkum/user-scripts && \
+#  BASHER_FULL_CLONE=true basher install dotmpe/user-scripts && \
+#  cd /home/$username/.basher/cellar/packages/dotmpe/user-scripts && \
 #  git checkout r0.0 && \
-#  mkdir -p /src/github.com/bvberkum && \
-#  git clone https://github.com/bvberkum/oil.git /src/github.com/bvberkum/oil && \
-#  cd /src/github.com/bvberkum/oil && \
+#  mkdir -p /src/github.com/dotmpe && \
+#  git clone https://github.com/dotmpe/oil.git /src/github.com/dotmpe/oil && \
+#  cd /src/github.com/dotmpe/oil && \
 #  git checkout feature/ast-visitor-cli && \
 #  make configure && build/dev.sh minimal
 #
 #ENV TREEBOX_IMAGE="$IMAGE_NAME" \
 #  TREEBOX_SOURCE="$SOURCE_BRANCH:$GIT_COMMIT" \
 #  LANG=en_US.UTF-8 \
-#  U_S=/home/$username/.basher/cellar/packages/bvberkum/user-scripts
+#  U_S=/home/$username/.basher/cellar/packages/dotmpe/user-scripts
 
 # Id: x-docker/0.0.2-dev

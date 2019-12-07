@@ -65,6 +65,10 @@ EOM
 } > docker-buildenv
 
 eval "docker build $xtra \
+    --build-arg IMAGE_NAME=\"$IMAGE_NAME\" \
+    --build-arg HUB_BUILD_TIME=\"$BUILD_DATE\" \
+    --build-arg X_DCKR_VERSION=\"$VERSION\" \
+    --build-arg X_DCKR_COMMIT=\"$GIT_SHA1\" \
     --build-arg PHUSION_BASEIMAGE=\"$X_DCKR_BASETAG\" \
     -t $IMAGE_NAME ."
 

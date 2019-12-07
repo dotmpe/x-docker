@@ -28,10 +28,10 @@ PHUSION_VER=$ID-$VERSION_ID
 
 
 # Override tags with commit-msg tag, adding basetag from branch/tag also
-echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -qv '\[hub:' && {
+echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
 
   for tag in $(echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | \
-    sed -E 's/.*\[hub: ([^]]*\].*/\1/' )
+    sed -E 's/.*\[hub: ([^]]*)\].*/\1/' )
   do
     DOCKER_TAGS="$DOCKER_TAGS $tag $tag-$T $tag-$T-$PHUSION_CODENAME $tag-$T-$PHUSION_VER"
   done

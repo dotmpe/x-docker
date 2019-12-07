@@ -1,41 +1,30 @@
 
 ARG X_DCKR_BASETAG=dev
 
-FROM bvberkum/basebox:$X_DCKR_BASETAG
+FROM dotmpe/basebox:$X_DCKR_BASETAG
 
-MAINTAINER B. van Berkum <dev@dotmpe.com>
+MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
-ARG X_DCKR_PREFIX=
-ARG X_DCKR_BASENAME=
-ARG X_DCKR_NAME=
-ARG X_DCKR_AI_TIME=
-ARG X_DCKR_CI_TIME=
-ARG X_DCKR_RELEASE=
-ARG BUILD_CODE=
-ARG IMAGE_NAME=
-ARG DOCKER_TAGS=
-ARG DOCKER_TAG=
-ARG SOURCE_TYPE=
-ARG SOURCE_BRANCH=
-ARG GIT_SHA1=
-ARG COMMIT_MSG=
-ARG BUILD_DATE=
-ARG VERSION=
+COPY docker-buildenv /etc/docker-buildenv
+
+ARG IMAGE_NAME
+ARG HUB_BUILD_TIME
+ARG X_DCKR_COMMIT
+ARG X_DCKR_VERSION
 
 LABEL \
   org.label-schema.description="smaller baseimage for treebox" \
   org.label-schema.name="$IMAGE_NAME" \
-  org.label-schema.build-date="$BUILD_DATE" \
-  org.label-schema.version="$VERSION" \
-  org.label-schema.vcs-ref=$GIT_SHA1 \
-  org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
+  org.label-schema.build-date="$HUB_BUILD_TIME" \
+  org.label-schema.version="$X_DCKR_VERSION" \
+  org.label-schema.vcs-ref=$X_DCKR_COMMIT \
+  org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
   org.label-schema.schema-version="1.0"
 
 # Setup package manager and install prerequisite packages
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
-  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
     bash zsh dash posh ash busybox-static \
     build-essential time gawk  \
@@ -50,8 +39,17 @@ RUN \
     zlib1g wget cmake g++ \
     golang \
     && \
+  apt-get clean autoclean && \
+  apt-get autoremove -qqy && \
   unset DEBIAN_FRONTEND RUNLEVEL && \
-  rm -rf /var/cache/apt/*
+  DEBIAN_FRONTEND=teletype \
+  rm -Rf /usr/local/src/* -Rf && \
+  rm -Rf /tmp/* && \
+  rm -Rf /var/lib/apt/lists/*.gz && \
+  rm -Rf /var/lib/cache/* && \
+  rm -Rf /var/lib/log/* && \
+  rm -Rf /var/log/* && \
+  rm -Rf /var/cache/*
 
 
 # Setup python PIP and some tooling
@@ -124,9 +122,9 @@ RUN \
   mkdir -vp /src/github.com /src/bitbucket.org /src/local /srv && \
   chown -R $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
   chmod -R g+rw /src/github.com /src/bitbucket.org /src/local && \
-  # XXX: ???
-  chgrp staff /srv /etc/container_environment && \
-  chmod -R g+rx /etc/container_environment
+  chgrp staff /srv /etc/container_environment /etc/sudoers.d/README && \
+  chmod -R g+rx /etc/container_environment && \
+  chmod g+r /etc/sudoers.d/README
 
 
 RUN locale-gen en_US.UTF-8

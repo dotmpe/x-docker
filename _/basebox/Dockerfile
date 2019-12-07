@@ -8,45 +8,28 @@ FROM phusion/baseimage:$X_DCKR_BASETAG
 
 MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
-ARG X_DCKR_PREFIX=
-ARG X_DCKR_BASENAME=
-ARG X_DCKR_NAME=
-ARG X_DCKR_AI_TIME=
-ARG X_DCKR_CI_TIME=
-ARG X_DCKR_RELEASE=
-ARG BUILD_CODE=
-ARG IMAGE_NAME=
-ARG DOCKER_TAGS=
-ARG DOCKER_TAG=
-ARG SOURCE_TYPE=
-ARG SOURCE_BRANCH=
-ARG GIT_SHA1=
-ARG COMMIT_MSG=
-ARG BUILD_DATE=
-ARG VERSION=
+COPY docker-buildenv /etc/docker-buildenv
+RUN . /etc/docker-buildenv
 
 LABEL \
   org.label-schema.description="Fully upgraded phusion/baseimage and usertools" \
   org.label-schema.name="$IMAGE_NAME" \
-  org.label-schema.build-date="$BUILD_DATE" \
-  org.label-schema.version="$VERSION" \
-  org.label-schema.vcs-ref=$GIT_SHA1 \
+  org.label-schema.build-date="$HUB_BUILD_TIME" \
+  org.label-schema.version="$X_DCKR_VERSION" \
+  org.label-schema.vcs-ref=$X_DCKR_COMMIT \
   org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
   org.label-schema.schema-version="1.0"
-
-#  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
 
 # Upgrade with apt-get
 # Then install minimal user tools
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
+  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
-    dash \
-    apt-transport-https \
-    bc wget curl git man jq \
-    ssh sudo tmux tree uuid-runtime \
-    vim && \
+    dash apt-transport-https bc wget curl git man jq ssh sudo tmux tree \
+    uuid-runtime vim && \
+  \
   cd /tmp && wget --quiet --content-disposition \
     "https://github.com/git-hooks/git-hooks/releases/download/v1.1.4/git-hooks_linux_amd64.tar.gz" && \
   tar xf git-hooks_linux_amd64.tar.gz && \
@@ -68,23 +51,10 @@ RUN locale-gen en_US.UTF-8
 
 # Fancy up (root) env
 ENV \
-  TREEBOX_BUILD_ID="$BUILD_CODE" \
-  TREEBOX_IMAGE="$IMAGE_NAME:$DOCKER_TAG" \
-  TREEBOX_SOURCE="$SOURCE_BRANCH:$GIT_SHA1" \
-  X_DCKR_AI_TIME="$X_DCKR_AI_TIME" \
-  X_DCKR_CI_TIME="$X_DCKR_CI_TIME" \
-  TREEBOX_TAGS="$DOCKER_TAGS" \
-  TREEBOX_TAG="$DOCKER_TAG" \
-  TREEBOX_BUILD_TIME="$BUILD_DATE" \
-  TREEBOX_BUILD="$X_DCKR_RELEASE" \
-  TREEBOX_VERSION="$VERSION" \
-  TREEBOX_SCM=$SOURCE_TYPE \
-  TREEBOX_SCM_BRANCH="$SOURCE_BRANCH" \
-  TREEBOX_SCM_COMMIT="$GIT_SHA1" \
-  TREEBOX_SCM_COMMIT_MSG="$COMMIT_MSG" \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
-  LC_ALL=en_US.UTF-8
+  LC_ALL=en_US.UTF-8 \
+  DOCKER_IMAGE=$DOCKER_IMAGE
 
 
 # Id: x-docker/0.0.2-dev

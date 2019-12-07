@@ -27,6 +27,21 @@ done
 unset tag
 
 
-DOCKER_TAGS="$DOCKER_TAGS baseimage-$X_DCKR_BASETAG"
+eval $(docker run --rm phusion/baseimage:$X_DCKR_BASETAG \
+  bash -c 'cat /etc/os-release' | grep -v '^VERSION=' )
+
+PHUSION_CODENAME=$UBUNTU_CODENAME
+PHUSION_VER=$ID-$VERSION_ID
+
+
+# Override tags with commit-msg tag, using basetag from branch/tag
+echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -qv '\[hub:' && {
+
+  DOCKER_TAGS="$(echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' |
+    sed -E 's/.*\[hub: ([^]]*\].*/\1/' )"
+} || {
+
+  DOCKER_TAGS="$DOCKER_TAGS baseimage-$X_DCKR_BASETAG baseimage-$X_DCKR_BASETAG-$PHUSION_CODENAME baseimage-$X_DCKR_BASETAG-$PHUSION_VER"
+}
 
 VERSION=0.0.4-dev # basebox

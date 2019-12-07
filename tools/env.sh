@@ -3,6 +3,14 @@
 set -e -o pipefail -o nounset
 
 
+# highland builder does not obey skip tag
+case "$(echo "$COMMIT_MSG" | tr 'A-Z' 'a-z') " in
+  *"[skip build]"* | *"[build skip]"* | *"[skip ci]"* | *"[ci skip]"* )
+    echo "Skipping build by ci-skip commit message"
+    exit 0 ;;
+esac
+
+
 # Determine workspace and relative CWD
 
 test -n "${WORKSPACE:-}" || {

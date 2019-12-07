@@ -1,7 +1,7 @@
 
 ARG X_DCKR_BASETAG=dev
 
-FROM dotmpe/basebox:$X_DCKR_BASETAG
+FROM dotmpe/testbox:$X_DCKR_BASETAG
 
 MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 

@@ -7,11 +7,6 @@
 # Handle GIT branch: set upstream tag
 case "$DOCKER_TAG" in
 
-  dev )
-      T=$DOCKER_TAG
-      X_DCKR_BASETAG=master
-    ;;
-
   * )
       T=$DOCKER_TAG
       X_DCKR_BASETAG=$T
@@ -20,7 +15,7 @@ case "$DOCKER_TAG" in
 esac
 
 
-eval $(docker run --rm phusion/baseimage:$X_DCKR_BASETAG \
+eval $(docker run --rm dotmpe/testbox:$X_DCKR_BASETAG \
   bash -c 'cat /etc/os-release' | grep -v '^VERSION=' )
 
 PHUSION_CODENAME=$UBUNTU_CODENAME
@@ -38,7 +33,7 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
 } || {
 
   # Or start with tag from branch
-  DOCKER_TAGS="$T baseimage-$T-$PHUSION_CODENAME baseimage-$T-$PHUSION_VER"
+  DOCKER_TAGS="$T $T-$PHUSION_VER baseimage-$T-$PHUSION_CODENAME baseimage-$T-$PHUSION_VER"
 
   # Handle GIT tags
   for tag in $(git_rev_tags | grep treebox- | tr '\n' ' ')

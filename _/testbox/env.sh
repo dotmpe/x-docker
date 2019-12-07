@@ -7,18 +7,13 @@
 # Handle GIT branch: set upstream tag
 case "$DOCKER_TAG" in
 
-  dev )
-      X_DCKR_BASETAG=dev
-
-      DOCKER_TAGS="$DOCKER_TAGS basebox-$X_DCKR_BASETAG baseimage-master"
-    ;;
-
   * )
-      echo "No basetag for '$DOCKER_TAG'" >&2
-      exit 1
+      T=$DOCKER_TAG
+      X_DCKR_BASETAG=$T
     ;;
 
 esac
+
 
 # Override tags with commit-msg tag, adding basetag from branch/tag also
 echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
@@ -31,7 +26,7 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
 } || {
 
   # Or start with tag from branch
-  DOCKER_TAGS="$T baseimage-$T-$PHUSION_CODENAME baseimage-$T-$PHUSION_VER"
+  DOCKER_TAGS="$T $T-$PHUSION_VER baseimage-$T-$PHUSION_CODENAME baseimage-$T-$PHUSION_VER"
 
   # Handle GIT tags
   for tag in $(git_rev_tags | grep testbox- | tr '\n' ' ')

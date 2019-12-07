@@ -1,28 +1,52 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env bash
+
+
 . $WORKSPACE/tools/build-env.sh
 
+
+# Handle GIT branch: set upstream tag
 case "$DOCKER_TAG" in
 
-  last )
-      X_DCKR_BASETAG="0.11"
-    ;;
-
-  latest|stable )
-      X_DCKR_BASETAG="0.10.2"
-    ;;
-
   dev )
-      X_DCKR_BASETAG="master"
+      T=$DOCKER_TAG
+      X_DCKR_BASETAG=master
     ;;
 
   * )
-      echo "No basetag for '$DOCKER_TAG'" >&2
-      exit 1
+      T=$DOCKER_TAG
+      X_DCKR_BASETAG=$T
     ;;
 
 esac
 
-DOCKER_TAGS="$DOCKER_TAGS baseimage-$X_DCKR_BASETAG"
 
-VERSION=0.0.1-dev # basebox
+eval $(docker run --rm phusion/baseimage:$X_DCKR_BASETAG \
+  bash -c 'cat /etc/os-release' | grep -v '^VERSION=' )
+
+PHUSION_CODENAME=$UBUNTU_CODENAME
+PHUSION_VER=$ID-$VERSION_ID
+
+
+# Override tags with commit-msg tag, adding basetag from branch/tag also
+echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
+
+  for tag in $(echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | \
+    sed -E 's/.*\[hub: ([^]]*)\].*/\1/' )
+  do
+    DOCKER_TAGS="$DOCKER_TAGS $tag $tag-$T $tag-$T-$PHUSION_CODENAME $tag-$T-$PHUSION_VER"
+  done
+} || {
+
+  # Or start with tag from branch
+  DOCKER_TAGS="$T baseimage-$T-$PHUSION_CODENAME baseimage-$T-$PHUSION_VER"
+
+  # Handle GIT tags
+  for tag in $(git_rev_tags | grep basebox- | tr '\n' ' ')
+  do
+    tag="$(echo "$tag"|cut -c9-)"
+    DOCKER_TAGS="$DOCKER_TAGS $tag $tag-$T $tag-$T-$PHUSION_CODENAME $tag-$T-$PHUSION_VER"
+  done
+}
+unset tag
+
+VERSION=0.0.4-dev # basebox

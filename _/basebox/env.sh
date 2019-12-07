@@ -33,18 +33,18 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
   for tag in $(echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | \
     sed -E 's/.*\[hub: ([^]]*)\].*/\1/' )
   do
-    DOCKER_TAGS="$DOCKER_TAGS $tag $tag-$T $tag-$T-$PHUSION_CODENAME $tag-$T-$PHUSION_VER"
+    DOCKER_TAGS="$DOCKER_TAGS $tag $T-$tag $T-$tag-$PHUSION_CODENAME $T-$tag-$PHUSION_VER"
   done
 } || {
 
   # Or start with tag from branch
-  DOCKER_TAGS="$T baseimage-$T-$PHUSION_CODENAME baseimage-$T-$PHUSION_VER"
+  DOCKER_TAGS="$T $T-baseimage-$PHUSION_CODENAME $T-baseimage-$PHUSION_VER"
 
   # Handle GIT tags
   for tag in $(git_rev_tags | grep basebox- | tr '\n' ' ')
   do
     tag="$(echo "$tag"|cut -c9-)"
-    DOCKER_TAGS="$DOCKER_TAGS $tag $tag-$T $tag-$T-$PHUSION_CODENAME $tag-$T-$PHUSION_VER"
+    DOCKER_TAGS="$DOCKER_TAGS $tag $T-$tag $T-$tag-$PHUSION_CODENAME $T-$tag-$PHUSION_VER"
   done
 }
 unset tag

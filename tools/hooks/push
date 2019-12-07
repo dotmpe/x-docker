@@ -25,4 +25,8 @@ do
 done
 
 
+curl -X post \
+  https://hooks.microbadger.com/images/dotmpe/basebox/MzwGjG3Jh-gkuiy9gq4ybDVhpfk=
+
+
 # Id: x-docker/0.0.2-dev tools/hooks/push

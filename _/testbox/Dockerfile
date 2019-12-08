@@ -164,6 +164,7 @@ RUN \
   git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
   PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH" basher install erichs/composure
 
+USER root # Use 'sudo -iHu <user>'
 
 # Derive: _/treebox/Dockerfile
 # Id: x-docker/0.0.2-dev

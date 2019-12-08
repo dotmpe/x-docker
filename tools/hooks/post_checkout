@@ -16,7 +16,7 @@ echo "Shell PID: $$"
 echo "Shell options: $-"
 
 curl -sSf -X POST \
-  "https://dotmpe.com/build.php?i=${BUILD_KEY}&SCM_REF=$GIT_SHA1&BUILD_ID=${BUILD_CODE}&START=$(date --rfc-3339=seconds|tr ' ' 'T')"
+  "https://dotmpe.com/build.php?i=${BUILD_KEY}&SCM_REF=$GIT_SHA1&BUILD_ID=${BUILD_CODE}&START=$(urlsafe_datetime)"
 
 test "$GIT_SHA1" = "$( git rev-parse HEAD )"  || {
   echo "Illegal env"

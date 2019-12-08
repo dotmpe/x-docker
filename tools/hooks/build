@@ -65,7 +65,7 @@ EOM
 } > docker-buildenv
 
 eval "docker build $xtra \
-    --build-arg IMAGE_NAME=\"$ONAME/$INAME:$DOCKER_TAG\" \
+    --build-arg DOCKER_IMAGE=\"$ONAME/$INAME:$DOCKER_TAG\" \
     --build-arg HUB_BUILD_TIME=\"$BUILD_DATE\" \
     --build-arg X_DCKR_VERSION=\"$VERSION\" \
     --build-arg X_DCKR_COMMIT=\"$GIT_SHA1\" \

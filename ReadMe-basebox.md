@@ -1,6 +1,6 @@
 ## ``dotmpe/basebox`` [![image version](https://images.microbadger.com/badges/version/dotmpe/basebox.svg)](https://microbadger.com/images/dotmpe/basebox "microbadger.com version metadata") [ ![Dockerfile](https://img.shields.io/badge/Dockerfile-GitHub-blue.svg) ](https://github.com/dotmpe/x-docker/blob/master/_/basebox/Dockerfile) [ ![docker autobuild status](https://img.shields.io/docker/build/dotmpe/basebox.svg) ](https://cloud.docker.com/repository/docker/dotmpe/basebox) ![docker hub pulls](https://img.shields.io/docker/pulls/dotmpe/basebox.svg) ![code](https://img.shields.io/github/languages/code-size/dotmpe/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/dotmpe/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2019.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/dotmpe/x-docker.svg) ![repo license](https://img.shields.io/github/license/dotmpe/x-docker.svg)
 
-A full apt-get upgrade on Phusion Baseimage, with some user tools (man, git,
+A full apt-get upgrade on [Phusion Baseimage](https://hub.docker.com/r/phusion/baseimage/tags), with some user tools (man, git,
 vim, curl, jq, etc) added.
 
 #### ``:dev`` ![last commit on basebox-dev](https://img.shields.io/github/last-commit/dotmpe/x-docker/basebox-dev.svg) [![image size/layers](https://images.microbadger.com/badges/image/dotmpe/basebox:dev.svg)](https://microbadger.com/images/dotmpe/basebox:dev "Get your own image badge on microbadger.com")
@@ -13,8 +13,9 @@ vim, curl, jq, etc) added.
 Branch           | Dockerfile                   | Tag          | Base
 ---------------- | -----------------------------| -------------| -------------
 basebox-dev      | ``/_/basebox``               | dev          | master
-basebox-0.10     | ``/_/basebox``               | dev          | 0.10
-basebox-0.10.2   | ``/_/basebox``               | dev          | 0.10.2
+basebox-0.11     | ``/_/basebox``               | 0.11         | 0.11
+basebox-0.10     | ``/_/basebox``               | 0.10         | 0.10
+basebox-0.10.2   | ``/_/basebox``               | 0.10.2       | 0.10.2
 
 Tagged manually, to preserve identical layers iso. re-building per tag.
 

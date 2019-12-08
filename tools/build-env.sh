@@ -27,3 +27,18 @@ git_rev_tags()
     grep ^$1 |
       cut -d' ' -f2
 }
+
+abort_build()
+{
+  e=$?
+  test $e -eq 0 && return
+  { cat <<EOM
+Error $e at $BASH_COMMAND :$BASH_LINENO
+EOM
+} >&2
+  curl -sSf -X POST \
+    "https://dotmpe.com/build.php?i=${BUILD_KEY}&c=3&e=${e}&BUILD_ID=${BUILD_CODE}&ABORT=$(urlsafe_datetime)"
+  return $e
+}
+
+trap abort_build EXIT

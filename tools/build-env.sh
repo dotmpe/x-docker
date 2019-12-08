@@ -15,7 +15,7 @@ urlsafe_datetime()
 {
   test -n "${1:-}" || set -- "$(date --rfc-3339=seconds)"
 
-  echo "$1" |tr ' ' 'T' |sed 's/+00:00/Z/g'
+  echo "$1" |tr ' ' 'T' |sed 's/+00:00/Z/g' |sed 's/+/%2B/g'
 }
 
 git_rev_tags()

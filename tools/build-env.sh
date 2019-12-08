@@ -11,6 +11,10 @@ true "${X_DCKR_CI_TIME:="` git show -s --format=%cI $GIT_SHA1`"}"
 true "${X_DCKR_AI_TIME:="` git show -s --format=%aI $GIT_SHA1`"}"
 
 
+urlsafe_datetime()
+{
+  date --rfc-3339=seconds |tr ' ' 'T' |sed 's/+00:00/Z/g'
+}
 
 git_rev_tags()
 {

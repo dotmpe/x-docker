@@ -104,7 +104,7 @@ ENV \
   DEBIAN_FRONTEND=teletype \
   DOCKER_IMAGE=$DOCKER_IMAGE
 
-USER $username
+USER root # Use 'sudo -iHu <user>'
 
 # Use Basher for lazy user-installs of new shell commands; it clones only the
 # need last slice, no history, tags, etc. For non-user-command repos and full

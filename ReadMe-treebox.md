@@ -22,9 +22,12 @@ echo "%supergroup  ALL=NOPASSWD:ALL" >>/etc/sudoers.d/treebox
 
 
 ## Autobuilds
-Branch           | Dockerfile                   | Tag
----------------- | -----------------------------| ----------------------------
-treebox-dev      | ``/_/treebox``               | dev
+Branch                       | Dockerfile       | Tag
+---------------------------- | -----------------| ----------------------------
+``/^treebox-(.*)$/``         | ``/_/treebox``   | ``{\1}``
+
+Additional tags set in [customized highlander-build hooks](https://github.com/dotmpe/x-docker/tree/treebox-dev/tools/hooks)
+
 
 ## Tags
 (0.0.5)

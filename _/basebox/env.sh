@@ -11,15 +11,17 @@ case "$DOCKER_TAG" in
 
   dev )
       T=$DOCKER_TAG
-      X_DCKR_BASETAG=master
+      B=master
     ;;
 
   * )
       T=$DOCKER_TAG
-      X_DCKR_BASETAG=$T
+      B=$T
     ;;
 
 esac
+
+X_DCKR_BASETAG=$T
 
 
 eval $(docker run --rm phusion/baseimage:$X_DCKR_BASETAG \
@@ -40,7 +42,7 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
 } || {
 
   # Or start with tag from branch
-  DOCKER_TAGS="$T $T-$PHUSION_VER baseimage-$T-$PHUSION_CODENAME baseimage-$T-$PHUSION_VER"
+  DOCKER_TAGS="$T $T-$PHUSION_VER baseimage-$B-$PHUSION_CODENAME baseimage-$B-$PHUSION_VER"
 
   # Handle GIT tags
   for tag in $(git_rev_tags | grep basebox- | tr '\n' ' ')

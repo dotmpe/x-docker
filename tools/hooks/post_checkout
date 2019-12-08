@@ -16,15 +16,12 @@ echo "Shell PID: $$"
 echo "Shell options: $-"
 
 curl -sSf -X POST \
-  "https://dotmpe.com/build.php?i=${BUILD_KEY}&SCM_REF=$GIT_SHA1&BUILD_ID=${BUILD_CODE}&START=$(urlsafe_datetime)"
+  "https://dotmpe.com/build.php?i=${BUILD_KEY}&SCM_REF=$GIT_SHA1&BUILD_ID=${BUILD_CODE}&START=$(urlsafe_datetime)&SCM_CT=$(urlsafe_datetime "$X_DCKR_CI_TIME")&SCM_AT=$(urlsafe_datetime "$X_DCKR_AI_TIME")"
 
 test "$GIT_SHA1" = "$( git rev-parse HEAD )"  || {
   echo "Illegal env"
   exit 1
 }
-
-
-env | grep -qv 'MIIEpAIBAAKCAQEA3pR1e5PZVxgfSwlgo' || exit 123
 
 
 # Id: x-docker/0.0.2-dev tools/hooks/post_checkout

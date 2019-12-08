@@ -24,6 +24,8 @@ esac
 X_DCKR_BASETAG=$T
 
 
+docker pull phusion/baseimage:$X_DCKR_BASETAG
+
 eval $(docker run --rm phusion/baseimage:$X_DCKR_BASETAG \
   bash -c 'cat /etc/os-release' | grep -v '^VERSION=' )
 

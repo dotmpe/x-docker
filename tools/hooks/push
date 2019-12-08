@@ -25,8 +25,8 @@ do
 done
 
 
-curl -X POST \
-  "https://dotmpe.com/build.php?i=${BUILD_KEY}&TAGS=$(echo $DOCKER_TAGS | tr ' ' ';')&BUILD_ID=${BUILD_CODE}&END=$(date --rfc-3339=seconds)"
+curl -sSf -X POST \
+  "https://dotmpe.com/build.php?i=${BUILD_KEY}&TAGS=$(echo $DOCKER_TAGS | tr ' ' ';')&BUILD_ID=${BUILD_CODE}&END=$(date --rfc-3339=seconds|tr ' ' 'T')"
 
 curl -X POST \
   https://hooks.microbadger.com/images/dotmpe/basebox/MzwGjG3Jh-gkuiy9gq4ybDVhpfk=

@@ -26,7 +26,7 @@ LABEL \
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
-  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
+  apt-get upgrade -qqy -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
     dash apt-transport-https bc wget curl git man jq ssh sudo tmux tree \
     uuid-runtime vim && \

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+curl -X POST \
+  "https://hub.docker.com/api/build/v1/source/14cdf9cf-effb-40f4-83df-b5659b766753/trigger/599b879c-06d1-4dc3-9032-3624fde59f43/call/"

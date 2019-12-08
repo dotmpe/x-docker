@@ -31,5 +31,8 @@ curl -sSf -X POST \
 curl -X POST \
   https://hooks.microbadger.com/images/dotmpe/basebox/MzwGjG3Jh-gkuiy9gq4ybDVhpfk=
 
+test ! -e ../local-push-hook || {
+  . ../local-push-hook
+}
 
 # Id: x-docker/0.0.2-dev tools/hooks/push

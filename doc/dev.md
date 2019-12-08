@@ -107,12 +107,10 @@ Docker hub hooks are:
   :  DOCKER_TAG is 'latest' if not provided in shell env
      Push every DOCKER_TAGS (a csv, derived from DOCKER_TAG with spaces stripped)
 
-Looks like hub.docker.com has no way to pass shell profile settings, or even
-handle secrets.
-
-The only way to customize the build will be through shell scripts in the hooks
-dir.
-
+Shell environment variables can be added to the current hub.docker.com build
+system, including secrets. It is up to the maintainer of the autobuild to
+prevent leaks, but the build logs are not exposed to the public anyway. The SSH
+private key used to check out Git are available as env variable as well.
 
 ---
 

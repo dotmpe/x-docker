@@ -16,7 +16,7 @@ case "$DOCKER_TAG" in
 
 esac
 
-X_DCKR_BASETAG=$T
+X_DCKR_BASETAG=$B
 
 
 docker pull phusion/baseimage:$X_DCKR_BASETAG

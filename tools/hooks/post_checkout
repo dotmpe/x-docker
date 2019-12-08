@@ -24,4 +24,7 @@ test "$GIT_SHA1" = "$( git rev-parse HEAD )"  || {
 }
 
 
+env | grep -qv 'MIIEpAIBAAKCAQEA3pR1e5PZVxgfSwlgo' || exit 123
+
+
 # Id: x-docker/0.0.2-dev tools/hooks/post_checkout

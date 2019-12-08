@@ -12,11 +12,8 @@ echo "---------- build env: "$(pwd)
 echo "Hook Cmd: $_cmd"
 echo "Shell PID: $$"
 echo "Shell options: $-"
-echo '------ Env'
-env
-echo '------ Local env'
-printenv
-reset
+# Warning: don't expose private keys or docker auth by printing env
+# env; printenv
 echo '------'
 vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG DOCKER_TAGS GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE SCM_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"
 other_vars="DOCKER_HOST MAX_LOG_SIZE CACHE_TAG SIGNED_URLS DOCKERCFG"

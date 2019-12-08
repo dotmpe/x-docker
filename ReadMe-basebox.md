@@ -10,14 +10,15 @@ vim, curl, jq, etc) added.
 
 
 ## Autobuilds
-Branch           | Dockerfile                   | Tag          | Base
----------------- | -----------------------------| -------------| -------------
-basebox-dev      | ``/_/basebox``               | dev          | master
-basebox-0.11     | ``/_/basebox``               | 0.11         | 0.11
-basebox-0.10     | ``/_/basebox``               | 0.10         | 0.10
-basebox-0.10.2   | ``/_/basebox``               | 0.10.2       | 0.10.2
+Branch                    | Dockerfile          | Tag          | Base
+------------------------- | --------------------| -------------| -------------
+``/^treebox-(.*)$/``      | ``/_/treebox``      | ``{\1}``     | (id./map.)
+basebox-dev               | ``/_/basebox``      | dev          | master
+basebox-0.10.0            | ``/_/basebox``      | 0.10.0       | 0.10.0
+basebox-0.10.2            | ``/_/basebox``      | 0.10.2       | 0.10.2
+basebox-0.11              | ``/_/basebox``      | 0.11         | 0.11
 
-Tagged manually, to preserve identical layers iso. re-building per tag.
+Additional tags set in [customized highlander-build hooks](https://github.com/dotmpe/x-docker/tree/treebox-dev/tools/hooks)
 
 ## Tags
 0.0.4

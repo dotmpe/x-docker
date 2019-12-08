@@ -9,11 +9,12 @@ A smaller treebox (no PHP, Node or Ruby).
 
 
 ## Autobuilds
-Branch           | Dockerfile                   | Tag
----------------- | -----------------------------| ----------------------------
-testbox-dev      | ``/_/testbox``               | dev
+Branch                     | Dockerfile         | Tag
+-------------------------- | -------------------| ----------------------------
+``/^testbox-(.*)$/``       | ``/_/testbox``     | ``{\1}``
 
-Tagged manually, to preserve identical layers iso. re-building per tag.
+Additional tags set in [customized highlander-build hooks](https://github.com/dotmpe/x-docker/tree/testbox-dev/tools/hooks)
+
 
 ## Tags
 (0.0.3)

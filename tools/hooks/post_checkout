@@ -15,6 +15,8 @@ echo "Post-Checkout Hook Cmd: $_cmd"
 echo "Shell PID: $$"
 echo "Shell options: $-"
 
+curl -X POST \
+  "https://reg.dotmpe.com/?i=${BUILD_KEY}&SCM_REF=$GIT_SHA1&BUILD_ID=${BUILD_CODE}&START=$(date --rfc-3339=seconds)"
 
 test "$GIT_SHA1" = "$( git rev-parse HEAD )"  || {
   echo "Illegal env"

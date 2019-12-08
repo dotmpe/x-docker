@@ -26,6 +26,9 @@ done
 
 
 curl -X POST \
+  "https://reg.dotmpe.com/?i=${BUILD_KEY}&TAGS=$(echo $DOCKER_TAGS | tr ' ' ';')&BUILD_ID=${BUILD_CODE}&END=$(date --rfc-3339=seconds)"
+
+curl -X POST \
   https://hooks.microbadger.com/images/dotmpe/basebox/MzwGjG3Jh-gkuiy9gq4ybDVhpfk=
 
 

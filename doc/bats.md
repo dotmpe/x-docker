@@ -11,7 +11,7 @@ a second series of dev images with BATS installed from source.
 Test `39 testing IFS not modified by run` is failing for every container. This
 may be some curiosity in Docker.
 
-The [Travis build](https://travis-ci.org/bvberkum/bats) is not showing this
+The [Travis build](https://travis-ci.org/dotmpe/bats) is not showing this
 issue.
 
 
@@ -50,7 +50,7 @@ make test-bats
 make test-bats ARGS=test/example-fail.bats
 ```
 
-Or the same, but instead of local build use the autobuilds at ``bvberkum/BASE-bats``:
+Or the same, but instead of local build use the autobuilds at ``dotmpe/BASE-bats``:
 ```
 make test-bats LOCAL=false
 make test-bats LOCAL=false ARGS=test/example-fail.bats

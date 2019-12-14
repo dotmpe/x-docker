@@ -54,8 +54,10 @@ RUN npm install -g npm && \
   chgrp staff /usr/local/* /usr/local/lib/node_modules && \
   version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
   { test ! -e /usr/local/bin/node || rm /usr/local/bin/node; } && \
-  ln -sf /usr/local/n/versions/node/$version/bin/node /usr/local/bin/node ; }
+  ln -sf /usr/local/n/versions/node/$version/bin/node /usr/local/bin/node
 
+# FIXME: what to do with path (using n?).. nvm.sh? what? argh
+# export PATH=$(dirname $(readlink $(which node))):$PATH
 RUN npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
   npm update --quiet -g nan && \
   npm install --quiet --unsafe-perm -g zmq && \
@@ -73,7 +75,7 @@ RUN \
 # TODO: fix pm2 fsevents
 # TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
 
-# Fix permissions
+# TODO: Fix permissions for above paths, ie. set to grp:staff?
 ARG username=treebox
 
 RUN \

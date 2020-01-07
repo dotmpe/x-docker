@@ -1,22 +1,29 @@
-## ``dotmpe/basebox`` [![image version](https://images.microbadger.com/badges/version/dotmpe/basebox.svg)](https://microbadger.com/images/dotmpe/basebox "microbadger.com version metadata") [ ![Dockerfile](https://img.shields.io/badge/Dockerfile-GitHub-blue.svg) ](https://github.com/bvberkum/x-docker/blob/master/_/basebox/Dockerfile) [ ![docker autobuild status](https://img.shields.io/docker/build/dotmpe/basebox.svg) ](https://cloud.docker.com/repository/docker/dotmpe/basebox) ![docker hub pulls](https://img.shields.io/docker/pulls/dotmpe/basebox.svg) ![code](https://img.shields.io/github/languages/code-size/bvberkum/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/bvberkum/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2019.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/bvberkum/x-docker.svg) ![repo license](https://img.shields.io/github/license/bvberkum/x-docker.svg)
+## ``dotmpe/basebox`` [![image version](https://images.microbadger.com/badges/version/dotmpe/basebox.svg)](https://microbadger.com/images/dotmpe/basebox "microbadger.com version metadata") [ ![Dockerfile](https://img.shields.io/badge/Dockerfile-GitHub-blue.svg) ](https://github.com/dotmpe/x-docker/blob/master/_/basebox/Dockerfile) [ ![docker autobuild status](https://img.shields.io/docker/build/dotmpe/basebox.svg) ](https://cloud.docker.com/repository/docker/dotmpe/basebox) ![docker hub pulls](https://img.shields.io/docker/pulls/dotmpe/basebox.svg) ![code](https://img.shields.io/github/languages/code-size/dotmpe/x-docker.svg) ![repo](https://img.shields.io/github/repo-size/dotmpe/x-docker.svg) ![](https://img.shields.io/maintenance/yes/2019.svg) ![commits per year](https://img.shields.io/github/commit-activity/y/dotmpe/x-docker.svg) ![repo license](https://img.shields.io/github/license/dotmpe/x-docker.svg)
 
-A full apt-get upgrade on Phusion Baseimage, with some user tools (man, git,
+A full apt-get upgrade on [Phusion Baseimage](https://hub.docker.com/r/phusion/baseimage/tags), with some user tools (man, git,
 vim, curl, jq, etc) added.
 
-#### ``:dev`` ![last commit on basebox-dev](https://img.shields.io/github/last-commit/bvberkum/x-docker/basebox-dev.svg) [![image size/layers](https://images.microbadger.com/badges/image/dotmpe/basebox:dev.svg)](https://microbadger.com/images/dotmpe/basebox:dev "Get your own image badge on microbadger.com")
+#### ``:dev`` ![last commit on basebox-dev](https://img.shields.io/github/last-commit/dotmpe/x-docker/basebox-dev.svg) [![image size/layers](https://images.microbadger.com/badges/image/dotmpe/basebox:dev.svg)](https://microbadger.com/images/dotmpe/basebox:dev "Get your own image badge on microbadger.com")
 
 #### ``:latest`` [![image size/layers](https://images.microbadger.com/badges/image/dotmpe/basebox.svg)](https://microbadger.com/images/dotmpe/basebox "microbadger.com image metadata")
 [![image version](https://images.microbadger.com/badges/version/dotmpe/basebox.svg)](https://microbadger.com/images/dotmpe/basebox "microbadger.com version metadata")
 
 
 ## Autobuilds
-Branch           | Dockerfile                   | Tag
----------------- | -----------------------------| ----------------------------
-basebox-dev      | ``/_/basebox``               | dev
+Branch                    | Dockerfile          | Tag          | Base
+------------------------- | --------------------| -------------| -------------
+``/^treebox-(.*)$/``      | ``/_/treebox``      | ``{\1}``     | (id./map.)
+basebox-dev               | ``/_/basebox``      | dev          | master
+basebox-0.10.0            | ``/_/basebox``      | 0.10.0       | 0.10.0
+basebox-0.10.2            | ``/_/basebox``      | 0.10.2       | 0.10.2
+basebox-0.11              | ``/_/basebox``      | 0.11         | 0.11
 
-Tagged manually, to preserve identical layers iso. re-building per tag.
+Additional tags set in [customized highlander-build hooks](https://github.com/dotmpe/x-docker/tree/treebox-dev/tools/hooks)
 
 ## Tags
+0.0.4
+  - Revising base image tag -- docker tag relation, build tooling.
+
 0.0.3
   - Fixing metadata, labels.
 

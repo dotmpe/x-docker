@@ -6,7 +6,11 @@ RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get install -qqy --allow-downgrades \
     dropbear socat netcat \
-    build-essential python python3 python3-pip python3-pexpect
+    build-essential python python3 python3-pip python3-pexpect \
+    \
+    gawk git-core diffstat unzip texinfo gcc-multilib \
+    chrpath cpio pv file \
+    xz-utils debianutils iputils-ping libsdl1.2-dev xterm tar locales
 
 #    python-tox \
 #    npm nodejs

@@ -18,7 +18,7 @@
           -t ubuntu-treebox:xenial .
 
   repositories:
-    notus.24-2: /srv/scm-git-24-2-notus-brix/dotmpe/x-docker.git
+    dandy.24-2: /srv/scm-git-24-2-notus-brix/bvberkum/x-docker.git
     dandy.9-1: /srv/scm-git-9-1-dandy-mpe/dotmpe/x-docker.git
     dotmpe.origin: git-repos/x-docker.git
     github: git@github.com:dotmpe/x-docker.git

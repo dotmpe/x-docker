@@ -1,13 +1,13 @@
 
 # treebox:latest is 0.0.4, phusiona/baseimage:0.10.0
-FROM bvberkum/treebox:latest
+FROM dotmpe/treebox:latest
 
 MAINTAINER B. van Berkum <dev@dotmpe.com>
 
 LABEL \
   description="Docker on treebox" \
-  urls.hub=https://hub.docker.com/r/bvberkum/sandbox \
-  urls.repo=https://github.com/bvberkum/x-docker
+  urls.hub=https://hub.docker.com/r/dotmpe/sandbox \
+  urls.repo=https://github.com/dotmpe/x-docker
 
 USER root
 

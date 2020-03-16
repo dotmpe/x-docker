@@ -25,11 +25,22 @@ do
 done
 
 
+# Register build-end
 curl -sSf -X POST \
   "https://dotmpe.com/build.php?i=${BUILD_KEY}&TAGS=$(echo $DOCKER_TAGS | tr ' ' ';')&BUILD_ID=${BUILD_CODE}&END=$(urlsafe_datetime)"
 
-curl -X POST \
-  https://hooks.microbadger.com/images/dotmpe/basebox/MzwGjG3Jh-gkuiy9gq4ybDVhpfk=
+PROJ_ID="$(basename "$PWD")"
+echo "Proj-Id: $(basename "$(dirname "$0")")"
+echo "Proj-Id: $PROJ_ID"
 
+case "$PROJ_ID" in
+
+  basebox )
+      curl -X POST \
+        https://hooks.microbadger.com/images/dotmpe/basebox/MzwGjG3Jh-gkuiy9gq4ybDVhpfk=
+      curl -sSf -X POST ${DOCKER_HUB_TREEBOX_TRIGGER}
+    ;;
+
+esac
 
 # Id: x-docker/0.0.2-dev tools/hooks/push

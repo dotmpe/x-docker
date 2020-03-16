@@ -87,12 +87,12 @@ Here is all the legwork needed to get this container running::
   test -e ~/.ssh/id_dsa.pub || ssh-keygen -t dsa
   mkdir -p container-ssh
   cp ~/.ssh/id_dsa.pub container-ssh/authorized_keys
-  usr_grp=$( printf -- "$(docker run --rm bvberkum/treebox:dev sh -c 'id -u && id -g')" | tr '\n' ':' )
+  usr_grp=$( printf -- "$(docker run --rm dotmpe/treebox:dev sh -c 'id -u && id -g')" | tr '\n' ':' )
   chown -R $usr_grp container-ssh
   chmod -R go-rwx container-ssh
   docker run -p 5555:22 \
     -v $(pwd)/container-ssh:/home/treebox/.ssh -ti --rm --user root \
-    bvberkum/treebox:dev /sbin/my_init -- sh -c '\
+    dotmpe/treebox:dev /sbin/my_init -- sh -c '\
     ssh-keygen -P "" -t dsa -f /etc/ssh/ssh_host_dsa_key && \
     rm /etc/service/sshd/down && \
     service ssh restart && \

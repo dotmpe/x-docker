@@ -1,41 +1,30 @@
 
-FROM bvberkum/basebox:0.0.3
+ARG X_DCKR_BASETAG=dev
 
-MAINTAINER B. van Berkum <dev@dotmpe.com>
+FROM dotmpe/basebox:$X_DCKR_BASETAG
 
-ARG X_DCKR_PREFIX=
-ARG X_DCKR_BASENAME=
-ARG X_DCKR_NAME=
-ARG X_DCKR_BASE=
-ARG X_DCKR_TAG=
-ARG X_DCKR_AI_TIME=
-ARG X_DCKR_CI_TIME=
-ARG X_DCKR_RELEASE=
-ARG BUILD_CODE=
-ARG IMAGE_NAME=
-ARG DOCKER_TAGS=
-ARG DOCKER_TAG=
-ARG SOURCE_TYPE=
-ARG SOURCE_BRANCH=
-ARG GIT_SHA1=
-ARG COMMIT_MSG=
-ARG BUILD_DATE=
-ARG VERSION=
+MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
+
+COPY docker-buildenv /etc/docker-buildenv
+
+ARG DOCKER_IMAGE
+ARG HUB_BUILD_TIME
+ARG X_DCKR_COMMIT
+ARG X_DCKR_VERSION
 
 LABEL \
   org.label-schema.description="smaller baseimage for treebox" \
-  org.label-schema.name="$IMAGE_NAME" \
-  org.label-schema.build-date="$BUILD_DATE" \
-  org.label-schema.version="$VERSION" \
-  org.label-schema.vcs-ref=$GIT_SHA1 \
-  org.label-schema.vcs-url="https://github.com/bvberkum/x-docker" \
+  org.label-schema.name="$DOCKER_IMAGE" \
+  org.label-schema.build-date="$HUB_BUILD_TIME" \
+  org.label-schema.version="$X_DCKR_VERSION" \
+  org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
+  org.label-schema.vcs-ref=$X_DCKR_COMMIT \
   org.label-schema.schema-version="1.0"
 
 # Setup package manager and install prerequisite packages
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
-  apt-get upgrade -qy -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
     bash zsh dash posh ash busybox-static \
     build-essential time gawk  \
@@ -43,15 +32,12 @@ RUN \
     figlet update-motd \
     make man moreutils netcat pandoc unrtf antiword \
     python python-dev python-tox python-yaml \
-    realpath sqlite3 ssh sudo tmux tree uuid-runtime \
+    sqlite3 ssh sudo tmux tree uuid-runtime \
     vim git-annex gist glances \
     software-properties-common \
     autoconf libtool \
     zlib1g wget cmake g++ \
-    golang \
-    && \
-  unset DEBIAN_FRONTEND RUNLEVEL && \
-  rm -rf /var/cache/apt/*
+    golang
 
 
 # Setup python PIP and some tooling
@@ -110,7 +96,11 @@ RUN \
 # usermod does not find the added user otherwise.
 # Also fix permissions for /home, /src and /srv
   useradd -d /home/$username -s /bin/bash $username && \
-  mkdir -vp /home/$username/{.local/{etc,var,usr},project} && \
+  mkdir -vp \
+    /home/$username/.local/etc \
+    /home/$username/.local/var \
+    /home/$username/.local/usr \
+    /home/$username/project && \
   usermod $username -a -G sudo,staff,ssh && \
   ln -s /home/$username /srv/home-local && \
   ln -s /srv/home-local/project /srv/project-local && \
@@ -120,12 +110,25 @@ RUN \
   mkdir -vp /src/github.com /src/bitbucket.org /src/local /srv && \
   chown -R $username:staff /src/github.com /src/bitbucket.org /src/local /srv && \
   chmod -R g+rw /src/github.com /src/bitbucket.org /src/local && \
-  # XXX: ???
-  chgrp staff /srv /etc/container_environment && \
-  chmod -R g+rx /etc/container_environment
+  chgrp staff /srv /etc/container_environment /etc/sudoers.d/README && \
+  chmod -R g+rx /etc/container_environment && \
+  chmod g+r /etc/sudoers.d/README
 
 
 RUN locale-gen en_US.UTF-8
+
+RUN \
+  apt-get clean autoclean && \
+  apt-get autoremove -qqy && \
+  unset DEBIAN_FRONTEND RUNLEVEL && \
+  DEBIAN_FRONTEND=teletype \
+  rm -Rf /usr/local/src/* -Rf && \
+  rm -Rf /tmp/* && \
+  rm -Rf /var/lib/apt/lists/*.gz && \
+  rm -Rf /var/lib/cache/* && \
+  rm -Rf /var/lib/log/* && \
+  rm -Rf /var/log/* && \
+  rm -Rf /var/cache/*
 
 # Fancy up (root) env
 ENV \
@@ -146,7 +149,9 @@ ENV \
   TREEBOX_SCM_COMMIT_MSG="$COMMIT_MSG" \
   LANG=en_US.UTF-8 \
   LANGUAGE=en_US:en \
-  LC_ALL=en_US.UTF-8
+  LC_ALL=en_US.UTF-8 \
+  DEBIAN_FRONTEND=teletype \
+  DOCKER_IMAGE=$DOCKER_IMAGE
 
 USER $username
 
@@ -159,6 +164,7 @@ RUN \
   git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
   PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH" basher install erichs/composure
 
+USER root # Use 'sudo -iHu <user>'
 
 # Derive: _/treebox/Dockerfile
 # Id: x-docker/0.0.2-dev

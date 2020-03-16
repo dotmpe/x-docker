@@ -6,7 +6,7 @@ check:
 	docker --version
 
 
-PREFIX ?= bvberkum
+PREFIX ?= dotmpe
 DEFAULT_TAG ?= $(DOCKER_TAG)
 DEFAULT_TAG ?= dev
 
@@ -91,12 +91,12 @@ build\:ubuntu-docker: DEFAULT_TAG := xenial
 
 build\:alpine-bats_dev: DEFAULT_TAG := edge
 build\:alpine-bats_dev: BUILD_FLAGS := \
-	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats-core.git \
+	--build-arg BATS_DEV_REPO=https://github.com/dotmpe/bats-core.git \
 	--build-arg BATS_DEV_BRANCH=master
 
 build\:debian-bats_dev: DEFAULT_TAG := latest
 build\:debian-bats_dev: BUILD_FLAGS := \
-	--build-arg BATS_DEV_REPO=https://github.com/bvberkum/bats-core.git \
+	--build-arg BATS_DEV_REPO=https://github.com/dotmpe/bats-core.git \
 	--build-arg BATS_DEV_BRANCH=master
 
 build\:treebox: DEFAULT_TAG := treebox-local

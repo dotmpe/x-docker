@@ -11,11 +11,11 @@ Trying to:
 - keep older versions by tagging them
 - autobuilding latest commits to `dev` tag
 
-### bvberkum/treebox [![Treebox ReadMe](https://img.shields.io/badge/ReadMe-Treebox_docker-blue.svg)](ReadMe-treebox.md) [![docker autobuild status](https://img.shields.io/docker/build/bvberkum/treebox.svg)](https://hub.docker.com/r/bvberkum/treebox/)
+### dotmpe/treebox [![Treebox ReadMe](https://img.shields.io/badge/ReadMe-Treebox_docker-blue.svg)](ReadMe-treebox.md) [![docker autobuild status](https://img.shields.io/docker/build/dotmpe/treebox.svg)](https://hub.docker.com/r/dotmpe/treebox/)
 
-### bvberkum/alpine-bats [![Bats ReadMe](https://img.shields.io/badge/ReadMe-Bats_docker-blue.svg)](ReadMe-bats.md) [![docker autobuild status](https://img.shields.io/docker/build/bvberkum/alpine-bats.svg)](https://hub.docker.com/r/bvberkum/alpine-bats/)
+### dotmpe/alpine-bats [![Bats ReadMe](https://img.shields.io/badge/ReadMe-Bats_docker-blue.svg)](ReadMe-bats.md) [![docker autobuild status](https://img.shields.io/docker/build/dotmpe/alpine-bats.svg)](https://hub.docker.com/r/dotmpe/alpine-bats/)
 
-### bvberkum/alpine-docker [![Docker ReadMe](https://img.shields.io/badge/ReadMe-docker-blue.svg)](ReadMe-docker.md) [![docker autobuild status](https://img.shields.io/docker/build/bvberkum/alpine-bats.svg)](https://hub.docker.com/r/bvberkum/alpine-bats/)
+### dotmpe/alpine-docker [![Docker ReadMe](https://img.shields.io/badge/ReadMe-docker-blue.svg)](ReadMe-docker.md) [![docker autobuild status](https://img.shields.io/docker/build/dotmpe/alpine-bats.svg)](https://hub.docker.com/r/dotmpe/alpine-bats/)
 
 
 ## Building
@@ -135,14 +135,14 @@ GIT_MSG= ......................................
 SOURCE_BRANCH= ...........
 DOCKERCFG={"https://index.docker.io/v1/": {"email": "highland@docker.com", "auth": "............................................................"}}
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-DOCKER_REPO=index.docker.io/bvberkum/treebox
+DOCKER_REPO=index.docker.io/dotmpe/treebox
 COMMIT_MSG=......................................
 BUILD_PATH=/_/treebox
 SOURCE_TYPE=git
 DOCKERFILE_PATH=
 DOCKER_HOST=unix:///var/run/docker.sock
 PWD=/src/......................./_/treebox
-IMAGE_NAME=index.docker.io/bvberkum/treebox:dev
+IMAGE_NAME=index.docker.io/dotmpe/treebox:dev
 ```
 
 ---

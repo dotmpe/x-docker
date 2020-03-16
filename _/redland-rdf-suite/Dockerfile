@@ -4,7 +4,7 @@ FROM debian:sid
 
 LABEL dc.description="Redland RDF suite on Debian"
 
-# XXX: cleanup or implemented commented:
+# XXX: clean or implemented commented:
 #ARG username=1701
 ARG RDL_PREFIX=/usr/local
 

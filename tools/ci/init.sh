@@ -24,6 +24,7 @@ test -n "${SCRIPTPATH:-}" || {
     test -d $SRC_PREFIX/dotmpe/user-scripts || {
 
       mkdir -vp  $SRC_PREFIX/dotmpe || return
+      # FIXME: U-s
       #git clone --depth 15 https://github.com/user-tools/user-scripts.git \
       git clone https://github.com/dotmpe/user-scripts.git \
         $SRC_PREFIX/dotmpe/user-scripts

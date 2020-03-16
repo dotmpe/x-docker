@@ -21,14 +21,14 @@ test -n "${SCRIPTPATH:-}" || {
 
     test -e "/src/github.com/user-tools" && SRC_PREFIX=/src/github.com
     true "${SRC_PREFIX:="$HOME/build"}"
-    test -d $SRC_PREFIX/bvberkum/user-scripts || {
+    test -d $SRC_PREFIX/dotmpe/user-scripts || {
 
-      mkdir -vp  $SRC_PREFIX/bvberkum || return
+      mkdir -vp  $SRC_PREFIX/dotmpe || return
       git clone --depth 15 https://github.com/user-tools/user-scripts.git \
-        $SRC_PREFIX/bvberkum/user-scripts
+        $SRC_PREFIX/dotmpe/user-scripts
     }
 
-    U_S=$SRC_PREFIX/bvberkum/user-scripts
+    U_S=$SRC_PREFIX/dotmpe/user-scripts
   }
 }
 

@@ -1,4 +1,4 @@
-FROM bvberkum/treebox:dev
+FROM dotmpe/treebox:dev
 
 ARG username=treebox
 

@@ -52,8 +52,8 @@ RUN cd /tmp/ && \
 
 
 RUN \
-  test -n "$BATS_REPO" || BATS_REPO=https://github.com/bvberkum/bats-core.git ; \
-  test -n "$SRC_PREFIX" || SRC_PREFIX=/src/github.com/bvberkum ; \
+  test -n "$BATS_REPO" || BATS_REPO=https://github.com/dotmpe/bats-core.git ; \
+  test -n "$SRC_PREFIX" || SRC_PREFIX=/src/github.com/dotmpe ; \
   test -n "$BATS_BRANCH" || BATS_BRANCH=forks/bvb-dev ; \
   git clone $BATS_REPO $SRC_PREFIX/bats && \
   ( \
@@ -164,7 +164,8 @@ RUN \
   git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
   PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH" basher install erichs/composure
 
-USER root # Use 'sudo -iHu <user>'
+# Use 'sudo -iHu <user>'
+USER root
 
 # Derive: _/treebox/Dockerfile
 # Id: x-docker/0.0.2-dev

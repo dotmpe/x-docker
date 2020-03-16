@@ -6,12 +6,12 @@ set -e
 case "$SOURCE_BRANCH" in
 
   cl-jupyter-dev )
-      X_DCKR_BASE=bvberkum/treebox
+      X_DCKR_BASE=dotmpe/treebox
       X_DCKR_TAG=dev
     ;;
 
   #cl-jupyter/treebox-dev )
-  #    X_DCKR_BASE=bvberkum/treebox
+  #    X_DCKR_BASE=dotmpe/treebox
   #    X_DCKR_TAG=dev
   #  ;;
 

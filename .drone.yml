@@ -1,6 +1,6 @@
 pipeline:
   ubuntu:
-    image: bvberkum/ubuntu-docker:xenial
+    image: dotmpe/ubuntu-docker:xenial
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
@@ -13,7 +13,7 @@ pipeline:
     when:
       branch: master
   debian:
-    image: bvberkum/debian-docker:unstable
+    image: dotmpe/debian-docker:unstable
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
@@ -27,7 +27,7 @@ pipeline:
     when:
       branch: master
   alpine:
-    image: bvberkum/alpine-docker:edge
+    image: dotmpe/alpine-docker:edge
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:

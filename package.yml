@@ -22,6 +22,7 @@
     dandy.9-1: /srv/scm-git-9-1-dandy-mpe/dotmpe/x-docker.git
     dotmpe.origin: git-repos/x-docker.git
     github: git@github.com:dotmpe/x-docker.git
+    bb: git@bitbucket.org:dotmpe/x-docker.git
 
 
 - type: application/vnd.org.wtwta.environment

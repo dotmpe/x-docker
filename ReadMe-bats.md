@@ -3,12 +3,12 @@ Version: 0.0.1-dev
 Usage:
 ```
 docker run -v DIR:/project \
-		bvberkum/BASE-bats [ARGV | -- CMD [ -- CMD ]*]
+		dotmpe/BASE-bats [ARGV | -- CMD [ -- CMD ]*]
 ```
 
 Test project with files from `test` dir:
 ```
-docker run -v $(pwd -P):/project bvberkum/BASE-bats ./test/
+docker run -v $(pwd -P):/project dotmpe/BASE-bats ./test/
 ```
 
 The main issue for flexible test nodes is getting specific dependencies, so the
@@ -18,17 +18,17 @@ script lines in sequence.
 Besides `bash` and `bats`, aditional tools installed into the base image are
 `jq`, `curl` and `ncurses` if needed for ``tput``.
 
-- [alpine-bats](https://hub.docker.com/r/bvberkum/alpine-bats/)
-  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats.svg)](https://microbadger.com/images/bvberkum/alpine-bats "microbadger.com")
-- [debian-bats](https://hub.docker.com/r/bvberkum/debian-bats/)
-  [![](https://images.microbadger.com/badges/image/bvberkum/debian-bats.svg)](https://microbadger.com/images/bvberkum/debian-bats "microbadger.com")
+- [alpine-bats](https://hub.docker.com/r/dotmpe/alpine-bats/)
+  [![](https://images.microbadger.com/badges/image/dotmpe/alpine-bats.svg)](https://microbadger.com/images/dotmpe/alpine-bats "microbadger.com")
+- [debian-bats](https://hub.docker.com/r/dotmpe/debian-bats/)
+  [![](https://images.microbadger.com/badges/image/dotmpe/debian-bats.svg)](https://microbadger.com/images/dotmpe/debian-bats "microbadger.com")
 
-* [alpine-bats_dev](https://hub.docker.com/r/bvberkum/alpine-bats_dev/)
-  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats-dev.svg)](https://microbadger.com/images/bvberkum/alpine-bats-dev "microbadger.com")
-* [alpine-bats_2017](https://hub.docker.com/r/bvberkum/alpine-bats_dev/)
-  [![](https://images.microbadger.com/badges/image/bvberkum/alpine-bats-2017.svg)](https://microbadger.com/images/bvberkum/alpine-bats-2017 "microbadger.com")
+* [alpine-bats_dev](https://hub.docker.com/r/dotmpe/alpine-bats_dev/)
+  [![](https://images.microbadger.com/badges/image/dotmpe/alpine-bats-dev.svg)](https://microbadger.com/images/dotmpe/alpine-bats-dev "microbadger.com")
+* [alpine-bats_2017](https://hub.docker.com/r/dotmpe/alpine-bats_dev/)
+  [![](https://images.microbadger.com/badges/image/dotmpe/alpine-bats-2017.svg)](https://microbadger.com/images/dotmpe/alpine-bats-2017 "microbadger.com")
 
-* [debian-bats_dev](https://hub.docker.com/r/bvberkum/debian-bats_dev/)
+* [debian-bats_dev](https://hub.docker.com/r/dotmpe/debian-bats_dev/)
 
 
 ## Autobuilds

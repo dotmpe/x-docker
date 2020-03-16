@@ -3,7 +3,7 @@
 
 . $WORKSPACE/tools/build-env.sh
 
-INAME=treebox
+INAME=testbox
 
 
 # Handle GIT branch: set upstream tag
@@ -21,7 +21,7 @@ X_DCKR_BASETAG=$B
 
 docker pull phusion/baseimage:$X_DCKR_BASETAG
 
-eval $(docker run --rm dotmpe/testbox:$X_DCKR_BASETAG \
+eval $(docker run --rm dotmpe/basebox:$X_DCKR_BASETAG \
   bash -c 'cat /etc/os-release' | grep -v '^VERSION=' )
 
 PHUSION_CODENAME=$UBUNTU_CODENAME
@@ -42,7 +42,7 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
   DOCKER_TAGS="$T $T-$PHUSION_VER baseimage-$B-$PHUSION_CODENAME baseimage-$B-$PHUSION_VER"
 
   # Handle GIT tags
-  for tag in $(git_rev_tags | grep treebox- | tr '\n' ' ')
+  for tag in $(git_rev_tags | grep testbox- | tr '\n' ' ')
   do
     tag="$(echo "$tag"|cut -c9-)"
     DOCKER_TAGS="$DOCKER_TAGS $tag $tag-$T $tag-$T-$PHUSION_CODENAME $tag-$T-$PHUSION_VER"
@@ -50,4 +50,4 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
 }
 unset tag
 
-VERSION=0.0.2-dev
+VERSION=0.0.1-dev

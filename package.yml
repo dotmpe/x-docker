@@ -1,6 +1,6 @@
 
 - type: application/vnd.org.wtwta.project
-  id: bvberkum/x-docker
+  id: x-docker
 
   scripts:
     init:
@@ -11,20 +11,21 @@
     build-treebox:
       - cd ubuntu-treebox/xenial;
         docker build \
-          --build-arg X_DCKR_PREFIX=bvberkum \
+          --build-arg X_DCKR_PREFIX=dotmpe \
           --build-arg X_DCKR_BASENAME=ubuntu-treebox \
-          --build-arg X_DCKR_NAME=bvberkum/ubuntu-treebox \
+          --build-arg X_DCKR_NAME=dotmpe/ubuntu-treebox \
           --build-arg X_DCKR_TAG=xenial \
           -t ubuntu-treebox:xenial .
 
   repositories:
-    notus.24-2: /srv/scm-git-24-2-notus-brix/bvberkum/x-docker.git
-    dandy.9-1: /srv/scm-git-9-1-dandy-mpe/bvberkum/x-docker.git
-    dotmpe.origin: domains/dotmpe.com/htdocs/git/x-docker.git
-    github: git@github.com:bvberkum/x-docker.git
+    dandy.24-2: /srv/scm-git-24-2-notus-brix/dotmpe/x-docker.git
+    dandy.9-1: /srv/scm-git-9-1-dandy-mpe/dotmpe/x-docker.git
+    dotmpe.origin: git-repos/x-docker.git
+    github: git@github.com:dotmpe/x-docker.git
+    bb: git@bitbucket.org:dotmpe/x-docker.git
 
 
 - type: application/vnd.org.wtwta.environment
-  id: bvberkum/x-docker-main
-  main: bvberkum/x-docker
+  id: x-docker-main
+  main: x-docker
 

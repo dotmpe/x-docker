@@ -1,5 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 _cmd=$_
+
+. ./../../tools/env.sh
+
 
 # build is the third build-hook; See doc/dev.md
 # This is the first phase of pipeline, before test and push.
@@ -8,45 +12,19 @@ echo "---------- build env: "$(pwd)
 echo "Hook Cmd: $_cmd"
 echo "Shell PID: $$"
 echo "Shell options: $-"
-#env
-#echo '------'
-vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"
+# Warning: don't expose private keys or docker auth by printing env
+# env; printenv
+echo '------'
+vars="PUSH HOSTNAME SHLVL HOME PYTHONUNBUFFERED BUILD_CODE DOCKER_TAG DOCKER_TAGS GIT_SHA1 GIT_MSG SOURCE_BRANCH PATH DOCKER_REPO COMMIT_MSG BUILD_PATH SOURCE_TYPE SCM_TYPE DOCKERFILE_PATH PWD IMAGE_NAME"
 other_vars="DOCKER_HOST MAX_LOG_SIZE CACHE_TAG SIGNED_URLS DOCKERCFG"
 
 for v in $vars
 do echo "$v: $(eval echo \"\$$v\")"; done
-
+#echo '---------- exported env'
+#env
+#echo '---------- typeset vars'
+#set | grep '^[A-Za-z0-9_-]*='
 echo '----------'
-
-
-# Determine workspace and relative CWD
-
-test -n "$WORKSPACE" || {
-  test -n "$BUILD_CODE" && {
-    export WORKSPACE=/src/$BUILD_CODE
-  }
-}
-
-test -n "$WORKSPACE" || {
-  test -n "$BUILD_PATH" && {
-    to_workspace=./$(printf -- "$BUILD_PATH" | cut -c2- | sed 's/[^/]*/../g')
-    export WORKSPACE=$(cd $to_workspace && pwd)
-  }
-}
-
-
-# Init shell
-
-echo WORKSPACE: $WORKSPACE
-pwd && ls -la
-
-test -e ./env.sh && {
-  echo '--------------- loading local env'
-  . ./env.sh
-} || {
-  echo '--------------- loading global env'
-  . $WORKSPACE/tools/build-env.sh
-}
 
 
 # Load args at relative location
@@ -57,43 +35,55 @@ test ! -e ./build-args.sh || {
   xtra="$(grep '^[^\#]*=' ./build-args.sh | sed 's/.*/--build-arg & /')"
 }
 
-echo "--------------- starting build '$IMAGE_NAME'"
-BUILD_DATE=$(date --rfc-3339=seconds)
-
-eval "docker build $xtra \
-		--build-arg X_DCKR_PREFIX=$ONAME \
-		--build-arg X_DCKR_BASENAME=$LNAME \
-		--build-arg X_DCKR_NAME=$ONAME/$LNAME \
-    --build-arg X_DCKR_BASE=$X_DCKR_BASE \
-    --build-arg X_DCKR_TAG=$X_DCKR_TAG \
-    --build-arg BUILD_CODE=$BUILD_CODE \
-    --build-arg IMAGE_NAME=$IMAGE_NAME \
-    --build-arg DOCKER_TAG=$DOCKER_TAG \
-    --build-arg SCM_TYPE=$SOURCE_TYPE \
-    --build-arg GIT_BRANCH=$SOURCE_BRANCH \
-    --build-arg GIT_COMMIT=$GIT_SHA1 \
-    --build-arg COMMIT_MSG=\"$COMMIT_MSG\" \
-    --build-arg BUILD_DATE=\"$BUILD_DATE\" \
-    --build-arg VERSION=\"$VERSION\" \
-    \
-    -t $IMAGE_NAME ."
-
-
-echo "--------------- tagging '$DOCKER_TAGS'"
-
-test -n "$DOCKER_TAGS" || {
+test -n "${DOCKER_TAGS:-}" || {
   echo "Error, no Docker-Tags." >&2
   exit 1
 }
 
-echo $DOCKER_TAGS | tr -s ', ' ' ' | while read tag
+
+echo "--------------- Starting build '${IMAGE_NAME:-}'"
+BUILD_DATE="$(date --rfc-3339=seconds)"
+
+{ cat <<EOM
+IMAGE_NAME=$IMAGE_NAME
+HUB_BUILD_ID="$BUILD_CODE"
+DOCKER_IMAGE=$ONAME/$INAME:$DOCKER_TAG
+HUB_SOURCE=$SOURCE_BRANCH:$GIT_SHA1
+HUB_REPO="$DOCKER_REPO"
+X_DCKR_AI_TIME=$X_DCKR_AI_TIME
+X_DCKR_CI_TIME=$X_DCKR_CI_TIME
+PHUSION_BASEIMAGE=$X_DCKR_BASETAG
+HUB_IMAGE_TAGS="$DOCKER_TAGS"
+HUB_IMAGE_TAG=$DOCKER_TAG
+HUB_BUILD_TIME="$BUILD_DATE"
+HUB_BUILD="x-docker/$SOURCE_BRANCH $DOCKER_TAG ($VERSION) $SCM_TYPE:$GIT_SHA1 $BUILD_DATE"
+X_DCKR_VERSION=$VERSION
+X_DCKR_BRANCH=$SOURCE_BRANCH
+X_DCKR_SCM_TAGS="$(git_rev_tags)"
+X_DCKR_SCM_COMMIT=$GIT_SHA1
+X_DCKR_SCM_COMMIT_MSG="$COMMIT_MSG"
+EOM
+} > docker-buildenv
+
+eval "docker build $xtra \
+    --build-arg DOCKER_IMAGE=\"$ONAME/$INAME:$DOCKER_TAG\" \
+    --build-arg HUB_BUILD_TIME=\"$BUILD_DATE\" \
+    --build-arg X_DCKR_VERSION=\"$VERSION\" \
+    --build-arg X_DCKR_COMMIT=\"$GIT_SHA1\" \
+    -t $IMAGE_NAME ."
+
+
+echo "--------------- Tagging '$DOCKER_TAGS'"
+
+echo $DOCKER_TAGS | tr -s ', ' ' ' | tr ' ' '\n' | while read tag
 do
   test -n "$tag" || continue
-  echo "docker tag '$IMAGE_NAME' '$DOCKER_REPO:$tag'"
+
+  echo "docker tag '$IMAGE_NAME' '$DOCKER_REPO:$tag'" >&2
   docker tag $IMAGE_NAME $DOCKER_REPO:$tag
 done
 
-# TODO: #echo '--------------- publishing results'
+# TODO: couch or (l)edge container #echo '--------------- publishing results'
 #pip install couchapp
 ##COUCH_DB=$(  )
 #mkdir -vp build/couch/build-log
@@ -103,5 +93,4 @@ done
 #  couchapp pushdocs
 #)
 
-
-# Id: x-docker/
+# Id: x-docker/0.0.2-dev tools/hooks/build

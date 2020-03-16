@@ -18,3 +18,6 @@ date_lib_init()
     Linux ) gdate="date" ;;
   esac
 }
+
+# Copy: User-scripts/r0.0 src/sh/lib/date.lib.sh
+# Id: x-docker/0.0.2-dev src/sh/date.lib.sh

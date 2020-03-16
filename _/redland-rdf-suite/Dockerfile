@@ -4,7 +4,7 @@ FROM debian:sid
 
 LABEL dc.description="Redland RDF suite on Debian"
 
-# XXX: cleanup or implemented commented:
+# XXX: clean or implemented commented:
 #ARG username=1701
 ARG RDL_PREFIX=/usr/local
 
@@ -41,6 +41,6 @@ RUN cd /tmp/ \
       && ./install-deps.sh \
       && ./install.sh $RDL_PREFIX
 
- 
 # TODO: Add main user
-
+#
+# Id: x-docker/0.0.2-dev _/redland-rdf-suite/Dockerfile

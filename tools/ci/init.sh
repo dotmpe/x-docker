@@ -30,7 +30,7 @@ test -n "${SCRIPTPATH:-}" || {
         $SRC_PREFIX/dotmpe/user-scripts
     }
 
-    ( cd $SRC_PREFIX/dotmpe/user-scripts && git checkout feature/docker-ci )  || return
+    ( cd $SRC_PREFIX/dotmpe/user-scripts && git fetch --all && git checkout feature/docker-ci )  || return
 
     U_S=$SRC_PREFIX/dotmpe/user-scripts
   }

@@ -11,6 +11,7 @@ x_dckr_check_readme $TRAVIS_BRANCH || {
   ln -s ReadMe-$name.md README.md
 }
 
+# TODO: look at shell-ci workflow
 # TODO: Commit any changes
 
 
@@ -26,7 +27,7 @@ BRANCH_NAME="$(git rev-parse --abbrev-ref HEAD)"
 case "$BRANCH_NAME" in
 
   master )
-    # TODO: use gitflow or some metedata to do merge/rebase
+      # TODO: use gitflow or some metadata to do merge/rebase
       git checkout dev && git merge master
       git checkout treebox-dev && git merge dev
       git checkout sandbox-dev && git merge treebox-dev

@@ -1,0 +1,27 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@0.2.1
+
+jobs:
+  checkout-and-test:
+    docker:
+    - image: circleci/python:2-stretch
+    steps:
+    - checkout
+    - run:
+        name: Run tests
+        command: |
+          . ./tools/ci/env.sh &&
+          . ./tools/ci/init.sh &&
+          . ./tools/ci/build.sh
+		# XXX: could store artefacts at circleci @Dev @CI
+    #- store_test_results:
+    #    path: reports
+    #- store_artifacts:
+    #    path: reports
+
+workflows:
+  main:
+    jobs:
+      - build-and-test

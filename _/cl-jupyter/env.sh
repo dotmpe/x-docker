@@ -2,6 +2,7 @@
 set -e
 . $WORKSPACE/tools/build-env.sh
 
+INAME=cl-jupyter
 
 case "$SOURCE_BRANCH" in
 

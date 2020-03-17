@@ -2,7 +2,7 @@
 
 echo '-------- Build ('$(date --iso=ns)')'
 
-test -n "${TRAVIS_BRANCH-}" &&
+test -z "${TRAVIS_BRANCH-}" &&
   BRANCH_NAME=$CIRCLE_BRANCH ||
   BRANCH_NAME=$TRAVIS_BRANCH
 

@@ -1,18 +1,31 @@
 #!/bin/sh
 
+# Must link README.md using tag from branch name or use master.
+check_readme()
+{
+  x_dckr_check_readme $BRANCH_NAME || {
+
+    # Set ReadMe up for current branch
+    test -e README.md && rm README.md
+    ln -s ReadMe-$name.md README.md
+  }
+}
+
+
 echo '-------- Build ('$(date --iso=ns)')'
 
 test -z "${TRAVIS_BRANCH-}" &&
   BRANCH_NAME=$CIRCLE_BRANCH ||
   BRANCH_NAME=$TRAVIS_BRANCH
 
-# Must link README.md using tag from branch name or use master.
-x_dckr_check_readme $BRANCH_NAME || {
+case "$BRANCH_NAME" in
 
-  # Set ReadMe up for current branch
-  test -e README.md && rm README.md
-  ln -s ReadMe-$name.md README.md
-}
+  master ) check_readme ;;
+  dev ) ;;
+  test ) ;;
+  * ) check_readme ;;
+
+esac
 
 # TODO: look at shell-ci workflow
 # TODO: Commit any changes

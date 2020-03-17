@@ -24,24 +24,33 @@ test -n "${SCRIPTPATH:-}" || {
     test -d $SRC_PREFIX/dotmpe/user-scripts || {
 
       mkdir -vp  $SRC_PREFIX/dotmpe || return
-      git clone --depth 15 https://github.com/user-tools/user-scripts.git \
+      # FIXME: U-s
+      #git clone --depth 15 https://github.com/user-tools/user-scripts.git \
+      git clone https://github.com/dotmpe/user-scripts.git \
         $SRC_PREFIX/dotmpe/user-scripts
     }
+
+    ( cd $SRC_PREFIX/dotmpe/user-scripts && git checkout feature/docker-ci )  || return
 
     U_S=$SRC_PREFIX/dotmpe/user-scripts
   }
 }
 
-. $U_S/tools/sh/init.sh
-
-set -o nounset
-
 ( cd $U_S && git describe --always )
+
+LOG=$U_S/tools/sh/log.sh INIT_LOG=$LOG
+set -o nounset
+SCRIPTPATH=$PWD/lib/sh
+. $U_S/load.bash # setup SCRIPTPATH
+. $U_S/tools/sh/util.sh # sh_include etc.
+. $U_S/test/helper/extra.bash # get_uuid
+
+. $U_S/tools/sh/init.sh # setup everything: lib_load, std libs, etc.
 
 echo Script-Path:
 echo $SCRIPTPATH | tr ':' '\n'
 
-#lib_load vc x-dckr date
-#lib_init
+lib_load vc x-dckr date
+# FIXME: lib_init
 
 echo 'Libs loaded'

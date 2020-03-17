@@ -12,6 +12,7 @@ jobs:
     - run:
         name: Run tests
         command: |
+          TERM=dumb ;
           . ./tools/ci/env.sh &&
           . ./tools/ci/init.sh &&
           . ./tools/ci/build.sh

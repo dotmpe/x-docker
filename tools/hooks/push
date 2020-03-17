@@ -25,14 +25,40 @@ do
 done
 
 
+# Register build-end
 curl -sSf -X POST \
   "https://dotmpe.com/build.php?i=${BUILD_KEY}&TAGS=$(echo $DOCKER_TAGS | tr ' ' ';')&BUILD_ID=${BUILD_CODE}&END=$(urlsafe_datetime)"
 
-curl -X POST \
-  https://hooks.microbadger.com/images/dotmpe/basebox/MzwGjG3Jh-gkuiy9gq4ybDVhpfk=
 
 test ! -e ../local-push-hook || {
   . ../local-push-hook
 }
+
+case "$SOURCE_BRANCH" in
+
+  basebox-* )
+      curl -X POST \
+        https://hooks.microbadger.com/images/dotmpe/basebox/MzwGjG3Jh-gkuiy9gq4ybDVhpfk=
+      echo Web-Triggers:
+      echo devbox:
+      curl -sSf -X POST ${DOCKER_HUB_DEVBOX_TRIGGER}
+      echo testbox:
+      curl -sSf -X POST ${DOCKER_HUB_TESTBOX_TRIGGER}
+    ;;
+
+  cl-jupyter-* )
+    ;;
+
+  devbox-* )
+    ;;
+
+  testbox-* )
+      curl -sSf -X POST ${DOCKER_HUB_TREEBOX_TRIGGER}
+    ;;
+
+  treebox-* )
+    ;;
+
+esac
 
 # Id: x-docker/0.0.2-dev tools/hooks/push

@@ -52,8 +52,8 @@ RUN cd /tmp/ && \
 
 
 RUN \
-  test -n "$BATS_REPO" || BATS_REPO=https://github.com/bvberkum/bats-core.git ; \
-  test -n "$SRC_PREFIX" || SRC_PREFIX=/src/github.com/bvberkum ; \
+  test -n "$BATS_REPO" || BATS_REPO=https://github.com/dotmpe/bats-core.git ; \
+  test -n "$SRC_PREFIX" || SRC_PREFIX=/src/github.com/dotmpe ; \
   test -n "$BATS_BRANCH" || BATS_BRANCH=forks/bvb-dev ; \
   git clone $BATS_REPO $SRC_PREFIX/bats && \
   ( \

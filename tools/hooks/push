@@ -35,11 +35,13 @@ case "$SOURCE_BRANCH" in
   basebox-* )
       curl -X POST \
         https://hooks.microbadger.com/images/dotmpe/basebox/MzwGjG3Jh-gkuiy9gq4ybDVhpfk=
-      echo Web-Triggers:
-      echo devbox:
-      curl -sSo/dev/null -X POST ${DOCKER_HUB_DEVBOX_TRIGGER}
-      echo testbox:
-      curl -sSo/dev/null -X POST ${DOCKER_HUB_TESTBOX_TRIGGER}
+
+      # TODO: implement docker hub webhooks callback handling
+      #echo Web-Triggers:
+      #echo devbox:
+      #curl -sSo/dev/null -X POST ${DOCKER_HUB_DEVBOX_TRIGGER}
+      #echo testbox:
+      #curl -sSo/dev/null -X POST ${DOCKER_HUB_TESTBOX_TRIGGER}
     ;;
 
   cl-jupyter-* )
@@ -49,7 +51,7 @@ case "$SOURCE_BRANCH" in
     ;;
 
   testbox-* )
-      curl -sSo/dev/null -X POST ${DOCKER_HUB_TREEBOX_TRIGGER}
+      $curl -sSo/dev/null -X POST ${DOCKER_HUB_TREEBOX_TRIGGER}
     ;;
 
   treebox-* )

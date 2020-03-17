@@ -26,3 +26,5 @@ esac
 X_DCKR_BASETAG=
 
 #DOCKER_TAGS=cl-jupyter
+
+VERSION=0.0.1-dev # cl-jupyter

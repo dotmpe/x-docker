@@ -2,12 +2,12 @@
 
 echo '-------- Build ('$(date --iso=ns)')'
 
-
-env | grep master
-set | grep master
+test -n "${TRAVIS_BRANCH-}" &&
+  BRANCH_NAME=$CIRCLE_BRANCH ||
+  BRANCH_NAME=$TRAVIS_BRANCH
 
 # Must link README.md using tag from branch name or use master.
-x_dckr_check_readme $TRAVIS_BRANCH || {
+x_dckr_check_readme $BRANCH_NAME || {
 
   # Set ReadMe up for current branch
   test -e README.md && rm README.md

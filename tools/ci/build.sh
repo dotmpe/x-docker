@@ -3,6 +3,9 @@
 echo '-------- Build ('$(date --iso=ns)')'
 
 
+env | grep master
+set | grep master
+
 # Must link README.md using tag from branch name or use master.
 x_dckr_check_readme $TRAVIS_BRANCH || {
 

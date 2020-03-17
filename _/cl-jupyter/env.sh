@@ -23,4 +23,6 @@ case "$SOURCE_BRANCH" in
 
 esac
 
+X_DCKR_BASETAG=
+
 #DOCKER_TAGS=cl-jupyter

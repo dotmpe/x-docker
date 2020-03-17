@@ -37,9 +37,9 @@ case "$SOURCE_BRANCH" in
         https://hooks.microbadger.com/images/dotmpe/basebox/MzwGjG3Jh-gkuiy9gq4ybDVhpfk=
       echo Web-Triggers:
       echo devbox:
-      curl -sSf -X POST ${DOCKER_HUB_DEVBOX_TRIGGER}
+      curl -sSo/dev/null -X POST ${DOCKER_HUB_DEVBOX_TRIGGER}
       echo testbox:
-      curl -sSf -X POST ${DOCKER_HUB_TESTBOX_TRIGGER}
+      curl -sSo/dev/null -X POST ${DOCKER_HUB_TESTBOX_TRIGGER}
     ;;
 
   cl-jupyter-* )
@@ -49,7 +49,7 @@ case "$SOURCE_BRANCH" in
     ;;
 
   testbox-* )
-      curl -sSf -X POST ${DOCKER_HUB_TREEBOX_TRIGGER}
+      curl -sSo/dev/null -X POST ${DOCKER_HUB_TREEBOX_TRIGGER}
     ;;
 
   treebox-* )

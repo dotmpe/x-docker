@@ -55,7 +55,7 @@ case "$SOURCE_BRANCH" in
     ;;
 
   testbox-* )
-      $curl -sSo/dev/null -X POST ${DOCKER_HUB_TREEBOX_TRIGGER}
+      #$curl -sSo/dev/null -X POST ${DOCKER_HUB_TREEBOX_TRIGGER}
     ;;
 
   treebox-* )

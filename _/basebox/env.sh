@@ -55,4 +55,4 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
 }
 unset tag
 
-VERSION=0.0.4-dev # basebox
+VERSION=0.0.4 # basebox

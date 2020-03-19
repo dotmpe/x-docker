@@ -56,14 +56,15 @@ RUN npm install -g npm && \
   n $node_version && \
   chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
   chgrp staff /usr/local/* /usr/local/lib/node_modules && \
-  version="$(cd /usr/local/n/versions/node/; echo * | tr ' ' '\n' | sort -rn | head -n 1)"; \
-  { test ! -e /usr/local/bin/node || rm /usr/local/bin/node; } && \
-  ln -sf /usr/local/n/versions/node/$version/bin/node /usr/local/bin/node ; }
+  nodepath=$(echo /usr/local/n/versions/node/*/bin | tr ' ' '\n' | sort -rn | head -n 1) && \
+  export PATH=$nodepath:$PATH && \
+  { echo; echo PATH=$PATH; } | tee -a /etc/profile | tee -a /etc/bash.bashrc
 
 RUN npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
   npm update --quiet -g nan && \
-  npm install --quiet --unsafe-perm -g zmq && \
   gem install --quiet sass
+
+#  npm install --quiet --unsafe-perm -g zmq && \
 
 # Install KCov
 RUN \
@@ -77,7 +78,7 @@ RUN \
 # TODO: fix pm2 fsevents
 # TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
 
-# Fix permissions
+# TODO: Fix permissions for above paths, ie. set to grp:staff?
 ARG username=treebox
 
 RUN \
@@ -108,7 +109,8 @@ ENV \
   DEBIAN_FRONTEND=teletype \
   DOCKER_IMAGE=$DOCKER_IMAGE
 
-USER root # Use 'sudo -iHu <user>'
+# Use 'sudo -iHu <user>'
+USER root
 
 # Use Basher for lazy user-installs of new shell commands; it clones only the
 # need last slice, no history, tags, etc. For non-user-command repos and full

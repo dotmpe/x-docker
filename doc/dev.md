@@ -1,15 +1,23 @@
 # Testbed for dockerfile's
 
-Version: 0.0.2-dev
+Version: x-docker/0.0.2-dev
 
 Experimenting with Dockerfile builds, and autobuilds at hub.docker.com.
 
 ## Autobuilds
 Trying to:
 
-- keep default tag `latest` a stable version
-- keep older versions by tagging them
+- keep default docker-tag `latest` a stable version; but
+- also keep older versions ie. by tagging with versions
 - autobuilding latest commits to `dev` tag
+
+There are multiple images in this repo, and each has its own dev- and version
+line. This allows CI/CD jobs to sub and link to commits for each individual
+image.
+
+1. make new changes on {INAME}-dev, keep change-log in ReadMe-{INAME}
+2. merge working changes to {INAME}, remove pre-release tag from version
+
 
 ### dotmpe/treebox [![Treebox ReadMe](https://img.shields.io/badge/ReadMe-Treebox_docker-blue.svg)](ReadMe-treebox.md) [![docker autobuild status](https://img.shields.io/docker/build/dotmpe/treebox.svg)](https://hub.docker.com/r/dotmpe/treebox/)
 

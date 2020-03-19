@@ -13,6 +13,7 @@ vim, curl, jq, etc) added.
 Branch                    | Dockerfile          | Tag          | Base
 ------------------------- | --------------------| -------------| -------------
 ``/^basebox-(.*)$/``      | ``/_/basebox``      | ``{\1}``     | (id./map.)
+                          |                     |              |          
 basebox-dev               | ``/_/basebox``      | dev          | master
 basebox-0.10.0            | ``/_/basebox``      | 0.10.0       | 0.10.0
 basebox-0.10.2            | ``/_/basebox``      | 0.10.2       | 0.10.2
@@ -21,15 +22,15 @@ basebox-0.11              | ``/_/basebox``      | 0.11         | 0.11
 Additional tags set in [customized highlander-build hooks](https://github.com/dotmpe/x-docker/tree/master/tools/hooks)
 
 ## Tags
-0.0.4
-  - Revising base image tag -- docker tag relation, build tooling.
+(0.0.4)
+: - Revising base image tag -- docker tag relation, build tooling.
 
 0.0.3
-  - Fixing metadata, labels.
+: - Fixing metadata, labels.
 
 0.0.2
-  - Moving some basic user tools to basebox: `vim`, `curl`, `git`, GIT LFS, etc.
+: - Moving some basic user tools to basebox: `vim`, `curl`, `git`, GIT LFS, etc.
 
 0.0.1
-  - Initial copy for ``Dockerfile`` and ``env.sh``.
+: - Initial copy for ``Dockerfile`` and ``env.sh``.
     Built for ``phusion/baseimage`` ``latest`` ``0.10.0``

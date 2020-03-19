@@ -9,9 +9,18 @@ INAME=testbox
 # Handle GIT branch: set upstream tag
 case "$DOCKER_TAG" in
 
-  * )
+  dev )
       T=$DOCKER_TAG
       B=$T
+    ;;
+
+  [0-9]* )
+      T=$DOCKER_TAG
+      B=latest
+    ;;
+
+  * ) echo "No mapping for DOCKER_TAG '$DOCKER_TAG'"
+      exit 1
     ;;
 
 esac
@@ -50,4 +59,4 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
 }
 unset tag
 
-VERSION=0.0.1-dev
+VERSION=0.0.3

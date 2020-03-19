@@ -17,7 +17,7 @@ Additional tags set in [customized highlander-build hooks](https://github.com/do
 
 
 ## Tags
-(0.0.3)
+0.0.3
   - Fixed curly-braces expansion in Dockerfile.
 
 0.0.2

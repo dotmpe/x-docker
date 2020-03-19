@@ -1,13 +1,25 @@
 
-# treebox:latest is 0.0.4, phusiona/baseimage:0.10.0
-FROM dotmpe/treebox:latest
+ARG X_DCKR_BASETAG=dev
 
-MAINTAINER B. van Berkum <dev@dotmpe.com>
+FROM dotmpe/treebox:$X_DCKR_BASETAG
+
+MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
+
+COPY docker-buildenv /etc/docker-buildenv
+
+ARG DOCKER_IMAGE
+ARG HUB_BUILD_TIME
+ARG X_DCKR_COMMIT
+ARG X_DCKR_VERSION
 
 LABEL \
-  description="Docker on treebox" \
-  urls.hub=https://hub.docker.com/r/dotmpe/sandbox \
-  urls.repo=https://github.com/dotmpe/x-docker
+  org.label-schema.description="Docker on treebox" \
+  org.label-schema.name="$DOCKER_IMAGE" \
+  org.label-schema.build-date="$HUB_BUILD_TIME" \
+  org.label-schema.version="$X_DCKR_VERSION" \
+  org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
+  org.label-schema.vcs-ref=$X_DCKR_COMMIT \
+  org.label-schema.schema-version="1.0"
 
 USER root
 
@@ -15,7 +27,6 @@ USER root
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get update -qqy && \
-  apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
   apt-get install -qqy --allow-downgrades \
     apt-transport-https \
     ca-certificates \

@@ -50,4 +50,4 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
 }
 unset tag
 
-VERSION=0.0.2-dev
+VERSION=0.0.2-dev # treebox

@@ -54,6 +54,6 @@ do
 done
 unset tag
 
-VERSION=0.0.5-dev # treebox
+VERSION=0.0.5 # treebox
 
 echo "Building version '$VERSION' for tags: $DOCKER_TAGS"

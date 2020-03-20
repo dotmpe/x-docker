@@ -30,8 +30,8 @@ Additional tags set in [customized highlander-build hooks](https://github.com/do
 
 
 ## Tags
-(0.0.5)
-  - Now from ``dotmpe/testbox`` ``latest`` ``0.0.2``.
+0.0.5
+  - Now from ``dotmpe/testbox`` ``latest`` ``0.0.4``.
     Removed tagged autobuilds, now tagging manually to properly re-use images.
   - TODO: see about replacing version managers with asdf; remove nvm, and ruby,
     python, go, Haskel, and PHP setup. See about Redis, ImageMagick and Postgres

@@ -18,6 +18,8 @@ urlsafe_datetime()
   echo "$1" |tr ' ' 'T' |sed 's/+00:00/Z/g' |sed 's/+/%2B/g'
 }
 
+# Get all tags applied to version (NOTE annotated tags have unique ref-id,
+# separate from commit id while unannotated tag refs are same as commit-id)
 git_rev_tags()
 {
   test $# -le 1 || return

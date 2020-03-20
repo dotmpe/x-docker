@@ -9,23 +9,28 @@ A smaller treebox (no PHP, Node or Ruby).
 
 
 ## Autobuilds
-Branch                     | Dockerfile         | Tag
--------------------------- | -------------------| ----------------------------
-``/^testbox-(.*)$/``       | ``/_/testbox``     | ``{\1}``
+Branch                    | Dockerfile          | Tag          | Base
+------------------------- | --------------------| -------------| -------------
+``/^testbox-(.*)$/``      | ``/_/testbox``      | ``{\1}``     | (id./map.)
+                          |                     |              |          
+testbox                   | ``/_/testbox``      | latest       | master
+testbox-dev               | ``/_/testbox``      | dev          | master
 
-Additional tags set in [customized highlander-build hooks](https://github.com/dotmpe/x-docker/tree/testbox-dev/tools/hooks)
-
+Additional tags set in [customized highlander-build hooks](https://github.com/dotmpe/x-docker/tree/master/tools/hooks)
 
 ## Tags
+(0.0.4)
+:
+
 0.0.3
-  - Fixed curly-braces expansion in Dockerfile.
+: - Fixed curly-braces expansion in Dockerfile.
 
 0.0.2
-  - Fixed metadata.
+: - Fixed metadata.
   - Using ``dotmpe/basebox:0.0.3``
 
 0.0.1
-  - Copy Dockerfile from treebox.
+: - Copy Dockerfile from treebox.
 
     Using ``dotmpe/basebox:0.0.1`` for upgraded ``apt`` packages on
     ``phusion/baseimage`` ``latest`` ``0.10.0``

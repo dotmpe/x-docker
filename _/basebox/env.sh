@@ -30,7 +30,6 @@ X_DCKR_BASETAG=$B
 
 docker pull phusion/baseimage:$X_DCKR_BASETAG
 
-# Get all os-release values (except VERSION)
 eval $(docker run --rm phusion/baseimage:$X_DCKR_BASETAG \
   bash -c 'cat /etc/os-release' | sed 's/^/PHUSION_OS_/g' )
 

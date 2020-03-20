@@ -14,6 +14,7 @@ Branch                    | Dockerfile          | Tag          | Base
 ------------------------- | --------------------| -------------| -------------
 ``/^basebox-(.*)$/``      | ``/_/basebox``      | ``{\1}``     | (id./map.)
                           |                     |              |          
+basebox                   | ``/_/basebox``      | latest       | master
 basebox-dev               | ``/_/basebox``      | dev          | master
 basebox-0.10.0            | ``/_/basebox``      | 0.10.0       | 0.10.0
 basebox-0.10.2            | ``/_/basebox``      | 0.10.2       | 0.10.2

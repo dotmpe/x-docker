@@ -6,17 +6,21 @@
 INAME=basebox
 
 
-# Handle GIT branch: set upstream tag
+# Use GIT branch to set upstream (base-image) tag B, and target tag T
 case "$DOCKER_TAG" in
 
-  dev )
-      T=$DOCKER_TAG
+  dev | latest )
       B=master
+      T=$DOCKER_TAG
     ;;
 
-  * )
-      T=$DOCKER_TAG
-      B=$T
+  [0-9]*.[0-9]* )
+      B=$DOCKER_TAG
+      T=baseimage-$DOCKER_TAG
+    ;;
+
+  * ) echo "No mapping for DOCKER_TAG '$DOCKER_TAG'"
+      exit 1
     ;;
 
 esac
@@ -26,33 +30,31 @@ X_DCKR_BASETAG=$B
 
 docker pull phusion/baseimage:$X_DCKR_BASETAG
 
+# Get all os-release values (except VERSION)
 eval $(docker run --rm phusion/baseimage:$X_DCKR_BASETAG \
-  bash -c 'cat /etc/os-release' | grep -v '^VERSION=' )
+  bash -c 'cat /etc/os-release' | sed 's/^/PHUSION_OS_/g' )
 
-PHUSION_CODENAME=$UBUNTU_CODENAME
-PHUSION_VER=$ID-$VERSION_ID
+for k in NAME VERSION ID ID_LIKE PRETTY_NAME VERSION_ID VERSION_CODENAME UBUNTU_CODENAME
+do
+  echo "Phusion Baseimage OS $k: $(eval echo \"\$PHUSION_OS_$k\")"
+done
 
 
 # Override tags with commit-msg tag, adding basetag from branch/tag also
 echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
+  CI_TAGS="$(echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | sed -E 's/.*\[hub: ([^]]*)\].*/\1/' )"
+} || CI_TAGS=
 
-  for tag in $(echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | \
-    sed -E 's/.*\[hub: ([^]]*)\].*/\1/' )
-  do
-    DOCKER_TAGS="$DOCKER_TAGS $tag $tag-$T $tag-$T-$PHUSION_CODENAME $tag-$T-$PHUSION_VER"
-  done
-} || {
 
-  # Or start with tag from branch
-  DOCKER_TAGS="$T $T-$PHUSION_VER baseimage-$B-$PHUSION_CODENAME baseimage-$B-$PHUSION_VER"
-
-  # Handle GIT tags
-  for tag in $(git_rev_tags | grep basebox- | tr '\n' ' ')
-  do
-    tag="$(echo "$tag"|cut -c9-)"
-    DOCKER_TAGS="$DOCKER_TAGS $tag $tag-$T $tag-$T-$PHUSION_CODENAME $tag-$T-$PHUSION_VER"
-  done
-}
+# Apply all tags
+DOCKER_TAGS=""
+for tag in $T $CI_TAGS $(git_rev_tags | grep basebox- | cut -c9- | tr '\n' ' ')
+do
+  test -n "$tag" || continue
+  DOCKER_TAGS="$DOCKER_TAGS $tag $tag-$PHUSION_OS_ID-$PHUSION_OS_VERSION_ID $tag-$PHUSION_OS_VERSION_CODENAME"
+done
 unset tag
 
 VERSION=0.0.5-dev # basebox
+
+echo "Building version '$VERSION' for tags: $DOCKER_TAGS"

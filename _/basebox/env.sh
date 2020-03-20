@@ -46,10 +46,8 @@ echo "$COMMIT_MSG" | tr 'A-Z' 'a-z' | grep -q '\[hub:' && {
 } || CI_TAGS=
 
 
-# Or start with tag from branch
-DOCKER_TAGS=""
-
 # Apply all tags
+DOCKER_TAGS=""
 for tag in $T $CI_TAGS $(git_rev_tags | grep basebox- | cut -c9- | tr '\n' ' ')
 do
   test -n "$tag" || continue
@@ -57,4 +55,6 @@ do
 done
 unset tag
 
-VERSION=0.0.4-dev # basebox
+VERSION=0.0.4 # basebox
+
+echo "Building version '$VERSION' for tags: $DOCKER_TAGS"

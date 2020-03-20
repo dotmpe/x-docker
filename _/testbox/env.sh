@@ -53,6 +53,6 @@ do
 done
 unset tag
 
-VERSION=0.0.4-dev # testbox
+VERSION=0.0.4 # testbox
 
 echo "Building version '$VERSION' for tags: $DOCKER_TAGS"

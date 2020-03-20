@@ -19,7 +19,7 @@ testbox-dev               | ``/_/testbox``      | dev          | master
 Additional tags set in [customized highlander-build hooks](https://github.com/dotmpe/x-docker/tree/master/tools/hooks)
 
 ## Tags
-(0.0.4)
+0.0.4
 :
 
 0.0.3

@@ -20,7 +20,9 @@ Additional tags set in [customized highlander-build hooks](https://github.com/do
 
 ## Tags
 (0.0.4)
-:
+: - TODO: want ``tap-xunit`` NPM for testing, but dont have NPM installed until treebox.
+    Yarn? Are there no other good Tap report handlers in Go or Python maybe.
+  - Adding symlinks to ``srv`` at ``~/{src,scm-git}``.
 
 0.0.3
 : - Fixed curly-braces expansion in Dockerfile.

@@ -7,21 +7,12 @@ A smaller treebox (no PHP, Node or Ruby).
 #### ``:latest`` [![image size/layers](https://images.microbadger.com/badges/image/dotmpe/testbox.svg)](https://microbadger.com/images/dotmpe/testbox "microbadger.com image metadata")
 [![image version](https://images.microbadger.com/badges/version/dotmpe/testbox.svg)](https://microbadger.com/images/dotmpe/testbox "microbadger.com version metadata")
 
-
-## Autobuilds
-Branch                    | Dockerfile          | Tag          | Base
-------------------------- | --------------------| -------------| -------------
-``/^testbox-(.*)$/``      | ``/_/testbox``      | ``{\1}``     | (id./map.)
-                          |                     |              |          
-testbox                   | ``/_/testbox``      | latest       | master
-testbox-dev               | ``/_/testbox``      | dev          | master
-
-Additional tags set in [customized highlander-build hooks](https://github.com/dotmpe/x-docker/tree/master/tools/hooks)
-
 ## Tags
-(0.0.4)
+(0.0.5)
 : - TODO: want ``tap-xunit`` NPM for testing, but dont have NPM installed until treebox.
     Yarn? Are there no other good Tap report handlers in Go or Python maybe.
+
+0.0.4
   - Adding symlinks to ``srv`` at ``~/{src,scm-git}``.
 
 0.0.3

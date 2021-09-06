@@ -5,17 +5,15 @@ FROM phusion/baseimage:$X_DCKR_BASETAG
 
 MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
-COPY docker-buildenv /etc/docker-buildenv
-# XXX: no effect? RUN . /etc/docker-buildenv
 ARG DOCKER_IMAGE
-ARG HUB_BUILD_TIME
+ARG BUILD_TIME
 ARG X_DCKR_COMMIT
 ARG X_DCKR_VERSION
 
 LABEL \
   org.label-schema.description="Upgraded phusion/baseimage with some usertools" \
   org.label-schema.name="$DOCKER_IMAGE" \
-  org.label-schema.build-date="$HUB_BUILD_TIME" \
+  org.label-schema.build-date="$BUILD_TIME" \
   org.label-schema.version="$X_DCKR_VERSION" \
   org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
   org.label-schema.vcs-ref=$X_DCKR_COMMIT \

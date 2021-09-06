@@ -164,6 +164,14 @@ RUN \
   git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
   PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH" basher install erichs/composure
 
+# Add symlink to source checkouts, and to some other directories from user home.
+# Even while they don't exist yet. XXX: may also want to move ~/project here,
+# but look at more structured /srv/volume-* setup script first.
+RUN \
+  ln -s /src ~/src && \
+  ln -s /srv/scm-git-local ~/scm-git && \
+  ln -s /srv/annex-local ~/annex
+
 # Use 'sudo -iHu <user>'
 USER root
 

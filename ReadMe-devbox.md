@@ -4,5 +4,5 @@ Basebox with dropbear, network utils, build-essential, Python, more shell utils.
 Dash shell.
 
 ## Tags
-(0.0.1)
+0.0.1
 : - Moving builds to Github workflows. Rewrote tags again, removing old build hooks.

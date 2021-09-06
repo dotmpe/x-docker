@@ -4,6 +4,7 @@
 . $WORKSPACE/tools/build-env.sh
 
 INAME=treebox
+BNAME=testbox
 
 
 # Use GIT branch to set upstream (base-image) tag B, and target tag T
@@ -28,8 +29,8 @@ esac
 X_DCKR_BASETAG=$B
 
 
-docker pull dotmpe/basebox:$X_DCKR_BASETAG
-eval $(docker run --rm dotmpe/basebox:$X_DCKR_BASETAG \
+docker pull dotmpe/$BNAME:$X_DCKR_BASETAG
+eval $(docker run --rm dotmpe/$BNAME:$X_DCKR_BASETAG \
   bash -c 'cat /etc/os-release' | sed 's/^/PHUSION_OS_/g' )
 
 for k in NAME VERSION ID ID_LIKE PRETTY_NAME VERSION_ID VERSION_CODENAME UBUNTU_CODENAME
@@ -53,6 +54,6 @@ do
 done
 unset tag
 
-VERSION=0.0.2-dev # treebox
+VERSION=0.0.5 # treebox
 
 echo "Building version '$VERSION' for tags: $DOCKER_TAGS"

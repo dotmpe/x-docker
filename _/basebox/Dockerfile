@@ -37,8 +37,6 @@ RUN \
   \
   apt-get clean autoclean && \
   apt-get autoremove -qqy && \
-  unset DEBIAN_FRONTEND RUNLEVEL && \
-  DEBIAN_FRONTEND=teletype \
   rm -Rf /usr/local/src/* -Rf && \
   rm -Rf /tmp/* && \
   rm -Rf /var/lib/apt/lists/*.gz && \

@@ -64,15 +64,15 @@ RUN \
 # Add /usr/local/bin for SSH and normal profile
 # and include .bashrc from /etc/bash.bashrc
 RUN \
-  echo 'export PATH=$PATH:/usr/local/bin' > /etc/profile.d/ssh-environment; \
-  mv /etc/profile /tmp/profile; \
+  echo 'export PATH=$PATH:/usr/local/bin' > /etc/profile.d/ssh-environment && \
+  mv /etc/profile /tmp/profile && \
   { echo 'export PATH=$PATH:/usr/local/bin'; \
     cat /tmp/profile; \
-  } >/etc/profile; \
+  } >/etc/profile && rm /tmp/profile && \
   { \
     echo ; \
     echo "if test -e ~/.bashrc ; then source ~/.bashrc ; fi "; \
-  } >> /etc/bash.bashrc; \
+  } >> /etc/bash.bashrc && \
 # Fancy up SSH
   figlet Treebox > /etc/ssh/banner && \
   echo "Banner /etc/ssh/banner" >> /etc/ssh/sshd_config
@@ -120,12 +120,12 @@ RUN \
   apt-get autoremove -qqy && \
   unset DEBIAN_FRONTEND RUNLEVEL && \
   DEBIAN_FRONTEND=teletype \
-  rm -Rf /usr/local/src/* -Rf && \
+  rm -Rf /usr/local/src/* && \
   rm -Rf /tmp/* && \
   rm -Rf /var/lib/apt/lists/*.gz && \
   rm -Rf /var/lib/cache/* && \
-  rm -Rf /var/lib/log/* && \
-  rm -Rf /var/log/* && \
+  rm -f /var/lib/log/*.log* && \
+  rm -f /var/log/*.log* && \
   rm -Rf /var/cache/*
 
 # Fancy up (root) env

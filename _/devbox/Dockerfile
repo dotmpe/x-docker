@@ -12,6 +12,7 @@ RUN \
     chrpath cpio pv file \
     xz-utils debianutils iputils-ping libsdl1.2-dev xterm tar locales
 
+# XXX: cleanup
 #    python-tox \
 #    npm nodejs
 

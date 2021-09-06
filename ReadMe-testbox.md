@@ -8,12 +8,15 @@ A smaller treebox (no PHP, Node or Ruby).
 [![image version](https://images.microbadger.com/badges/version/dotmpe/testbox.svg)](https://microbadger.com/images/dotmpe/testbox "microbadger.com version metadata")
 
 ## Tags
-(0.0.5)
+(0.0.6)
 : - TODO: want ``tap-xunit`` NPM for testing, but dont have NPM installed until treebox.
     Yarn? Are there no other good Tap report handlers in Go or Python maybe.
 
+0.0.5
+: - Moving builds to Github workflows. Rewrote tags again, removing old build hooks.
+
 0.0.4
-  - Adding symlinks to ``srv`` at ``~/{src,scm-git}``.
+: - Adding symlinks to ``srv`` at ``~/{src,scm-git}``.
 
 0.0.3
 : - Fixed curly-braces expansion in Dockerfile.

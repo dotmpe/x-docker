@@ -5,17 +5,15 @@ FROM dotmpe/testbox:$X_DCKR_BASETAG
 
 MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
-COPY docker-buildenv /etc/docker-buildenv
-
 ARG DOCKER_IMAGE
-ARG HUB_BUILD_TIME
+ARG BUILD_TIME
 ARG X_DCKR_COMMIT
 ARG X_DCKR_VERSION
 
 LABEL \
   org.label-schema.description="A bunch of py/rb/js dev tooling and a user setup" \
   org.label-schema.name="$DOCKER_IMAGE" \
-  org.label-schema.build-date="$HUB_BUILD_TIME" \
+  org.label-schema.build-date="$BUILD_TIME" \
   org.label-schema.version="$X_DCKR_VERSION" \
   org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
   org.label-schema.vcs-ref=$X_DCKR_COMMIT \
@@ -33,7 +31,7 @@ RUN \
     bc curl elinks git jq graphviz imagemagick \
     libnet-ifconfig-wrapper-perl \
     make man moreutils netcat npm pandoc unrtf antiword \
-    php-cli python python-dev python-tox python-yaml \
+    php-cli python python-dev python-yaml \
     ruby-full rubygems socat sqlite3 ssh sudo tmux tree uuid-runtime \
     vim git-annex gist glances \
     software-properties-common \
@@ -68,6 +66,9 @@ RUN npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && 
 
 # Install KCov
 RUN \
+  DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
+  apt-get install -qqy --allow-downgrades \
+    libcurl4-openssl-dev && \
   git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKagstrom/kcov && \
   cd /src/github.com/SimonKagstrom/kcov && \
   DEFAULT_KCOV_GIT_REF=$(git tag --list | grep "^v[0-9]\+$" | sort -V | tail --lines 1) && \

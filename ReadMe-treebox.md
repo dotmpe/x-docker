@@ -30,6 +30,9 @@ Additional tags set in [customized highlander-build hooks](https://github.com/do
 
 
 ## Tags
+0.0.6
+: - Moving builds to Github workflows. Rewrote tags again, removing old build hooks.
+  
 0.0.5
   - Now from ``dotmpe/testbox`` ``latest`` ``0.0.4``.
     Removed tagged autobuilds, now tagging manually to properly re-use images.

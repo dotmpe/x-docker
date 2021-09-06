@@ -23,7 +23,7 @@ Besides `bash` and `bats`, aditional tools installed into the base image are
   - [Devbox](https://hub.docker.com/r/dotmpe/devbox)
   - [Testbox](https://hub.docker.com/r/dotmpe/testbox) [docs](ReadMe-testbox.md)
 
-    - [Treebox](https://hub.docker.com/r/dotmpe/treebox) Py/Node/PHP dev container [docs](ReadMe-treebox.md)
+    - [Treebox](https://hub.docker.com/r/dotmpe/treebox) Py/Node/PHP dev container and user setup [docs](ReadMe-treebox.md)
 
       - [Sandbox](https://hub.docker.com/r/dotmpe/sandbox) treebox docker-in-docker
       - [Sitefile](https://hub.docker.com/r/dotmpe/node-sitefile)

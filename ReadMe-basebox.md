@@ -8,23 +8,9 @@ vim, curl, jq, etc) added.
 #### ``:latest`` [![image size/layers](https://images.microbadger.com/badges/image/dotmpe/basebox.svg)](https://microbadger.com/images/dotmpe/basebox "microbadger.com image metadata")
 [![image version](https://images.microbadger.com/badges/version/dotmpe/basebox.svg)](https://microbadger.com/images/dotmpe/basebox "microbadger.com version metadata")
 
-
-## Autobuilds
-Branch                    | Dockerfile          | Tag          | Base
-------------------------- | --------------------| -------------| -------------
-``/^basebox-(.*)$/``      | ``/_/basebox``      | ``{\1}``     | (id./map.)
-                          |                     |              |          
-basebox                   | ``/_/basebox``      | latest       | master
-basebox-dev               | ``/_/basebox``      | dev          | master
-basebox-0.10.0            | ``/_/basebox``      | 0.10.0       | 0.10.0
-basebox-0.10.2            | ``/_/basebox``      | 0.10.2       | 0.10.2
-basebox-0.11              | ``/_/basebox``      | 0.11         | 0.11
-
-Additional tags set in [customized highlander-build hooks](https://github.com/dotmpe/x-docker/tree/master/tools/hooks)
-
 ## Tags
-(0.0.5)
-:
+0.0.5
+: - Moving builds to Github workflows. Rewrote tags again, removing old build hooks.
 
 0.0.4
 : - Revising base image tag -- docker tag relation, build tooling.

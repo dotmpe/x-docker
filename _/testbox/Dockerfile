@@ -5,17 +5,15 @@ FROM dotmpe/basebox:$X_DCKR_BASETAG
 
 MAINTAINER Docker Maintenance <docker-maint@dotmpe.com>
 
-COPY docker-buildenv /etc/docker-buildenv
-
 ARG DOCKER_IMAGE
-ARG HUB_BUILD_TIME
+ARG BUILD_TIME
 ARG X_DCKR_COMMIT
 ARG X_DCKR_VERSION
 
 LABEL \
   org.label-schema.description="smaller baseimage for treebox" \
   org.label-schema.name="$DOCKER_IMAGE" \
-  org.label-schema.build-date="$HUB_BUILD_TIME" \
+  org.label-schema.build-date="$BUILD_TIME" \
   org.label-schema.version="$X_DCKR_VERSION" \
   org.label-schema.vcs-url="https://github.com/dotmpe/x-docker" \
   org.label-schema.vcs-ref=$X_DCKR_COMMIT \
@@ -31,18 +29,18 @@ RUN \
     bc curl elinks git jq graphviz imagemagick \
     figlet update-motd \
     make man moreutils netcat pandoc unrtf antiword \
-    python python-dev python-tox python-yaml \
+    python python-dev python-yaml \
     sqlite3 ssh sudo tmux tree uuid-runtime \
     vim git-annex gist glances \
     software-properties-common \
     autoconf libtool \
     zlib1g wget cmake g++ \
     golang
-
+# FIXME: python-tox 
 
 # Setup python PIP and some tooling
 RUN cd /tmp/ && \
-      curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+      curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py && \
       python get-pip.py && rm get-pip.py && \
   pip install --quiet \
     markdown BeautifulSoup mkdocs==0.17.5 \

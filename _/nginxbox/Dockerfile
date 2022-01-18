@@ -27,18 +27,23 @@ RUN \
   add-apt-repository -y ppa:ondrej/php && \
   apt-get update -qqy && \
   apt-get install -qqy --allow-downgrades \
-    nginx mariadb-server rsync vim elinks tidy \
-    php7.4 php7.4-fpm \
+    nginx mariadb-server rsync vim elinks tidy mailutils \
+    php7.4 \
+    php7.4-bcmath \
+    php7.4-cli \
     php7.4-curl \
+    php7.4-dev \
+    php7.4-fpm \
     php7.4-gd \
     php7.4-imap \
     php7.4-intl \
     php7.4-mbstring \
+    php7.4-mcrypt \
     php7.4-mysql \
     php7.4-simplexml \
+    php7.4-soap \
     php7.4-xml \
-    php7.4-zip \
-    mailutils
+    php7.4-zip
 
 RUN \
   tz=Europe/Amsterdam && \
@@ -54,7 +59,6 @@ RUN \
 
 # Cleanup after installations all done
 RUN \
-      ls -la /var/log /var/lib/log; \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
   apt-get autoclean -qqy && \
   apt-get autoremove -qqy && \

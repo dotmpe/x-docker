@@ -11,3 +11,13 @@ Treebox with docker.
 Branch                    | Dockerfile          | Tag          | Base
 ------------------------- | --------------------| -------------| -------------
 ``/^sandbox-(.*)$/``      | ``/_/sandbox``      | ``{\1}``     | (id./map.)
+                          |                     |              |          
+sandbox                   | ``/_/sandbox``      | latest       | master
+sandbox-dev               | ``/_/sandbox``      | dev          | master
+
+Additional tags set in [customized highlander-build hooks](https://github.com/dotmpe/x-docker/tree/master/tools/hooks)
+
+
+## Tags
+(0.0.1)
+:

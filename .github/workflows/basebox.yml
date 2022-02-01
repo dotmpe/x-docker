@@ -23,9 +23,12 @@ jobs:
 
           # generate Docker tags based on the following events/attributes
           tags: |
-            type=ref,event=branch
             type=edge,branch=basebox
             type=match,pattern=basebox-v(.*),group=1
+          # edge is like the dev branch, latest is pushed upon version tag
+          #
+          # With multi-image repo this it not really suited. 
+          #type=ref,event=branch
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -54,5 +57,5 @@ jobs:
             DOCKER_IMAGE=dotmpe/basebox
             X_DCKR_BASETAG=focal-1.1.0
             X_DCKR_COMMIT=${{ env.GITHUB_SHA }}
-            X_DCKR_VERSION=
+            X_DCKR_VERSION=v0.0.6
             BUILD_TIME=${{ steps.buildenv.outputs.build_time }}

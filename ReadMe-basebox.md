@@ -9,6 +9,9 @@ vim, curl, jq, etc) added.
 [![image version](https://images.microbadger.com/badges/version/dotmpe/basebox.svg)](https://microbadger.com/images/dotmpe/basebox "microbadger.com version metadata")
 
 ## Tags
+0.0.6
+: - Add version to env.
+
 0.0.5
 : - Moving builds to Github workflows. Rewrote tags again, removing old build hooks.
 

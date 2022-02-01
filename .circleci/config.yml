@@ -25,4 +25,8 @@ jobs:
 workflows:
   main:
     jobs:
-      - checkout-and-test
+      - checkout-and-test:
+          filters:
+            branches:
+              only:
+                - treebox-test

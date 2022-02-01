@@ -93,7 +93,7 @@ Here is all the legwork needed to get this container running::
   docker run -p 5555:22 \
     -v $(pwd)/container-ssh:/home/treebox/.ssh -ti --rm --user root \
     dotmpe/treebox:dev /sbin/my_init -- sh -c '\
-    ssh-keygen -P "" -t dsa -f /etc/ssh/ssh_host_dsa_key && \
+    ssh-keygen -A && \
     rm /etc/service/sshd/down && \
     service ssh restart && \
     bash'
@@ -229,3 +229,14 @@ would be the normal way of things.
 
 
 .. [#] https://www.twistlock.com/2017/06/15/docker-secure-wrong-question-ask/
+
+
+-----
+
+[2022-01-18] Also have to unlock treebox account for SSH::
+
+  $ groupadd supergroup
+  $ usermod -a G supergroup username
+  $ usermod -p '*' username
+
+..

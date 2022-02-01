@@ -1,5 +1,5 @@
 
-ARG X_DCKR_BASETAG=dev
+ARG X_DCKR_BASETAG=edge
 
 FROM dotmpe/basebox:$X_DCKR_BASETAG
 

@@ -153,6 +153,9 @@ ENV \
 
 USER $username
 
+ENV \
+  USER=$username
+
 # Use Basher for lazy user-installs of new shell commands; it clones only the
 # need last slice, no history, tags, etc. For non-user-command repos and full
 # checkouts put stuff at /src/*.{net,org...tld}/<user>/<repo>.

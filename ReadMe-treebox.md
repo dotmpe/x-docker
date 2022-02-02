@@ -30,8 +30,10 @@ Additional tags set in [customized highlander-build hooks](https://github.com/do
 
 
 ## Tags
-(0.0.7)
-: ...
+0.0.7
+: - kcov now installed from tar
+  - restored built-in basher composure and user-conf (with full checkout)
+  - fresh image based on dotmpe/testbox:edge [2022-02-02]
 
 0.0.6
 : - Moving builds to Github workflows. Rewrote tags again, removing old build hooks.

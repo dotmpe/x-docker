@@ -30,8 +30,8 @@ Additional tags set in [customized highlander-build hooks](https://github.com/do
 
 
 ## Tags
-(0.0.8-dev)
-: - New Node.JS 17.x
+0.0.8
+: - New Node.JS 14.x
 
 0.0.7
 : - kcov now installed from tar

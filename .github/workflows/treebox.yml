@@ -58,5 +58,5 @@ jobs:
             DOCKER_IMAGE=dotmpe/treebox
             X_DCKR_BASETAG=edge
             X_DCKR_COMMIT=${{ env.GITHUB_SHA }}
-            X_DCKR_VERSION=0.0.8-dev
+            X_DCKR_VERSION=0.0.8
             BUILD_TIME=${{ steps.buildenv.outputs.build_time }}

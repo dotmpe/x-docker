@@ -49,14 +49,13 @@ RUN \
 # Setup node NVM and some tooling
 ARG node_version=lts
 
-RUN npm install -g --quiet npm && \
-  npm install -g --quiet n && \
-  n $node_version && \
-  chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
-  chgrp staff /usr/local/* /usr/local/lib/node_modules && \
-  nodepath=$(echo /usr/local/n/versions/node/*/bin | tr ' ' '\n' | sort -rn | head -n 1) && \
-  export PATH=$nodepath:$PATH && \
-  { echo; echo PATH=$PATH; } | tee -a /etc/profile | tee -a /etc/bash.bashrc
+ARG \
+  curl -fsSL https://deb.nodesource.com/setup_17.x | bash -; \
+  apt-get install -y nodejs
+
+#  nodepath=$(echo /usr/local/n/versions/node/*/bin | tr ' ' '\n' | sort -rn | head -n 1) && \
+#  export PATH=$nodepath:$PATH && \
+#  { echo; echo PATH=$PATH; } | tee -a /etc/profile | tee -a /etc/bash.bashrc
 
 RUN npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && \
   npm update --quiet -g nan && \

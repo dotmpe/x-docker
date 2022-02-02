@@ -163,7 +163,7 @@ ENV \
 # TODO: change from above manual installs to user-scripts repo
 RUN \
   git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
-  PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH" basher install erichs/composure
+  PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH" basher install dotmpe/composure
 
 # Add symlink to source checkouts, and to some other directories from user home.
 # Even while they don't exist yet. XXX: may also want to move ~/project here,

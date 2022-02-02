@@ -55,7 +55,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             DOCKER_IMAGE=dotmpe/testbox
-            X_DCKR_BASETAG=edge
+            X_DCKR_BASETAG=0.0.6
             X_DCKR_COMMIT=${{ env.GITHUB_SHA }}
             X_DCKR_VERSION=0.0.6-dev
             BUILD_TIME=${{ steps.buildenv.outputs.build_time }}

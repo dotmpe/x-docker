@@ -16,14 +16,19 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
+
           # list of Docker images to use as base name for tags
           images: |
             dotmpe/treebox
+
           # generate Docker tags based on the following events/attributes
           tags: |
-            type=ref,event=branch
             type=edge,branch=treebox
             type=match,pattern=treebox-v(.*),group=1
+          # edge is like the dev branch, latest is pushed upon version tag
+          #
+          # With multi-image repo this it not really suited. 
+          #type=ref,event=branch
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -50,7 +55,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             DOCKER_IMAGE=dotmpe/treebox
-            X_DCKR_BASETAG=latest
+            X_DCKR_BASETAG=edge
             X_DCKR_COMMIT=${{ env.GITHUB_SHA }}
-            X_DCKR_VERSION=
+            X_DCKR_VERSION=0.0.7-dev
             BUILD_TIME=${{ steps.buildenv.outputs.build_time }}

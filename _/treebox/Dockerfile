@@ -1,5 +1,5 @@
 
-ARG X_DCKR_BASETAG=dev
+ARG X_DCKR_BASETAG=edge
 
 FROM dotmpe/testbox:$X_DCKR_BASETAG
 
@@ -49,8 +49,8 @@ RUN \
 # Setup node NVM and some tooling
 ARG node_version=lts
 
-RUN npm install -g npm && \
-  npm install -g n && \
+RUN npm install -g --quiet npm && \
+  npm install -g --quiet n && \
   n $node_version && \
   chmod g+rw /usr/local/* /usr/local/lib/node_modules && \
   chgrp staff /usr/local/* /usr/local/lib/node_modules && \
@@ -67,14 +67,20 @@ RUN npm install --quiet -g coffeescript pm2 grunt grunt-cli webpack node-gyp && 
 # Install KCov
 RUN \
   DEBIAN_FRONTEND=noninteractive; RUNLEVEL=1; \
-  apt-get install -qqy --allow-downgrades \
-    libcurl4-openssl-dev && \
-  git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKagstrom/kcov && \
-  cd /src/github.com/SimonKagstrom/kcov && \
-  DEFAULT_KCOV_GIT_REF=$(git tag --list | grep "^v[0-9]\+$" | sort -V | tail --lines 1) && \
-  KCOV_GIT_REF=${KCOV_GIT_REF:-$DEFAULT_KCOV_GIT_REF} && \
-  git reset --hard $KCOV_GIT_REF && \
-  mkdir build && cd build && cmake .. && make && make install
+  cd /tmp/; \
+  wget https://github.com/SimonKagstrom/kcov/releases/download/v40/kcov-amd64.tar.gz; \
+  tar xzvf kcov-amd64.tar.gz -C /
+
+# Install KCov (dev)
+#RUN \
+#  apt-get install -qqy --allow-downgrades \
+#    libcurl4-openssl-dev && \
+#  git clone https://github.com/SimonKagstrom/kcov.git /src/github.com/SimonKagstrom/kcov && \
+#  cd /src/github.com/SimonKagstrom/kcov && \
+#  DEFAULT_KCOV_GIT_REF=$(git tag --list | grep "^v[0-9]\+$" | sort -V | tail --lines 1) && \
+#  KCOV_GIT_REF=${KCOV_GIT_REF:-$DEFAULT_KCOV_GIT_REF} && \
+#  git reset --hard $KCOV_GIT_REF && \
+#  mkdir build && cd build && cmake .. && make && make install
 
 # TODO: fix pm2 fsevents
 # TODO: accumulating current dev deps above. should split up into multiple bases and derivatives, one big one perhaps
@@ -112,29 +118,54 @@ ENV \
 # Use 'sudo -iHu <user>'
 USER root
 
-# Use Basher for lazy user-installs of new shell commands; it clones only the
-# need last slice, no history, tags, etc. For non-user-command repos and full
-# checkouts put stuff at /src/*.{net,org...tld}/<user>/<repo>.
+# Use Basher (from testbox) for lazy user-installs of new shell commands; it
+# clones only the need last slice, no history, tags, etc.
 #
 # TODO: change from above manual installs to user-scripts repo
-# XXX: see testbox
-#RUN git clone https://github.com/basherpm/basher.git /home/$username/.basher && \
-#  ( echo 'export PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH"' >> /home/$username/.bash_profile ) && \
-#  ( echo 'export PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH"' >> /home/$username/.profile ) && \
-#  ( echo ': "${CS:=dark}"; export CS' >> /home/$username/.bash_profile ) && \
-#  ( echo ': "${TERM:=xterm}"; export TERM' >> /home/$username/.bash_profile ) && \
-#  ( echo 'test -n "$CS" || CS=dark; export CS' >> /home/$username/.profile ) && \
-#  ( echo 'test -n "$TERM" || TERM=xterm; export TERM' >> /home/$username/.profile ) && \
-#  . ~/.profile && \
-#  BASHER_FULL_CLONE=true basher install dotmpe/user-scripts && \
-#  cd /home/$username/.basher/cellar/packages/dotmpe/user-scripts && \
-#  git checkout r0.0 && \
-#  mkdir -p /src/github.com/dotmpe && \
-#  git clone https://github.com/dotmpe/oil.git /src/github.com/dotmpe/oil && \
-#  cd /src/github.com/dotmpe/oil && \
-#  git checkout feature/ast-visitor-cli && \
-#  make configure && build/dev.sh minimal
-#
+# XXX: testing here, probably consolidate some into testbox, basebox...
+# Should I use Docker ENV instead?
+RUN { \
+    echo 'export PATH="$HOME/.basher/bin:$HOME/.basher/cellar/bin:$PATH"';\
+    echo 'test -n "${CS-}" || CS=dark; export CS'; \
+    echo 'test -n "${TERM-}" || TERM=xterm; export TERM'; \
+  } | tee -a /home/$username/.bash_profile | \
+      tee -a /home/$username/.profile && \
+  chown $username:$username /home/$username/.*profile; \
+  mkdir -p /src/vendor/ /src/local/; \
+  chgrp staff /src/local /src/vendor; \
+  chmod g+rw /src/local /src/vendor;
+
+USER $username
+
+RUN \
+  . ~/.profile && \
+  BASHER_FULL_CLONE=true basher install dotmpe/user-scripts && \
+  cd /home/$username/.basher/cellar/packages/dotmpe/user-scripts && \
+  git checkout r0.0
+
+RUN \
+  . ~/.profile && \
+  BASHER_FULL_CLONE=true basher install dotmpe/user-conf && \
+  cd /home/$username/.basher/cellar/packages/dotmpe/user-conf && \
+  git checkout r0.2
+
+RUN \
+  mkdir -p /src/vendor/github.com/dotmpe && \
+  git clone https://github.com/dotmpe/oil.git /src/vendor/github.com/dotmpe/oil && \
+  cd /src/vendor/github.com/dotmpe/oil && \
+  git submodule update --init && \
+  git checkout feature/ast-visitor-cli && \
+  make configure && build/dev.sh minimal
+
+USER root
+
+RUN chgrp staff \
+      /etc/profile /etc/bash.bashrc /etc/profile.d && \
+  chmod g+rw \
+      /etc/profile /etc/bash.bashrc /etc/profile.d
+
+USER $username
+
 #ENV TREEBOX_IMAGE="$IMAGE_NAME" \
 #  TREEBOX_SOURCE="$SOURCE_BRANCH:$GIT_COMMIT" \
 #  LANG=en_US.UTF-8 \

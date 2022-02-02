@@ -30,6 +30,9 @@ Additional tags set in [customized highlander-build hooks](https://github.com/do
 
 
 ## Tags
+(0.0.8-dev)
+: - New Node.JS 17.x
+
 0.0.7
 : - kcov now installed from tar
   - restored built-in basher composure and user-conf (with full checkout)

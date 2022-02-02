@@ -49,9 +49,12 @@ RUN \
 # Setup node NVM and some tooling
 ARG node_version=lts
 
+#ARG \
+#  curl -fsSL https://deb.nodesource.com/setup_17.x | bash -; \
+#  apt-get install -y nodejs
 ARG \
-  curl -fsSL https://deb.nodesource.com/setup_17.x | bash -; \
-  apt-get install -y nodejs
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash; \
+  nvm install v14.15.5
 
 #  nodepath=$(echo /usr/local/n/versions/node/*/bin | tr ' ' '\n' | sort -rn | head -n 1) && \
 #  export PATH=$nodepath:$PATH && \
